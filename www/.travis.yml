@@ -1,0 +1,6 @@
+language: php
+php: 
+  - '7.1.17'
+install: 
+  - npm install
+script: npm test
