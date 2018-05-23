@@ -14,6 +14,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash -
 RUN apt-get install -y nodejs
 
+# Install Grunt CLI globally
+RUN npm install -g grunt-cli
+
 # Install xdebug (commented out for now, since I don't plan on using it right now)
 #RUN pecl install xdebug-2.5.0
 #RUN docker-php-ext-enable xdebug
