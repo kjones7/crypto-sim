@@ -10,27 +10,9 @@ RUN apt-get install nano
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# BEGIN Composer Installs
-
-# Install Codeception
-RUN composer global require codeception/codeception --dev
-# Install ratchet
-RUN composer require cboden/ratchet
-# Install php-cs-fixer
-RUN composer global require friendsofphp/php-cs-fixer --dev
-
-# END Composer Installs
-
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash -
 RUN apt-get install -y nodejs
-
-# BEGIN npm Installs
-
-# Jest Install
-RUN npm install --save-dev jest
-
-# END npm Installs
 
 # Install xdebug (commented out for now, since I don't plan on using it right now)
 #RUN pecl install xdebug-2.5.0
