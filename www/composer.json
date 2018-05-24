@@ -1,9 +1,10 @@
 {
     "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.9.0",
         "codeception/codeception": "^2.4",
-        "cboden/ratchet": "^0.4.1",
         "friendsofphp/php-cs-fixer": "^2.11"
     },
     "require": {
+        "cboden/ratchet": "^0.4.1"
     }
 }
