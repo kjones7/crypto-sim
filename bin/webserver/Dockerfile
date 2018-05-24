@@ -17,6 +17,9 @@ RUN apt-get install -y nodejs
 # Install Grunt CLI globally
 RUN npm install -g grunt-cli
 
+# Add local composer and npm packages to PATH
+RUN echo "export PATH=$PATH:/var/www/html/vendor/bin/:/var/www/html/node_modules/.bin" >> ~/.bashrc
+
 # Install xdebug (commented out for now, since I don't plan on using it right now)
 #RUN pecl install xdebug-2.5.0
 #RUN docker-php-ext-enable xdebug
