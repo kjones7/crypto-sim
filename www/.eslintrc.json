@@ -1,0 +1,6 @@
+{
+    "extends": ["eslint:all", "google"],
+    "parserOptions": {
+        "ecmaVersion": 6
+      }
+}
