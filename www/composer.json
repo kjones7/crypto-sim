@@ -4,6 +4,7 @@
         "friendsofphp/php-cs-fixer": "^2.11"
     },
     "require": {
-        "cboden/ratchet": "^0.4.1"
+        "cboden/ratchet": "^0.4.1",
+        "jaggedsoft/php-binance-api": "@dev"
     }
 }
