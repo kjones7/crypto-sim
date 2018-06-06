@@ -17,11 +17,7 @@ try {
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
 }
-if(!$conn) {
-    echo "error!";
-} else {
-    echo "works!";
-}
+
 while(true) {
     $ticker = $api->prices();
     foreach ($ticker as $symbol => $price) {
@@ -29,26 +25,25 @@ while(true) {
             $strLength = strlen($symbol);
             $symbol = substr($symbol, 0, $strLength - 3);
             $price = $price * $oneBTCtoUSD;
-            executeUpdateStmt($symbol, $price);
+            if($symbol != NULL && $price != NULL) {
+                executeUpdateStmt($symbol, $price);
+            }
         }
         if($symbol === 'BTCUSDT') {
             executeUpdateStmt('BTC', $price);
         }
     }
-    echo "hello";
+    echo 'working! ';
     sleep(5);
 }
 
-
-function updateCryptocurrency() {
-    
-}
-
-// Update a cryptocurrency that isn't found in the binance api data (Ex: Bitcoin)
-function updateCustomCryptocurrency() {
-
-}
-
+/**
+ * Updates the price of the cryptocurrency in the database
+ *
+ * @param string $symbol - The symbol of the cryptocurrency to update
+ * @param string $worthInUSD - The new, updated price (in USD)
+ * @return void
+ */
 function executeUpdateStmt($symbol, $worthInUSD) {
     global $conn;
     $updateCryptoStmt = $conn->prepare(
