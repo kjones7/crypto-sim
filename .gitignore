@@ -6,3 +6,6 @@
 .DS_Store
 /www/node_modules/*
 /www/vendor/*
+/www/scripts/ca.pem
+/www/scripts/hidden_keys.php
+/www/sql/hidden_data.php
