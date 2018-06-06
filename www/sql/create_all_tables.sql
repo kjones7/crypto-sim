@@ -59,7 +59,7 @@ CREATE TABLE cryptocurrencies (
     id INT NOT NULL AUTO_INCREMENT,
     name varchar(45) NOT NULL,
     abbreviation varchar(8) NOT NULL,
-    worth_in_USD DECIMAL(8,2) NOT NULL,
+    worth_in_USD DECIMAL(17,10) NOT NULL,
     PRIMARY KEY (id)
 );
 
