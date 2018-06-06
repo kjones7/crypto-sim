@@ -28,9 +28,7 @@ $api = new Binance\API($binance_key, $binance_secret);
  * Possible symbols can be seen on public api https://api.binance.com/api/v3/ticker/price
  */
 $ticker = $api->prices();
-$bitcoinResultsOnly = array(); // will contain only cryptocurrncies that are in BTC, meaning 'symbol' ends in 'BTC'
 $oneBTCtoUSD = $ticker['BTCUSDT']; // TODO - Is USDT close enough to USD to use?
-// $conn = mysqli_connect("mysql", $dbUserName, $dbUserPass, $dbName);
 $dsn = 'mysql:dbname=' . $dbName . ';host=mysql';
 
 try {
@@ -55,6 +53,27 @@ foreach ($ticker as $symbol => $price) {
     }
 }
 
+/**
+ * Inserts a cryptocurrency into the database
+ * 
+ * @param string $symbol - The symbol of the cryptocurrency
+ *     Ex: 'ETHBTC', 'LTCBTC'
+ *     Note: The first half of $symbol is the cryptocurrency it represents,
+ *     and the second half is what the units of $price is in. BTC is used
+ *     in this function, and is converted to USDT, which is a cryptocurrency
+ *     close in value to US Dollars
+ * @param string $price - The price/worth of the cryptocurrency, the units
+ *     of which are in the second half of $symbol.
+ *     Ex: 'ETHBTC' means that $price will be in BTC
+ * @param boolean $overrideInsert - If true, override the insert to insert a custom cryptocurrency
+ *     Used to insert Bitcoin, since it can't be automatically inserted from the API data, since
+ *     this function only looks at $symbol that end in 'BTC', and Bitcoin is 'BTCUSDT' in the API
+ * @param array $overrideOptions - The options of the override insert
+ *   @param string $overrideOptions.symbol - the symbol of the cryptocurrency to be inserted
+ *   @param string $overrideOptions.name - the name of the cryptocurrency to be inserted
+ *   @param string $overrideOptions.worthInUSD - the worth of the cryptocurrency to be inserted (in USD)
+ * @return void
+ */
 function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrideOptions = []) {
     global $conn, $oneBTCtoUSD, $cryptoSymbolsAndNames;
     if($overrideInsert) {
@@ -69,26 +88,36 @@ function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrid
         $cryptoSymbol = substr($symbol, 0, $strLength - 3);
         $cryptoName = $cryptoSymbolsAndNames[$cryptoSymbol];
     }
-    $insertCryptoStmt = $conn->prepare(
-        "INSERT INTO cryptocurrencies(
-            name,
-            abbreviation,
-            worth_in_USD
-            ) VALUES (
-                :name,
-                :symbol,
-                :worthInUSD
-                )");
-    $insertCryptoStmt->bindParam(':name', $cryptoName, PDO::PARAM_STR);
-    $insertCryptoStmt->bindParam('symbol', $cryptoSymbol, PDO::PARAM_STR);
-    $insertCryptoStmt->bindParam('worthInUSD', $worthInUSD);
+    if($worthInUSD !== NULL && $cryptoSymbol !== NULL && $cryptoName !== NULL) {
+        $insertCryptoStmt = $conn->prepare(
+            "INSERT INTO cryptocurrencies(
+                name,
+                abbreviation,
+                worth_in_USD
+                ) VALUES (
+                    :name,
+                    :symbol,
+                    :worthInUSD
+                    )");
+        $insertCryptoStmt->bindParam(':name', $cryptoName, PDO::PARAM_STR);
+        $insertCryptoStmt->bindParam('symbol', $cryptoSymbol, PDO::PARAM_STR);
+        $insertCryptoStmt->bindParam('worthInUSD', $worthInUSD);
 
-    if (!$insertCryptoStmt->execute()) {
-        echo "Error: " . $insertCryptoStmt->errorInfo()[2] . " $symbol";
+        if (!$insertCryptoStmt->execute()) {
+            echo "Error: " . $insertCryptoStmt->errorInfo()[2] . " $symbol";
+        }
     }
 }
 
 // TODO add this to a helper php file
+/**
+ * Returns whether $haystack ends with $need
+ * Ex: endsWith('Hello', 'llo') returns true
+ *
+ * @param string $haystack - The main word that will have its end checked
+ * @param string $needle - The string that will be checked to see if $haystack ends with it
+ * @return boolean - True if $haystack ends with $needle, false otherwise
+ */
 function endsWith($haystack, $needle)
 {
     $length = strlen($needle);
