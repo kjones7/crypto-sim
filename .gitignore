@@ -9,3 +9,4 @@
 /www/scripts/ca.pem
 /www/scripts/hidden_keys.php
 /www/sql/hidden_data.php
+/www/scripts/.php_cs.cache
