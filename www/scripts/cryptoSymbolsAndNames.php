@@ -9858,7 +9858,7 @@ $cryptoData = json_decode($json, true);
  * Ex: "BTC" => "Bitcoin"
  */
 $cryptoSymbolsAndNames = array();
-foreach ($cryptoData["data"] as $index => $dataArray) { 
+foreach ($cryptoData["data"] as $index => $dataArray) {
     $cryptoSymbolsAndNames[$dataArray["symbol"]] = $dataArray["name"];
 }
 

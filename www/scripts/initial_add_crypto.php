@@ -12,7 +12,7 @@ $api = new Binance\API($binance_key, $binance_secret);
 
 /**
  * The current prices of all of the cryptocurrencies from the API
- * @var array $ticker = 
+ * @var array $ticker =
  * [
  *   [
  *     'symbol' => (string) The symbols/abbreviations of the cryptocurrency,
@@ -24,7 +24,7 @@ $api = new Binance\API($binance_key, $binance_secret);
  *         Ex: 'ETCBTC' will give how much ETH is worth in BTC
  *   ]
  * ]
- * 
+ *
  * Possible symbols can be seen on public api https://api.binance.com/api/v3/ticker/price
  */
 $ticker = $api->prices();
@@ -38,10 +38,10 @@ try {
 }
 
 foreach ($ticker as $symbol => $price) {
-    if(endsWith($symbol, 'BTC')) {
+    if (endsWith($symbol, 'BTC')) {
         insertCryptocurrency($symbol, $price);
     }
-    if($symbol === 'BTCUSDT') {
+    if ($symbol === 'BTCUSDT') {
         // insert bitcoin
         $overrideOptions = [
             'symbol' => 'BTC',
@@ -55,7 +55,7 @@ foreach ($ticker as $symbol => $price) {
 
 /**
  * Inserts a cryptocurrency into the database
- * 
+ *
  * @param string $symbol - The symbol of the cryptocurrency
  *     Ex: 'ETHBTC', 'LTCBTC'
  *     Note: The first half of $symbol is the cryptocurrency it represents,
@@ -74,13 +74,14 @@ foreach ($ticker as $symbol => $price) {
  *   @param string $overrideOptions.worthInUSD - the worth of the cryptocurrency to be inserted (in USD)
  * @return void
  */
-function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrideOptions = []) {
+function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrideOptions = [])
+{
     global $conn, $oneBTCtoUSD, $cryptoSymbolsAndNames;
-    if($overrideInsert) {
+    if ($overrideInsert) {
         $cryptoSymbol = $overrideOptions['symbol'];
         $cryptoName = $overrideOptions['name'];
         $worthInUSD = $overrideOptions['worthInUSD'];
-    } else if(endsWith($symbol, 'BTC')){
+    } elseif (endsWith($symbol, 'BTC')) {
         $worthInUSD = $price * $oneBTCtoUSD; // TODO use currency library
         // TODO turn this process into a separate function, add it to a separate php file
         // so it can be used in loop_update_crypto.php too
@@ -88,7 +89,7 @@ function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrid
         $cryptoSymbol = substr($symbol, 0, $strLength - 3);
         $cryptoName = $cryptoSymbolsAndNames[$cryptoSymbol];
     }
-    if($worthInUSD !== NULL && $cryptoSymbol !== NULL && $cryptoName !== NULL) {
+    if ($worthInUSD !== null && $cryptoSymbol !== null && $cryptoName !== null) {
         $insertCryptoStmt = $conn->prepare(
             "INSERT INTO cryptocurrencies(
                 name,
@@ -98,7 +99,8 @@ function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrid
                     :name,
                     :symbol,
                     :worthInUSD
-                    )");
+                    )"
+        );
         $insertCryptoStmt->bindParam(':name', $cryptoName, PDO::PARAM_STR);
         $insertCryptoStmt->bindParam('symbol', $cryptoSymbol, PDO::PARAM_STR);
         $insertCryptoStmt->bindParam('worthInUSD', $worthInUSD);
@@ -122,6 +124,6 @@ function endsWith($haystack, $needle)
 {
     $length = strlen($needle);
 
-    return $length === 0 || 
+    return $length === 0 ||
     (substr($haystack, -$length) === $needle);
 }

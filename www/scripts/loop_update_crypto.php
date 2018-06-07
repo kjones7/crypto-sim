@@ -18,18 +18,18 @@ try {
     echo 'Connection failed: ' . $e->getMessage();
 }
 
-while(true) {
+while (true) {
     $ticker = $api->prices();
     foreach ($ticker as $symbol => $price) {
-        if(endsWith($symbol, 'BTC')) {
+        if (endsWith($symbol, 'BTC')) {
             $strLength = strlen($symbol);
             $symbol = substr($symbol, 0, $strLength - 3);
             $price = $price * $oneBTCtoUSD;
-            if($symbol != NULL && $price != NULL) {
+            if ($symbol != null && $price != null) {
                 executeUpdateStmt($symbol, $price);
             }
         }
-        if($symbol === 'BTCUSDT') {
+        if ($symbol === 'BTCUSDT') {
             executeUpdateStmt('BTC', $price);
         }
     }
@@ -44,12 +44,14 @@ while(true) {
  * @param string $worthInUSD - The new, updated price (in USD)
  * @return void
  */
-function executeUpdateStmt($symbol, $worthInUSD) {
+function executeUpdateStmt($symbol, $worthInUSD)
+{
     global $conn;
     $updateCryptoStmt = $conn->prepare(
         "UPDATE cryptocurrencies
         SET worth_in_USD = :worthInUSD
-        WHERE abbreviation = :symbol");
+        WHERE abbreviation = :symbol"
+    );
     $updateCryptoStmt->bindParam('worthInUSD', $worthInUSD);
     $updateCryptoStmt->bindParam('symbol', $symbol);
     if (!$updateCryptoStmt->execute()) {
@@ -62,6 +64,6 @@ function endsWith($haystack, $needle)
 {
     $length = strlen($needle);
 
-    return $length === 0 || 
+    return $length === 0 ||
     (substr($haystack, -$length) === $needle);
 }
