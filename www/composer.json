@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "src"
+        }
+    },
     "require-dev": {
         "codeception/codeception": "^2.4",
         "friendsofphp/php-cs-fixer": "^2.11"
