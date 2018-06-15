@@ -1,7 +1,7 @@
 <?php
 
 require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Come up with better way to manange paths
-require '../vendor/autoload.php';
+require "/var/www/html/vendor/autoload.php";
 require 'hidden_keys.php'; // contains binance api key and secret
 require '../sql/hidden_data.php'; // contains sql username and password
 
