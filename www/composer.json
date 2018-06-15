@@ -1,7 +1,9 @@
 {
     "autoload": {
         "psr-4": {
-            "MyApp\\": "src"
+            "MyApp\\": "src",
+            "CryptoSim\\Models\\" : "src/models/",
+            "CryptoSim\\Controllers\\" : "src/controllers/"
         }
     },
     "require-dev": {
