@@ -1,5 +1,5 @@
 <?php
-namespace MyApp\php\models\User;
+namespace CryptoSim\Models;
 
 class User {
     private $email;

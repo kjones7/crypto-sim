@@ -1,9 +1,22 @@
 <?php
-namespace MyApp\php\controllers\UserController;
+namespace CryptoSim\Controllers;
+
+use CryptoSim\Models\User;
+use CryptoSim\Controllers\DatabaseController;
+
+require "/var/www/html/vendor/autoload.php";
 
 class UserController {
-    public function createAccount(string $username, string $email, string $password) {
+    private $user;
+    private $databaseController;
 
+    function __construct(User $user) {
+        $this->user = $user;
+        $this->databaseController = new DatabaseController();
+    }
+    
+    public function createAccount(User $user) {
+        $this->databaseController->createAccount($user);
     }
 
     public function login(string $username, string $password){
