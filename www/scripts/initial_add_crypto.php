@@ -1,7 +1,7 @@
 <?php
 
 require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Come up with better way to manange paths
-require '../vendor/autoload.php';
+require "/var/www/html/vendor/autoload.php";
 require 'hidden_keys.php'; // contains binance api key and secret
 require '../sql/hidden_data.php'; // contains sql username and password
 require 'cryptoSymbolsAndNames.php'; // contains array to get crypto names from symbols
@@ -102,8 +102,8 @@ function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrid
                     )"
         );
         $insertCryptoStmt->bindParam(':name', $cryptoName, PDO::PARAM_STR);
-        $insertCryptoStmt->bindParam('symbol', $cryptoSymbol, PDO::PARAM_STR);
-        $insertCryptoStmt->bindParam('worthInUSD', $worthInUSD);
+        $insertCryptoStmt->bindParam(':symbol', $cryptoSymbol, PDO::PARAM_STR);
+        $insertCryptoStmt->bindParam(':worthInUSD', $worthInUSD);
 
         if (!$insertCryptoStmt->execute()) {
             echo "Error: " . $insertCryptoStmt->errorInfo()[2] . " $symbol";
