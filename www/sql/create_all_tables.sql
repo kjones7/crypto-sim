@@ -1,6 +1,11 @@
+DROP DATABASE crypto_sim;
+CREATE DATABASE crypto_sim;
+USE crypto_sim;
+
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(100) NOT NULL,
+    username VARCHAR(64) NOT NULL,
     password VARCHAR(45) NOT NULL, -- TESTING PURPOSES ONLY, CHANGE THIS
     country VARCHAR(45),
     date_created DATETIME NOT NULL,
