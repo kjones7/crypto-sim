@@ -10,3 +10,4 @@
 /www/scripts/hidden_keys.php
 /www/sql/hidden_data.php
 /www/scripts/.php_cs.cache
+/www/config.ini
