@@ -20,11 +20,12 @@ class UserController {
     }
 
     public function login(string $username, string $password){
-
+        // TODO - implement
     }
 
-    public function sendFriendRequest(string $username) {
-
+    public function sendFriendRequest(string $toUsername) {
+        $fromUsername = $this->user->getUsername();
+        $this->databaseController->sendFriendRequest($fromUsername, $toUsername);
     }
 
     public function addFriend(string $username) {
