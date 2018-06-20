@@ -12,6 +12,7 @@
     },
     "require": {
         "cboden/ratchet": "^0.4.1",
-        "jaggedsoft/php-binance-api": "@dev"
+        "jaggedsoft/php-binance-api": "@dev",
+        "nikic/fast-route": "^1.3"
     }
 }
