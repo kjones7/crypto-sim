@@ -1,4 +1,4 @@
-DROP DATABASE crypto_sim;
+DROP DATABASE IF EXISTS crypto_sim;
 CREATE DATABASE crypto_sim;
 USE crypto_sim;
 
