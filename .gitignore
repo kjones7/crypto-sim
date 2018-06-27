@@ -11,3 +11,4 @@
 /www/sql/hidden_data.php
 /www/scripts/.php_cs.cache
 /www/config.ini
+data.env
