@@ -12,3 +12,4 @@
 /www/scripts/.php_cs.cache
 /www/config.ini
 data.env
+www/TracyVariable.php
