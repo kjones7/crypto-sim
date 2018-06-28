@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/websocketjs.js"></script>
-</head>
-<body>
-    
-</body>
-</html>
+<?php declare(strict_types=1);
 
-<?php echo "Hello Docker!"; ?>
+ini_set('display_errors', '1');
 
+error_reporting(E_ALL);
+
+require __DIR__ . '/src/Bootstrap.php';
 
