@@ -1,5 +1,0 @@
-<?php
-use Tracy\Debugger;
-
-// IMPORTANT - DO NOT DELETE OR CHANGE. THIS VALUE MUST BE Debugger::PRODUCTION FOR PRODUCTION
-$tracy = Debugger::PRODUCTION;
