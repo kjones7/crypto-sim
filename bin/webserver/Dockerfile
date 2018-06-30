@@ -20,8 +20,8 @@ RUN npm install -g grunt-cli
 # Add local composer and npm packages to PATH
 RUN echo "export PATH=$PATH:/var/www/html/vendor/bin/:/var/www/html/node_modules/.bin" >> ~/.bashrc
 
-# Install xdebug (commented out for now, since I don't plan on using it right now)
-#RUN pecl install xdebug-2.5.0
+# Install xdebug
+RUN pecl install xdebug-2.6.0
 #RUN docker-php-ext-enable xdebug
 
 # BEGIN Other PHP7 Extensions
@@ -54,3 +54,11 @@ RUN docker-php-ext-install -j$(nproc) gd
 
 # Enable apache modules
 RUN a2enmod rewrite headers
+
+# Change DocumentRoot (TODO - Add APACHE_DOCUMENT_ROOT to .env file eventually)
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Add custom php.ini
+COPY ./php.ini /usr/local/etc/php/

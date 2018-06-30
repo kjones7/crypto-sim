@@ -13,3 +13,5 @@
 /www/config.ini
 data.env
 www/TracyVariable.php
+www\tests\_support\_generated
+environment.env
