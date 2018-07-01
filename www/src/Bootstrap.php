@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 define('ROOT_DIR', dirname(__DIR__));
 require ROOT_DIR . '/vendor/autoload.php';
-\Tracy\Debugger::enable();
+use Tracy\Debugger;
 
+Debugger::enable(Debugger::DEVELOPMENT);
 $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
 $dispatcher = \FastRoute\simpleDispatcher(
@@ -36,7 +37,10 @@ $dispatcher = \FastRoute\simpleDispatcher(
             [$controllerName, $method] = explode('#', $routeInfo[1]);
             $vars = $routeInfo[2];
 
-            $controller = new $controllerName;
+            // $controller = new $controllerName;
+            $factory = new CryptoSim\Framework\Rendering\TwigTemplateRendererFactory();
+            $templateRenderer = $factory->create();
+            $controller = new $controllerName($templateRenderer);
             $response = $controller->$method($request, $vars);
             break;
     }
