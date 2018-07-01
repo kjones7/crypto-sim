@@ -14,7 +14,7 @@ final class FrontPageController
     {
         $this->templateRenderer = $templateRenderer;
     }
-    
+
     public function show(Request $request): Response
     {
         $content = 'Hello, ' . $request->get('name', 'visitor');
