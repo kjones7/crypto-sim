@@ -3,6 +3,7 @@ define('ROOT_DIR', dirname(__DIR__));
 require ROOT_DIR . '/vendor/autoload.php';
 use Tracy\Debugger;
 
+// TODO - When deployed, get rid of the argument for this function call
 Debugger::enable(Debugger::DEVELOPMENT);
 $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
@@ -36,11 +37,8 @@ $dispatcher = \FastRoute\simpleDispatcher(
         case \FastRoute\Dispatcher::FOUND:
             [$controllerName, $method] = explode('#', $routeInfo[1]);
             $vars = $routeInfo[2];
-
-            // $controller = new $controllerName;
-            $factory = new CryptoSim\Framework\Rendering\TwigTemplateRendererFactory();
-            $templateRenderer = $factory->create();
-            $controller = new $controllerName($templateRenderer);
+            $injector = include('Dependencies.php');
+            $controller = $injector->make($controllerName);
             $response = $controller->$method($request, $vars);
             break;
     }
