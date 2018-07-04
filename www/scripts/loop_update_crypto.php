@@ -4,7 +4,7 @@ require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Co
 require "/var/www/html/vendor/autoload.php";
 require 'hidden_keys.php'; // contains binance api key and secret
 require '../sql/hidden_data.php'; // contains sql username and password
-// TODO - get sql username and pass from config.ini file
+// TODO - get sql username and pass from .env file
 
 //TODO Add database connection to separate php file, so it can be reused
 $api = new Binance\API($binance_key, $binance_secret);
