@@ -11,6 +11,11 @@ use CryptoSim\Framework\Csrf\TokenStorage;
 use CryptoSim\Framework\Csrf\SymfonySessionTokenStorage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use CryptoSim\User\Domain\UserRepository;
+use CryptoSim\User\Infrastructure\DbalUserRepository;
+use CryptoSim\User\Application\NicknameTakenQuery;
+use CryptoSim\User\Infrastructure\DbalNicknameTakenQuery;
+
 
 $injector = new Injector();
 
@@ -39,5 +44,9 @@ $injector->share(Connection::class);
 
 $injector->alias(TokenStorage::class, SymfonySessionTokenStorage::class);
 $injector->alias(SessionInterface::class, Session::class);
+
+$injector->alias(UserRepository::class, DbalUserRepository::class);
+
+$injector->alias(NicknameTakenQuery::class, DbalNicknameTakenQuery::class);
 
 return $injector;

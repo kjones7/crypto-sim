@@ -6,6 +6,7 @@ final class Token
 {
     private $token;
 
+    // TODO - should this function be private, since we have a static function
     public function __construct(string $token)
     {
         $this->token = $token;
