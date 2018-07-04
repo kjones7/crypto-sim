@@ -9,6 +9,7 @@ class Database {
     private $db;
 
     function __construct() {
+        // TODO - Use the .env file instead of the config.ini
         $db = parse_ini_file("/var/www/html/config.ini");
         // assign data from hidden_data.php to local variables
         // TODO - Figure out a better way to store and get database credentials
