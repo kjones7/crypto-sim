@@ -7,6 +7,10 @@ use CryptoSim\Framework\Rendering\TemplateDirectory;
 use Doctrine\DBAL\Connection;
 use CryptoSim\Framework\Dbal\ConnectionFactory;
 use CryptoSim\Framework\Dbal\DatabaseUrl;
+use CryptoSim\Framework\Csrf\TokenStorage;
+use CryptoSim\Framework\Csrf\SymfonySessionTokenStorage;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 $injector = new Injector();
 
@@ -32,5 +36,8 @@ $injector->define(TemplateDirectory::class, [':rootDirectory' => ROOT_DIR]);
 
 // Database connection will be reused instead of being created every time a connection is needed
 $injector->share(Connection::class);
+
+$injector->alias(TokenStorage::class, SymfonySessionTokenStorage::class);
+$injector->alias(SessionInterface::class, Session::class);
 
 return $injector;
