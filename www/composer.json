@@ -18,6 +18,7 @@
         "twig/twig": "^2.4",
         "rdlowrey/auryn": "^1.4",
         "doctrine/dbal": "^2.7",
-        "josegonzalez/dotenv": "dev-master"
+        "josegonzalez/dotenv": "dev-master",
+        "ramsey/uuid": "^3.7"
     }
 }
