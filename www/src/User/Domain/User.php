@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-
+// entity
 namespace CryptoSim\User\Domain;
 
 use DateTimeImmutable;
@@ -12,17 +12,24 @@ final class User
     private $nickname;
     private $passwordHash;
     private $creationDate;
+    private $failedLoginAttempts;
+    private $lastFailedLoginAttempt;
+    private $recordedEvents = [];
 
-    private function __construct(
+    public function __construct(
         UuidInterface $id,
         string $nickname,
         string $passwordHash,
-        DateTimeImmutable $creationDate
+        DateTimeImmutable $creationDate,
+        int $failedLoginAttempts,
+        ?DateTimeImmutable $lastFailedLoginAttempt
     ) {
         $this->id = $id;
         $this->nickname = $nickname;
         $this->passwordHash = $passwordHash;
         $this->creationDate = $creationDate;
+        $this->failedLoginAttempts = $failedLoginAttempts;
+        $this->lastFailedLoginAttempt = $lastFailedLoginAttempt;
     }
 
     public static function register(string $nickname, string $password): User
@@ -31,8 +38,32 @@ final class User
             Uuid::uuid4(),
             $nickname,
             password_hash($password, PASSWORD_DEFAULT),
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
+            0,
+            null
         );
+    }
+
+    public function logIn(string $password): void
+    {
+        if (!password_verify($password, $this->passwordHash)) {
+            $this->lastFailedLoginAttempt = new DateTimeImmutable();
+            $this->failedLoginAttempts++;
+            return;
+        }
+        $this->failedLoginAttempts = 0;
+        $this->lastFailedLoginAttempt = null;
+        $this->recordedEvents[] = new UserWasLoggedIn();
+    }
+
+    public function getFailedLoginAttempts(): int
+    {
+        return $this->failedLoginAttempts;
+    }
+
+    public function getLastFailedLoginAttempt(): ?DateTimeImmutable
+    {
+        return $this->lastFailedLoginAttempt;
     }
 
     public function getId(): UuidInterface
@@ -53,5 +84,15 @@ final class User
     public function getCreationDate(): DateTimeImmutable
     {
         return $this->creationDate;
+    }
+
+    public function getRecordedEvents(): array
+    {
+        return $this->recordedEvents;
+    }
+
+    public function clearRecordedEvents(): void
+    {
+        $this->recordedEvents = [];
     }
 }

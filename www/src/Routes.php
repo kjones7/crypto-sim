@@ -15,4 +15,14 @@ return [
         '/register',
         'CryptoSim\User\Presentation\RegistrationController#register'
     ],
+    [
+        'GET',
+        '/login',
+        'CryptoSim\User\Presentation\LoginController#show'
+    ],
+    [
+        'POST',
+        '/login',
+        'CryptoSim\User\Presentation\LoginController#logIn'
+    ]
 ];
