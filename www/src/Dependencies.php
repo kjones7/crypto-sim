@@ -15,6 +15,8 @@ use CryptoSim\User\Domain\UserRepository;
 use CryptoSim\User\Infrastructure\DbalUserRepository;
 use CryptoSim\User\Application\NicknameTakenQuery;
 use CryptoSim\User\Infrastructure\DbalNicknameTakenQuery;
+use CryptoSim\Framework\Rbac\User;
+use CryptoSim\Framework\Rbac\SymfonySessionCurrentUserFactory;
 
 
 $injector = new Injector();
@@ -48,5 +50,11 @@ $injector->alias(SessionInterface::class, Session::class);
 $injector->alias(UserRepository::class, DbalUserRepository::class);
 
 $injector->alias(NicknameTakenQuery::class, DbalNicknameTakenQuery::class);
+
+// authentication (permissions and roles)
+$injector->delegate(User::class, function () use ($injector): User {
+    $factory = $injector->make(SymfonySessionCurrentUserFactory::class);
+    return $factory->create();
+});
 
 return $injector;
