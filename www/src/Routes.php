@@ -24,5 +24,10 @@ return [
         'POST',
         '/login',
         'CryptoSim\User\Presentation\LoginController#logIn'
+    ],
+    [
+        'GET',
+        '/user/{nickname}',
+        'CryptoSim\User\Presentation\ProfileController#show'
     ]
 ];
