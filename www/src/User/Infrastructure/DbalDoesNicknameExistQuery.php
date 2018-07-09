@@ -3,9 +3,9 @@
 namespace CryptoSim\User\Infrastructure;
 
 use Doctrine\DBAL\Connection;
-use CryptoSim\User\Application\NicknameTakenQuery;
+use CryptoSim\User\Application\DoesNicknameExistQuery;
 
-final class DbalNicknameTakenQuery implements NicknameTakenQuery
+final class DbalDoesNicknameExistQuery implements DoesNicknameExistQuery
 {
     private $connection;
 

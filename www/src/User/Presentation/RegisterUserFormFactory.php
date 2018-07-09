@@ -4,7 +4,7 @@ namespace CryptoSim\User\Presentation;
 
 use CryptoSim\Framework\Csrf\StoredTokenValidator;
 use Symfony\Component\HttpFoundation\Request;
-use CryptoSim\User\Application\NicknameTakenQuery;
+use CryptoSim\User\Application\DoesNicknameExistQuery;
 
 final class RegisterUserFormFactory
 {
@@ -13,7 +13,7 @@ final class RegisterUserFormFactory
 
     public function __construct(
         StoredTokenValidator $storedTokenValidator,
-        NicknameTakenQuery $nicknameTakenQuery
+        DoesNicknameExistQuery $nicknameTakenQuery
     ) {
         $this->storedTokenValidator = $storedTokenValidator;
         $this->nicknameTakenQuery = $nicknameTakenQuery;

@@ -5,7 +5,7 @@ namespace CryptoSim\User\Presentation;
 use CryptoSim\Framework\Csrf\StoredTokenValidator;
 use CryptoSim\User\Application\RegisterUser;
 use CryptoSim\Framework\Csrf\Token;
-use CryptoSim\User\Application\NicknameTakenQuery;
+use CryptoSim\User\Application\DoesNicknameExistQuery;
 
 final class RegisterUserForm
 {
@@ -17,7 +17,7 @@ final class RegisterUserForm
 
     public function __construct(
         StoredTokenValidator $storedTokenValidator,
-        NicknameTakenQuery $nicknameTakenQuery,
+        DoesNicknameExistQuery $nicknameTakenQuery,
         string $token,
         string $nickname,
         string $password

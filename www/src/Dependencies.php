@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\UserRepository;
 use CryptoSim\User\Infrastructure\DbalUserRepository;
-use CryptoSim\User\Application\NicknameTakenQuery;
-use CryptoSim\User\Infrastructure\DbalNicknameTakenQuery;
+use CryptoSim\User\Application\DoesNicknameExistQuery;
+use CryptoSim\User\Infrastructure\DbalDoesNicknameExistQuery;
 use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rbac\SymfonySessionCurrentUserFactory;
 
@@ -49,7 +49,7 @@ $injector->alias(SessionInterface::class, Session::class);
 
 $injector->alias(UserRepository::class, DbalUserRepository::class);
 
-$injector->alias(NicknameTakenQuery::class, DbalNicknameTakenQuery::class);
+$injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
 
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {

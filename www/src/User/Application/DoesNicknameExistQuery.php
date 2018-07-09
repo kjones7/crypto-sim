@@ -2,7 +2,7 @@
 
 namespace CryptoSim\User\Application;
 
-interface NicknameTakenQuery
+interface DoesNicknameExistQuery
 {
     public function execute(string $nickname): bool;
 }
