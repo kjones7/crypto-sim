@@ -50,6 +50,7 @@ final class DbalUserRepository implements UserRepository
         foreach ($user->getRecordedEvents() as $event) {
             if ($event instanceof UserWasLoggedIn) {
                 $this->session->set('userId', $user->getId()->toString());
+                $this->session->set('nickname', $user->getNickname());
                 continue;
             }
             throw new LogicException(get_class($event) . ' was not handled');

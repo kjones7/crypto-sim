@@ -29,5 +29,10 @@ return [
         'GET',
         '/user/{nickname}',
         'CryptoSim\User\Presentation\ProfileController#show'
+    ],
+    [
+        'GET',
+        '/dashboard',
+        'CryptoSim\User\Presentation\ProfileDashboardController#show'
     ]
 ];

@@ -56,7 +56,6 @@ final class LoginController
             return new RedirectResponse('/login');
         }
 
-        $this->session->getFlashBag()->add('success', 'You were logged in.');
-        return new RedirectResponse('/');
+        return new RedirectResponse('/dashboard');
     }
 }
