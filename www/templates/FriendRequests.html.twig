@@ -1,0 +1,12 @@
+{% block content %}
+    <h3>Friend Requests</h3>
+    <ol>
+        {% for friendRequest in friendRequests %}
+            <li>
+                <a href="">{{ friendRequest.nickname }}</a>
+                <button type="submit" >Accept</button>
+                <button type="submit">Reject</button>
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
