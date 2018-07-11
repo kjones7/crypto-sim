@@ -17,6 +17,8 @@ use CryptoSim\User\Application\DoesNicknameExistQuery;
 use CryptoSim\User\Infrastructure\DbalDoesNicknameExistQuery;
 use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rbac\SymfonySessionCurrentUserFactory;
+use CryptoSim\User\Application\FriendRequestsQuery;
+use CryptoSim\User\Infrastructure\DbalFriendRequestsQuery;
 
 
 $injector = new Injector();
@@ -50,6 +52,8 @@ $injector->alias(SessionInterface::class, Session::class);
 $injector->alias(UserRepository::class, DbalUserRepository::class);
 
 $injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
+
+$injector->alias(FriendRequestsQuery::class, DbalFriendRequestsQuery::class);
 
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {
