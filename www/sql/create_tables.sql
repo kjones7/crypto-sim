@@ -14,26 +14,29 @@ CREATE TABLE users (
     UNIQUE (id)
 );
 
-CREATE TABLE friend_requests (
+-- CREATE TABLE friend_requests (
+--     auto_inc_id INT NOT NULL AUTO_INCREMENT,
+--     id VARCHAR(255) NOT NULL,
+--     to_user_id VARCHAR(255) NOT NULL,
+--     from_user_id VARCHAR(255) NOT NULL,
+--     date_sent DATETIME NOT NULL,
+--     accepted TINYINT NOT NULL,
+--     PRIMARY KEY (auto_inc_id),
+--     UNIQUE (id),
+--     FOREIGN KEY (to_user_id) REFERENCES users(id),
+--     FOREIGN KEY (from_user_id) REFERENCES users(id)
+-- );
+
+CREATE TABLE friends (
     auto_inc_id INT NOT NULL AUTO_INCREMENT,
     id VARCHAR(255) NOT NULL,
     to_user_id VARCHAR(255) NOT NULL,
     from_user_id VARCHAR(255) NOT NULL,
     date_sent DATETIME NOT NULL,
-    accepted TINYINT NOT NULL,
+    date_replied DATETIME NULL,
+    accepted TINYINT NULL,
     PRIMARY KEY (auto_inc_id),
     UNIQUE (id),
     FOREIGN KEY (to_user_id) REFERENCES users(id),
     FOREIGN KEY (from_user_id) REFERENCES users(id)
-);
-
-CREATE TABLE friends (
-    auto_inc_id INT NOT NULL AUTO_INCREMENT,
-    id VARCHAR(255) NOT NULL,
-    user_id1 VARCHAR(255) NOT NULL,
-    user_id2 VARCHAR(255) NOT NULL,
-    PRIMARY KEY (auto_inc_id),
-    UNIQUE (id),
-    FOREIGN KEY (user_id1) REFERENCES users(id),
-    FOREIGN KEY (user_id2) REFERENCES users(id)
 );

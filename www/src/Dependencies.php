@@ -19,6 +19,8 @@ use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rbac\SymfonySessionCurrentUserFactory;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use CryptoSim\User\Infrastructure\DbalFriendRequestsQuery;
+use CryptoSim\User\Domain\FriendRequestsRepository;
+use CryptoSim\User\Infrastructure\DbalFriendRequestsRepository;
 
 
 $injector = new Injector();
@@ -50,9 +52,9 @@ $injector->alias(TokenStorage::class, SymfonySessionTokenStorage::class);
 $injector->alias(SessionInterface::class, Session::class);
 
 $injector->alias(UserRepository::class, DbalUserRepository::class);
+$injector->alias(FriendRequestsRepository::class, DbalFriendRequestsRepository::class);
 
 $injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
-
 $injector->alias(FriendRequestsQuery::class, DbalFriendRequestsQuery::class);
 
 // authentication (permissions and roles)

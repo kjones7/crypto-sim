@@ -34,5 +34,10 @@ return [
         'GET',
         '/dashboard',
         'CryptoSim\User\Presentation\ProfileDashboardController#show'
+    ],
+    [
+        'POST',
+        '/dashboard/friendrequest/accept',
+        'CryptoSim\User\Presentation\AcceptFriendRequestController#accept'
     ]
 ];

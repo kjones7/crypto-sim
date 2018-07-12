@@ -29,11 +29,12 @@ final class DbalFriendRequestsQuery implements FriendRequestsQuery
             ->from('users', 'u')
             ->innerJoin(
                 'u',
-                'friend_requests',
-                'fr',
-                'fr.to_user_id = ? AND fr.from_user_id = u.id'
+                'friends',
+                'f',
+                'f.to_user_id = ? AND f.from_user_id = u.id'
             )
-            ->orderBy('fr.date_sent', 'DESC')
+            ->where('accepted IS NULL')
+            ->orderBy('f.date_sent', 'DESC')
             ->setParameter(0, $this->session->get('userId'))
         ;
 

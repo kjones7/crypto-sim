@@ -4,8 +4,12 @@
         {% for friendRequest in friendRequests %}
             <li>
                 <a href="">{{ friendRequest.nickname }}</a>
-                <button type="submit" >Accept</button>
-                <button type="submit">Reject</button>
+                <form action="/dashboard/friendrequest/accept" method="post">
+                    <button name="from-nickname" type="submit" value={{ friendRequest.nickname }}>Accept</button>
+                </form>
+                <form action="/dashboard/friendrequest/reject" method="post">
+                    <button name="from-nickname" type="submit" value={{ friendRequest.nickname }}>Reject</button>
+                </form>
             </li>
         {% endfor %}
     </ol>
