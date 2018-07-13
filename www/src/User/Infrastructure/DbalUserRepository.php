@@ -59,6 +59,7 @@ final class DbalUserRepository implements UserRepository
 
         $qb = $this->connection->createQueryBuilder();
 
+        // Why must nickname and password update every time a user is logged in?
         $qb->update('users');
         $qb->set('nickname', $qb->createNamedParameter($user->getNickname()));
         $qb->set('password_hash', $qb->createNamedParameter(
@@ -71,6 +72,7 @@ final class DbalUserRepository implements UserRepository
             $user->getLastFailedLoginAttempt(),
             Type::DATETIME
         ));
+        $qb->where("id = '{$user->getId()->toString()}'");
 
         $qb->execute();
     }
