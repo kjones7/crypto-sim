@@ -5,5 +5,5 @@ namespace CryptoSim\User\Domain;
 interface FriendRequestsRepository
 {
     public function accept(string $fromNickname): void;
-    public function reject(string $fromNickname): void;
+    public function decline(string $fromNickname): void;
 }

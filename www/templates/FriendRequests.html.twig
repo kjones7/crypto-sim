@@ -7,8 +7,8 @@
                 <form action="/dashboard/friendrequest/accept" method="post">
                     <button name="from-nickname" type="submit" value={{ friendRequest.nickname }}>Accept</button>
                 </form>
-                <form action="/dashboard/friendrequest/reject" method="post">
-                    <button name="from-nickname" type="submit" value={{ friendRequest.nickname }}>Reject</button>
+                <form action="/dashboard/friendrequest/decline" method="post">
+                    <button name="from-nickname" type="submit" value={{ friendRequest.nickname }}>Decline</button>
                 </form>
             </li>
         {% endfor %}

@@ -39,5 +39,10 @@ return [
         'POST',
         '/dashboard/friendrequest/accept',
         'CryptoSim\User\Presentation\AcceptFriendRequestController#accept'
+    ],
+    [
+        'POST',
+        '/dashboard/friendrequest/decline',
+        'CryptoSim\User\Presentation\DeclineFriendRequestController#decline'
     ]
 ];

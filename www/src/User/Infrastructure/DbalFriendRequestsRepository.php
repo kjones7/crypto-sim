@@ -32,8 +32,16 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
         $qb->execute();
     }
 
-    public function reject(string $fromNickname): void
+    public function decline(string $fromNickname): void
     {
-        // TODO: Implement reject() method.
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->update('friends', 'f')
+            ->set('f.accepted', 0)
+            ->where('f.to_user_id = :currentUserId')
+            ->setParameter(':currentUserId', $this->session->get('userId'))
+        ;
+
+        $qb->execute();
     }
 }
