@@ -6,21 +6,25 @@ use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use CryptoSim\User\Application\FriendsListQuery;
 
 final class ProfileDashboardController
 {
     private $templateRenderer;
     private $session;
     private $friendRequestsQuery;
+    private $friendsListQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         Session $session,
-        FriendRequestsQuery $friendRequestsQuery
+        FriendRequestsQuery $friendRequestsQuery,
+        FriendsListQuery $friendsListQuery
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
         $this->friendRequestsQuery = $friendRequestsQuery;
+        $this->friendsListQuery = $friendsListQuery;
     }
 
     public function show() : Response
@@ -45,7 +49,8 @@ final class ProfileDashboardController
             $template,
             [
                 'nickname' => $this->session->get('nickname'),
-                'friendRequests' => $this->friendRequestsQuery->execute()
+                'friendRequests' => $this->friendRequestsQuery->execute(),
+                'friendsList' => $this->friendsListQuery->execute()
             ]
         );
 

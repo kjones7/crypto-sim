@@ -21,6 +21,8 @@ use CryptoSim\User\Application\FriendRequestsQuery;
 use CryptoSim\User\Infrastructure\DbalFriendRequestsQuery;
 use CryptoSim\User\Domain\FriendRequestsRepository;
 use CryptoSim\User\Infrastructure\DbalFriendRequestsRepository;
+use CryptoSim\User\Application\FriendsListQuery;
+use CryptoSim\User\Infrastructure\DbalFriendsListQuery;
 
 
 $injector = new Injector();
@@ -56,6 +58,7 @@ $injector->alias(FriendRequestsRepository::class, DbalFriendRequestsRepository::
 
 $injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
 $injector->alias(FriendRequestsQuery::class, DbalFriendRequestsQuery::class);
+$injector->alias(FriendsListQuery::class, DbalFriendsListQuery::class);
 
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {

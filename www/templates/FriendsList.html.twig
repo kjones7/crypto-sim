@@ -1,0 +1,12 @@
+{% block content %}
+<h3>Friends List</h3>
+    <div class="friends-list">
+        <ol>
+            {% for friend in friendsList %}
+                <li>
+                    <a href="/user/{{ friend.nickname }}" class="friend">{{ friend.nickname }}</a>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}
