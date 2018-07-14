@@ -25,7 +25,7 @@ final class DbalFriendRequestsQuery implements FriendRequestsQuery
         $qb = $this->connection->createQueryBuilder();
 
         $qb
-            ->select('u.nickname')
+            ->select('u.nickname, f.from_user_id')
             ->from('users', 'u')
             ->innerJoin(
                 'u',
@@ -43,7 +43,10 @@ final class DbalFriendRequestsQuery implements FriendRequestsQuery
 
         $friendRequests = [];
         foreach ($rows as $row) {
-            $friendRequests[] = new FriendRequest($row['nickname']);
+            $friendRequests[] = new FriendRequest(
+                $row['nickname'],
+                $row['from_user_id']
+            );
         }
 
         return $friendRequests;

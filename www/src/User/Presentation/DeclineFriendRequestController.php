@@ -20,7 +20,7 @@ final class DeclineFriendRequestController
     public function decline(Request $request): Response
     {
         $this->friendRequestHandler->handle(new DeclineFriendRequest(
-                $request->request->get('from-nickname')
+                $request->request->get('from-user-id')
             )
         );
 

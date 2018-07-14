@@ -20,7 +20,7 @@ final class AcceptFriendRequestController
     public function accept(Request $request): Response
     {
         $this->friendRequestHandler->handle(new AcceptFriendRequest(
-            $request->request->get('from-nickname')
+            $request->request->get('from-user-id')
             )
         );
 
