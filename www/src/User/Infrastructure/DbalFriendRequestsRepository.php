@@ -25,6 +25,7 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
         $qb
             ->update('friends', 'f')
             ->set('f.accepted', 1)
+            ->set('f.date_replied', 'CURRENT_TIME')
             ->where('f.to_user_id = :currentUserId')
             ->setParameter(':currentUserId', $this->session->get('userId'))
         ;
@@ -38,6 +39,7 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
         $qb
             ->update('friends', 'f')
             ->set('f.accepted', 0)
+            ->set('f.date_replied', 'CURRENT_TIME')
             ->where('f.to_user_id = :currentUserId')
             ->setParameter(':currentUserId', $this->session->get('userId'))
         ;
