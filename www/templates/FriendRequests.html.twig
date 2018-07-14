@@ -3,7 +3,7 @@
     <ol>
         {% for friendRequest in friendRequests %}
             <li>
-                <a href="">{{ friendRequest.nickname }}</a>
+                <a href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
                 <form action="/dashboard/friendrequest/accept" method="post">
                     <button name="from-user-id" type="submit" value={{ friendRequest.fromUserId }}>Accept</button>
                 </form>
