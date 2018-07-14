@@ -34,17 +34,7 @@ final class ProfileDashboardController
         if(!$this->session->get('userId')) {
             $template = 'PageNotFound.html.twig';
         }
-//        $friendRequests = [
-//            [
-//                'nickname' => 'kayla'
-//            ],
-//            [
-//                'nickname' => 'joe'
-//            ],
-//            [
-//                'nickname' => 'bob'
-//            ]
-//        ];
+
         $content = $this->templateRenderer->render(
             $template,
             [
