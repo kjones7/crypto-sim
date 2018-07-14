@@ -4,15 +4,15 @@ namespace CryptoSim\User\Application;
 
 final class AcceptFriendRequest
 {
-    private $fromNickname;
+    private $fromUserId;
 
-    public function __construct($fromNickname)
+    public function __construct($fromUserId)
     {
-        $this->fromNickname = $fromNickname;
+        $this->fromUserId = $fromUserId;
     }
 
-    public function getFromNickname() : string
+    public function getFromUserId() : string
     {
-        return $this->fromNickname;
+        return $this->fromUserId;
     }
 }

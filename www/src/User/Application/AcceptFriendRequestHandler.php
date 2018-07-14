@@ -15,6 +15,6 @@ final class AcceptFriendRequestHandler
 
     public function handle(AcceptFriendRequest $command): void
     {
-        $this->friendRequestRepository->accept($command->getFromNickname());
+        $this->friendRequestRepository->accept($command->getFromUserId());
     }
 }

@@ -15,6 +15,6 @@ final class DeclineFriendRequestHandler
 
     public function handle(DeclineFriendRequest $command): void
     {
-        $this->friendRequestRepository->decline($command->getFromNickname());
+        $this->friendRequestRepository->decline($command->getFromUserId());
     }
 }

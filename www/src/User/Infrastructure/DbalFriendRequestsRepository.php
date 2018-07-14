@@ -19,29 +19,31 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
         $this->session = $session;
     }
 
-    public function accept(string $fromNickname): void
+    public function accept(string $fromUserId): void
     {
         $qb = $this->connection->createQueryBuilder();
         $qb
             ->update('friends', 'f')
             ->set('f.accepted', 1)
             ->set('f.date_replied', 'CURRENT_TIME')
-            ->where('f.to_user_id = :currentUserId')
+            ->where('f.to_user_id = :currentUserId AND f.from_user_id = :fromUserId')
             ->setParameter(':currentUserId', $this->session->get('userId'))
+            ->setParameter(':fromUserId', $fromUserId)
         ;
 
         $qb->execute();
     }
 
-    public function decline(string $fromNickname): void
+    public function decline(string $fromUserId): void
     {
         $qb = $this->connection->createQueryBuilder();
         $qb
             ->update('friends', 'f')
             ->set('f.accepted', 0)
             ->set('f.date_replied', 'CURRENT_TIME')
-            ->where('f.to_user_id = :currentUserId')
+            ->where('f.to_user_id = :currentUserId AND f.from_user_id = :fromUserId')
             ->setParameter(':currentUserId', $this->session->get('userId'))
+            ->setParameter(':fromUserId', $fromUserId)
         ;
 
         $qb->execute();
