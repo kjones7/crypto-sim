@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AcceptFriendRequestController
 {
+    //TODO - Change this to acceptFriendRequestHandler
     private $friendRequestHandler;
 
     public function __construct(AcceptFriendRequestHandler $friendRequestHandler)

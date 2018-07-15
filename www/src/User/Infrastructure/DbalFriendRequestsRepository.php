@@ -48,4 +48,23 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
 
         $qb->execute();
     }
+
+    public function send(string $toUserId): void
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->insert('friends')
+            ->values(
+                array(
+                    'id' => 'UUID()',
+                    'to_user_id' => ':toUserId',
+                    'from_user_id' => ':fromUserId',
+                    'date_sent' => 'NOW()'
+                )
+            )
+            ->setParameter('toUserId', $toUserId)
+            ->setParameter('fromUserId', $this->session->get('userId'));
+
+        $qb->execute();
+    }
 }

@@ -44,5 +44,10 @@ return [
         'POST',
         '/dashboard/friendrequest/decline',
         'CryptoSim\User\Presentation\DeclineFriendRequestController#decline'
+    ],
+    [
+        'POST',
+        '/user/{nickname}/sendfriendrequest',
+        'CryptoSim\User\Presentation\SendFriendRequestController#send'
     ]
 ];
