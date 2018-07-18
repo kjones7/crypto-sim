@@ -51,11 +51,27 @@ final class DbalPublicUserRepository implements PublicUserRepository
         $qb
             ->select('count(*)')
             ->from('friends')
-            ->where('(accepted = 1 AND to_user_id = :currentUserId AND from_user_id = :userId) OR (to_user_id = :userId2 AND from_user_id = :currentUserId2)')
+            ->where('accepted = 1 AND ((to_user_id = :currentUserId AND from_user_id = :userId) OR (to_user_id = :userId2 AND from_user_id = :currentUserId2))')
             ->setParameter(':currentUserId', $this->session->get('userId'))
             ->setParameter(':userId', $userId)
             ->setParameter(':currentUserId2', $this->session->get('userId'))
             ->setParameter(':userId2', $userId)
+        ;
+
+        $stmt = $qb->execute();
+
+        return $stmt->fetchColumn() > 0; // Using greater than just in case more than one friend request gets into DB
+    }
+
+    public function isFriendRequestAwaitingResponse(string $userId): bool
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select('count(*)')
+            ->from('friends')
+            ->where('accepted IS NULL AND to_user_id = :userId AND from_user_id = :currentUserId')
+            ->setParameter(':currentUserId', $this->session->get('userId'))
+            ->setParameter(':userId', $userId)
         ;
 
         $stmt = $qb->execute();

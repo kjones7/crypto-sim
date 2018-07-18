@@ -2,7 +2,12 @@
 
 {% block content %}
     <h3 class="welcome">Profile: {{ publicUser.nickname }}</h3>
-    {% if not isUserOnFriendsList %}
+    {% if isUserOnFriendsList %}
+        {% include 'UsersAreFriends.html.twig' %}
+    {% elseif isFriendRequestAwaitingResponse %}
+        {% include 'FriendRequestSent.html.twig' %}
+    {% else %}
+        {# Not friends #}
         {% include 'SendFriendRequest.html.twig' %}
     {% endif %}
 {% endblock %}

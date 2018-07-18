@@ -40,10 +40,11 @@ final class ProfileController {
         } else {
             $publicUser = $this->getPublicUserFromNicknameQuery->execute($nickname);
             $isUserOnFriendsList = $this->publicUserRepository->isUserOnFriendsList($publicUser->getUserId());
-
+            $isFriendRequestAwaitingResponse = $this->publicUserRepository->isFriendRequestAwaitingResponse($publicUser->getUserId());
             $content = $this->templateRenderer->render($template, [
                 'publicUser' => $publicUser,
-                'isUserOnFriendsList' => $isUserOnFriendsList
+                'isUserOnFriendsList' => $isUserOnFriendsList,
+                'isFriendRequestAwaitingResponse' => $isFriendRequestAwaitingResponse
             ]);
         }
 
