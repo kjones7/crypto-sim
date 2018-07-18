@@ -25,7 +25,8 @@ use CryptoSim\User\Application\FriendsListQuery;
 use CryptoSim\User\Infrastructure\DbalFriendsListQuery;
 use CryptoSim\User\Application\GetPublicUserFromNicknameQuery;
 use CryptoSim\User\Infrastructure\DbalGetPublicUserFromNicknameQuery;
-
+use CryptoSim\User\Domain\PublicUserRepository;
+use CryptoSim\User\Infrastructure\DbalPublicUserRepository;
 
 $injector = new Injector();
 
@@ -57,6 +58,7 @@ $injector->alias(SessionInterface::class, Session::class);
 
 $injector->alias(UserRepository::class, DbalUserRepository::class);
 $injector->alias(FriendRequestsRepository::class, DbalFriendRequestsRepository::class);
+$injector->alias(PublicUserRepository::class, DbalPublicUserRepository::class);
 
 $injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
 $injector->alias(FriendRequestsQuery::class, DbalFriendRequestsQuery::class);

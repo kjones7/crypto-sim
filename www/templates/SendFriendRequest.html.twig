@@ -1,0 +1,5 @@
+<form action="/user/{{ publicUser.nickname }}/sendfriendrequest" method="POST">
+    {#TODO - Change the name of this button to something more meaningful#}
+    <button name="send-friend-request" value="{{ publicUser.nickname }}">Send Friend Request</button>
+    <input type="hidden" name="userId" value="{{ publicUser.userId }}">
+</form>
