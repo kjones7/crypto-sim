@@ -3,10 +3,20 @@
 # Suite for acceptance tests.
 # Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
-
+# TODO - Get the passwords and secret data out of this file
 actor: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: 127.0.0.1
+        - Db:
+            dsn: 'mysql:host=172.19.0.2;dbname=crypto_sim'
+            user: 'root'
+            password: 'tiger'
+            dump: 'sql/create_tables.sql'
+            populate: true
+            cleanup: true
+            populator: 'mysql -u $user -p$password -h $host $dbname < $dump'
+        - WebDriver:
+            host: '192.168.0.26'
+            url: localhost
+            browser: chrome
         - \Helper\Acceptance
