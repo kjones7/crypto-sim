@@ -1,16 +1,18 @@
 {% block content %}
     <h3>Friend Requests</h3>
-    <ol>
-        {% for friendRequest in friendRequests %}
-            <li>
-                <a href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
-                <form action="/dashboard/friendrequest/accept" method="post">
-                    <button name="from-user-id" type="submit" value={{ friendRequest.fromUserId }}>Accept</button>
-                </form>
-                <form action="/dashboard/friendrequest/decline" method="post">
-                    <button name="from-user-id" type="submit" value={{ friendRequest.fromUserId }}>Decline</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ol>
+    <div class="friend-requests">
+        <ol>
+            {% for friendRequest in friendRequests %}
+                <li class="friend-request" id="{{ friendRequest.nickname }}-friend-request">
+                    <a class="friend-request-nickname" href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
+                    <form action="/dashboard/friendrequest/accept" method="post">
+                        <button name="from-user-id" class="accept-friend-request-btn" type="submit" value={{ friendRequest.fromUserId }}>Accept</button>
+                    </form>
+                    <form action="/dashboard/friendrequest/decline" method="post">
+                        <button name="from-user-id" class="decline-friend-request-btn" type="submit" value={{ friendRequest.fromUserId }}>Decline</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
 {% endblock %}
