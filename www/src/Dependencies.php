@@ -21,8 +21,9 @@ use CryptoSim\User\Application\FriendRequestsQuery;
 use CryptoSim\User\Infrastructure\DbalFriendRequestsQuery;
 use CryptoSim\User\Domain\FriendRequestsRepository;
 use CryptoSim\User\Infrastructure\DbalFriendRequestsRepository;
-use CryptoSim\User\Application\FriendsListQuery;
-use CryptoSim\User\Infrastructure\DbalFriendsListQuery;
+use CryptoSim\User\Domain\FriendsListRepository;
+use CryptoSim\User\Infrastructure\DbalFriendsListRepository;
+
 use CryptoSim\User\Application\GetPublicUserFromNicknameQuery;
 use CryptoSim\User\Infrastructure\DbalGetPublicUserFromNicknameQuery;
 use CryptoSim\User\Domain\PublicUserRepository;
@@ -62,7 +63,7 @@ $injector->alias(PublicUserRepository::class, DbalPublicUserRepository::class);
 
 $injector->alias(DoesNicknameExistQuery::class, DbalDoesNicknameExistQuery::class);
 $injector->alias(FriendRequestsQuery::class, DbalFriendRequestsQuery::class);
-$injector->alias(FriendsListQuery::class, DbalFriendsListQuery::class);
+$injector->alias(FriendsListRepository::class, DbalFriendsListRepository::class);
 $injector->alias(GetPublicUserFromNicknameQuery::class, DbalGetPublicUserFromNicknameQuery::class);
 
 // authentication (permissions and roles)

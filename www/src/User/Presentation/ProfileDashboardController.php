@@ -6,25 +6,25 @@ use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use CryptoSim\User\Application\FriendsListQuery;
+use CryptoSim\User\Domain\FriendsListRepository;
 
 final class ProfileDashboardController
 {
     private $templateRenderer;
     private $session;
     private $friendRequestsQuery;
-    private $friendsListQuery;
+    private $friendsListRepository;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         Session $session,
         FriendRequestsQuery $friendRequestsQuery,
-        FriendsListQuery $friendsListQuery
+        FriendsListRepository $friendsListRepository
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
         $this->friendRequestsQuery = $friendRequestsQuery;
-        $this->friendsListQuery = $friendsListQuery;
+        $this->friendsListRepository = $friendsListRepository;
     }
 
     public function show() : Response
@@ -40,10 +40,24 @@ final class ProfileDashboardController
             [
                 'nickname' => $this->session->get('nickname'),
                 'friendRequests' => $this->friendRequestsQuery->execute(),
-                'friendsList' => $this->friendsListQuery->execute()
+                'friendsList' => $this->getFriendsList()
             ]
         );
 
         return new Response($content);
+    }
+
+    private function getFriendsList()
+    {
+        $currentUserId = $this->session->get('userId');
+
+        $userIdsOfFriends = $this->friendsListRepository->getUserIdsOfFriendsFromUserId($currentUserId);
+
+        $friendsList = [];
+        foreach($userIdsOfFriends as $userId) {
+            $friendsList[] = $this->friendsListRepository->createFriendFromUserId($userId);
+        }
+
+        return $friendsList;
     }
 }
