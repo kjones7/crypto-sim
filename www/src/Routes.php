@@ -49,5 +49,9 @@ return [
         'POST',
         '/user/{nickname}/sendfriendrequest',
         'CryptoSim\User\Presentation\SendFriendRequestController#send'
-    ]
+    ],[
+        'GET',
+        '/play',
+        'CryptoSim\Simulation\Presentation\SimulationController#show'
+    ],
 ];

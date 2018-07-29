@@ -1,9 +1,10 @@
 <?php
 
-require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Come up with better way to manange paths
-require "/var/www/html/vendor/autoload.php";
+require dirname(__DIR__) . '/vendor/autoload.php';
+//require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Come up with better way to manange paths
+//require "/var/www/html/vendor/autoload.php";
 require 'hidden_keys.php'; // contains binance api key and secret
-require '../sql/hidden_data.php'; // contains sql username and password
+require dirname(__DIR__) . '/sql/hidden_data.php'; // contains sql username and password
 // TODO - get sql username and pass from .env file
 
 //TODO Add database connection to separate php file, so it can be reused
@@ -12,6 +13,12 @@ $ticker = $api->prices();
 $bitcoinResultsOnly = array(); // will contain only cryptocurrncies that are in BTC, meaning 'symbol' ends in 'BTC'
 $oneBTCtoUSD = $ticker['BTCUSDT']; // TODO - Is USDT close enough to USD to use?
 $dsn = 'mysql:dbname=' . $dbName . ';host=mysql';
+$cryptoData = [];
+
+// intialize websockets
+$context = new ZMQContext();
+$socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'my pusher');
+$socket->connect("tcp://127.0.0.1:5555");
 
 try {
     $conn = new PDO($dsn, $dbUserName, $dbUserPass);
@@ -28,12 +35,15 @@ while (true) {
             $price = $price * $oneBTCtoUSD;
             if ($symbol != null && $price != null) {
                 executeUpdateStmt($symbol, $price);
+                $cryptoData[$symbol] = $price;
             }
         }
         if ($symbol === 'BTCUSDT') {
             executeUpdateStmt('BTC', $price);
+            $cryptoData[$symbol] = $price;
         }
     }
+    $socket->send(json_encode($cryptoData));
     echo 'working! ';
     sleep(5);
 }

@@ -40,3 +40,11 @@ CREATE TABLE friends (
     FOREIGN KEY (to_user_id) REFERENCES users(id),
     FOREIGN KEY (from_user_id) REFERENCES users(id)
 );
+
+CREATE TABLE cryptocurrencies (
+    id INT NOT NULL AUTO_INCREMENT,
+    name varchar(45) NOT NULL,
+    abbreviation varchar(8) NOT NULL,
+    worth_in_USD DECIMAL(17,10) NOT NULL,
+    PRIMARY KEY (id)
+);

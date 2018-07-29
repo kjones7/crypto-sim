@@ -1,10 +1,10 @@
 <?php
 
-require '../vendor/jaggedsoft/php-binance-api/php-binance-api.php'; // TODO - Come up with better way to manange paths
-require "/var/www/html/vendor/autoload.php";
+require dirname(__DIR__) . '/vendor/autoload.php';
 require 'hidden_keys.php'; // contains binance api key and secret
-require '../sql/hidden_data.php'; // contains sql username and password
-require 'cryptoSymbolsAndNames.php'; // contains array to get crypto names from symbols
+// TODO - Replace the hidden_data usage with the env file parsing
+require dirname(__DIR__) . '/sql/hidden_data.php'; // contains sql username and password
+require dirname(__DIR__) . '/scripts/cryptoSymbolsAndNames.php'; // contains array to get crypto names from symbols
 // @see home_directory_config.php
 // use config from ~/.confg/jaggedsoft/php-binance-api.json
 
