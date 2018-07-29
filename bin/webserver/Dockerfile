@@ -5,7 +5,8 @@ RUN apt-get upgrade -y
 
 # Install important libraries
 RUN apt-get -y install --fix-missing apt-utils build-essential git curl libcurl3 libcurl3-dev zip
-RUN apt-get install nano
+RUN apt-get install nano -y
+RUN apt-get install wget -y
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -19,6 +20,12 @@ RUN npm install -g grunt-cli
 
 # Add local composer and npm packages to PATH
 RUN echo "export PATH=$PATH:/var/www/html/vendor/bin/:/var/www/html/node_modules/.bin" >> ~/.bashrc
+
+# Install zeromq, which is used for socket connections
+RUN echo "deb http://download.opensuse.org/repositories/network:/messaging:/zeromq:/release-stable/Debian_8.0/ ./" >> /etc/apt/sources.list
+RUN apt-get install libzmq3-dev -y
+# Be sure you have 'extension=zmq.so' in your php.ini to enable the zmq-beta extension
+RUN pecl install zmq-beta
 
 # Install xdebug
 RUN pecl install xdebug-2.6.0

@@ -11,10 +11,8 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/cache" />
-      <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/collections" />
-      <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/common" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/dbal" />
-      <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/event-manager" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/evenement/evenement" />
@@ -44,6 +42,7 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpunit/phpunit" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpunit/phpunit-mock-objects" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/ramsey/uuid" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/ratchet/pawl" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/ratchet/rfc6455" />
@@ -55,6 +54,7 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/react/promise-timer" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/react/socket" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/react/zmq" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/sebastian/code-unit-reverse-lookup" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/sebastian/comparator" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/sebastian/diff" />
