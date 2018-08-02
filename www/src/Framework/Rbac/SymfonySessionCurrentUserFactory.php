@@ -3,7 +3,7 @@
 namespace CryptoSim\Framework\Rbac;
 
 use Ramsey\Uuid\Uuid;
-use CryptoSim\Framework\Rbac\Role\Author;
+use CryptoSim\Framework\Rbac\Role\PortfolioCreator;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 final class SymfonySessionCurrentUserFactory
@@ -23,7 +23,7 @@ final class SymfonySessionCurrentUserFactory
         
         return new AuthenticatedUser(
             Uuid::fromString($this->session->get('userId')),
-            [new Author()]
+            [new PortfolioCreator()]
         );
     }
 }

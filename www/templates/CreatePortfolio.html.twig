@@ -1,0 +1,33 @@
+{% block content %}
+    {% include 'FlashMessages.html.twig' %}
+    <form action="" method="POST" class="create-portfolio-form">
+        <div>
+            <label for="portfolio-title">Portfolio Title</label>
+            <input type="text" name="title" id="portfolio-title" maxlength="60">
+        </div>
+        
+        <div class="create-portfolio-types">
+            <h4>Portfolio Type</h4>
+            <div>
+                <input type="radio" name="type" id="freeplay-radio" value="freeplay">
+                <label for="freeplay-radio">Free play</label>
+            </div>
+        </div>
+        
+        <div>
+            <h4>Visibility</h4>
+            <div>
+                <input type="radio" name="visibility" id="visibility-public" value="public">
+                <label for="visibility-public">Public</label>
+            </div>
+            <div>
+                <input type="radio" name="visibility" id="visibility-private" value="private">
+                <label for="visibility-private">Private</label>
+            </div>
+        </div>
+
+        <input type="hidden" name="token" value="{{ get_token('create_portfolio') }}">
+
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}

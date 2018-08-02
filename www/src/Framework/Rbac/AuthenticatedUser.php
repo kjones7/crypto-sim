@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SocialNews\Framework\Rbac;
+namespace CryptoSim\Framework\Rbac;
 
 use Ramsey\Uuid\UuidInterface;
 

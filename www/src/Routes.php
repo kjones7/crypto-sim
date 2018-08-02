@@ -53,5 +53,13 @@ return [
         'GET',
         '/play',
         'CryptoSim\Simulation\Presentation\SimulationController#show'
+    ],[
+        'GET',
+        '/portfolios/create',
+        'CryptoSim\Portfolio\Presentation\PortfolioController#show'
+    ],[
+        'POST',
+        '/portfolios/create',
+        'CryptoSim\Portfolio\Presentation\PortfolioController#create'
     ],
 ];
