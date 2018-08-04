@@ -1,0 +1,8 @@
+{% block content %}
+    <h3>Portfolios</h3>
+<div class="portfolios">
+    {% for portfolio in portfolios %}
+        <a href="/play/{{ portfolio.id }}" class="portfolio">{{ portfolio.title }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

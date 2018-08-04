@@ -3,34 +3,40 @@
 namespace CryptoSim\User\Presentation;
 
 use CryptoSim\Framework\Rendering\TemplateRenderer;
+use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\FriendsListRepository;
 
+// TODO - Rename this to DashboardController
 final class ProfileDashboardController
 {
     private $templateRenderer;
     private $session;
     private $friendRequestsQuery;
     private $friendsListRepository;
+    private $portfolioRepository;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         Session $session,
         FriendRequestsQuery $friendRequestsQuery,
-        FriendsListRepository $friendsListRepository
+        FriendsListRepository $friendsListRepository,
+        PortfolioRepository $portfolioRepository
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
         $this->friendRequestsQuery = $friendRequestsQuery;
         $this->friendsListRepository = $friendsListRepository;
+        $this->portfolioRepository = $portfolioRepository;
     }
 
     public function show() : Response
     {
         $template = 'ProfileDashboard.html.twig';
 
+        // TODO - use permissions instead of directly using session (use RBAC User class instead of session)
         if(!$this->session->get('userId')) {
             $template = 'PageNotFound.html.twig';
         }
@@ -38,9 +44,10 @@ final class ProfileDashboardController
         $content = $this->templateRenderer->render(
             $template,
             [
-                'nickname' => $this->session->get('nickname'),
+                'nickname' => $this->session->get('nickname'), // TODO - Use RBAC User
                 'friendRequests' => $this->friendRequestsQuery->execute(),
-                'friendsList' => $this->getFriendsList()
+                'friendsList' => $this->getFriendsList(),
+                'portfolios' => $this->portfolioRepository->getPortfoliosFromUserId($this->session->get('userId')) // TODO - Use RBAC User
             ]
         );
 
