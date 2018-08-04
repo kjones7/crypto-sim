@@ -45,7 +45,7 @@ while (true) {
     }
     $socket->send(json_encode($cryptoData));
     echo 'working! ';
-    sleep(5);
+    sleep(10);
 }
 
 /**
