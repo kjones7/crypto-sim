@@ -3,6 +3,7 @@
 namespace CryptoSim\Simulation\Presentation;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 
 final class SimulationController
@@ -14,8 +15,14 @@ final class SimulationController
         $this->templateRenderer = $templateRenderer;
     }
 
-    public function show() {
-        $content = $this->templateRenderer->render('Simulation.html.twig');
+    public function show(Request $request, array $vars) {
+        $portfolioId = $vars['portfolioId'];
+
+        //TODO - Validate the $portfolioId once you get the portfolio data from database
+
+        $content = $this->templateRenderer->render('Simulation.html.twig', [
+            'portfolioId' => $portfolioId
+        ]);
         return new Response($content);
     }
 }

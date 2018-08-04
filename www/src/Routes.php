@@ -51,7 +51,7 @@ return [
         'CryptoSim\User\Presentation\SendFriendRequestController#send'
     ],[
         'GET',
-        '/play',
+        '/play/{portfolioId}',
         'CryptoSim\Simulation\Presentation\SimulationController#show'
     ],[
         'GET',
