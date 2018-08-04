@@ -4,15 +4,17 @@ var conn = new ab.Session('ws://localhost:8079',
             //This is where you would add the new article to the DOM (beyond the scope of this tutorial)
             const cryptoDataElement = document.getElementById('crypto-data');
             cryptoDataElement.innerHTML = '';
-            var br = document.createElement("br");
 
             for(var symbol in cryptoData) {
-                let div = document.createElement('div');
-                div.innerHTML = symbol + ' - ' + cryptoData[symbol];
-                cryptoDataElement.appendChild(div);
-                cryptoDataElement.appendChild(br);
+                let div = `
+                    <div id="${symbol}" style="padding-bottom: 5px">
+                        <span class="crypto">${symbol} - $${cryptoData[symbol]}</span>
+                        <input type="text" name="buy-amount">
+                        <button type="submit" class="buy-crypto" value="${cryptoData[symbol]}">Buy</button>
+                    </div>
+                `;
+                cryptoDataElement.innerHTML += div;
             }
-            // console.log('working');
         });
     },
     function() {
