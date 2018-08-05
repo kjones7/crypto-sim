@@ -41,7 +41,7 @@ CREATE TABLE portfolios (
     date_deleted DATETIME,
     title varchar(60) NOT NULL,
     status ENUM('open', 'closed', 'deleted') NOT NULL,
-    total_amount DECIMAL(12,2) NOT NULL DEFAULT 10000,
+    start_amount DECIMAL(12,2) NOT NULL DEFAULT 10000,
     resets INT,
     date_last_reset DATETIME,
     visibility ENUM('private', 'public') NOT NULL,
