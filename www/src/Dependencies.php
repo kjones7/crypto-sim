@@ -67,6 +67,7 @@ $injector->alias(FriendsListRepository::class, DbalFriendsListRepository::class)
 $injector->alias(GetPublicUserFromNicknameQuery::class, DbalGetPublicUserFromNicknameQuery::class);
 
 $injector->alias(PortfolioRepository::class, DbalPortfolioRepository::class);
+$injector->alias(\CryptoSim\Simulation\Domain\PortfolioRepository::class, \CryptoSim\Simulation\Infrastructure\DbalPortfolioRepository::class);
 
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {
