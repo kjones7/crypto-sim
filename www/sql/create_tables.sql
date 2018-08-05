@@ -58,6 +58,7 @@ CREATE TABLE transactions (
     cryptocurrency_amount DECIMAL(17,10) NOT NULL,
     type ENUM('buy', 'sell') NOT NULL,
     date DATETIME NOT NULL,
+    status ENUM('active', 'inactive') NOT NULL,
     CONSTRAINT FK_transactions_cryptocurrency_id_cryptocurrencies_id FOREIGN KEY (cryptocurrency_id) REFERENCES cryptocurrencies(id),
     CONSTRAINT FK_transactions_portfolio_id_portfolios_id FOREIGN KEY (portfolio_id) REFERENCES portfolios(id),
     CONSTRAINT PK_transactions_id PRIMARY KEY (id)
