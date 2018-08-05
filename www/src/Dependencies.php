@@ -29,6 +29,8 @@ use CryptoSim\User\Domain\PublicUserRepository;
 use CryptoSim\User\Infrastructure\DbalPublicUserRepository;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\Portfolio\Infrastructure\DbalPortfolioRepository;
+use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
+use CryptoSim\Simulation\Infrastructure\DbalGetCryptocurrenciesQuery;
 $injector = new Injector();
 
 $injector->delegate(
@@ -68,6 +70,8 @@ $injector->alias(GetPublicUserFromNicknameQuery::class, DbalGetPublicUserFromNic
 
 $injector->alias(PortfolioRepository::class, DbalPortfolioRepository::class);
 $injector->alias(\CryptoSim\Simulation\Domain\PortfolioRepository::class, \CryptoSim\Simulation\Infrastructure\DbalPortfolioRepository::class);
+
+$injector->alias(GetCryptocurrenciesQuery::class, DbalGetCryptocurrenciesQuery::class);
 
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {

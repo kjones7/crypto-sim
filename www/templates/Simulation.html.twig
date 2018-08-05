@@ -1,9 +1,16 @@
 {% block content %}
-    <form action="" method="POST">
         <div id="crypto-data" style="max-height: 50%; overflow: auto;">
-
+            {% for cryptocurrency in cryptocurrencies %}
+                <form action="" method="POST">
+                    <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
+                        <span class="crypto">{{ cryptocurrency.abbreviation }} - {{ cryptocurrency.worthInUSD }}</span>
+                        <input type="text" name="buy-amount">
+                        <button type="submit" class="buy-crypto" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
+                        <input type="hidden" value="{{ cryptocurrency.id }}">
+                    </div>
+                </form>
+            {% endfor %}
         </div>
-    </form>
 
     <hr>
 
