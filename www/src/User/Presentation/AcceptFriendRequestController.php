@@ -7,7 +7,7 @@ use CryptoSim\User\Application\AcceptFriendRequestHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+// TODO - Should accepting a friend request really have its own controller?
 final class AcceptFriendRequestController
 {
     //TODO - Change this to acceptFriendRequestHandler
