@@ -6,7 +6,8 @@
                         <span class="crypto">{{ cryptocurrency.abbreviation }} - {{ cryptocurrency.worthInUSD }}</span>
                         <input type="text" name="buy-amount">
                         <button type="submit" class="buy-crypto" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
-                        <input type="hidden" value="{{ cryptocurrency.id }}">
+                        <input type="hidden" value="{{ cryptocurrency.id }}" name="cryptocurrency-id">
+                        <input type="hidden" name="type" value="buy">
                     </div>
                 </form>
             {% endfor %}
