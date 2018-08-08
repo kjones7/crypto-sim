@@ -9,19 +9,23 @@ final class Portfolio
     private $USDAmount;
     private $cryptoWorthInUSD;
     private $portfolioWorth;
+    /** @var OwnedCryptocurrency[] */
+    private $cryptocurrencies;
 
     public function __construct(
         string $id,
         string $title,
         string $USDAmount,
         string $cryptoWorthInUSD,
-        string $portfolioWorth
+        string $portfolioWorth,
+        array $cryptocurrencies
     ){
         $this->id = $id;
         $this->title = $title;
         $this->USDAmount = $USDAmount;
         $this->cryptoWorthInUSD = $cryptoWorthInUSD;
         $this->portfolioWorth = $portfolioWorth;
+        $this->cryptocurrencies = $cryptocurrencies;
     }
     /**
      * @return string
@@ -61,5 +65,13 @@ final class Portfolio
     public function getPortfolioWorth(): string
     {
         return $this->portfolioWorth;
+    }
+
+    /**
+     * @return OwnedCryptocurrency[]
+     */
+    public function getCryptocurrencies(): array
+    {
+        return $this->cryptocurrencies;
     }
 }

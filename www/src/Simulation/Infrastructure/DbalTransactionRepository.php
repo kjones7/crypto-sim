@@ -17,11 +17,12 @@ final class DbalTransactionRepository implements TransactionRepository
     }
 
 
-    public function save(Transaction $transaction): void
+    public function add(Transaction $transaction): void
     {
         $cryptocurrencyAmount = $this->calculateCryptocurrencyAmountFromIdAndUSD(
             $transaction->getCryptocurrencyId(),
-            $transaction->getUSDAmount()
+            $transaction->getUSDAmount(),
+            $transaction->getType()
         );
         $qb = $this->connection->createQueryBuilder();
         $qb
@@ -44,7 +45,8 @@ final class DbalTransactionRepository implements TransactionRepository
 
     private function calculateCryptocurrencyAmountFromIdAndUSD(
         int $cryptocurrencyId,
-        string $USDAmount
+        string $USDAmount,
+        string $type
     ): ?string {
         $qb = $this->connection->createQueryBuilder();
         $stmt = $qb
@@ -62,8 +64,10 @@ final class DbalTransactionRepository implements TransactionRepository
         }
 
         // TODO - Download a library to handle float mathemtical operations accurately
-        $cryptocurrencyAmount = (float)$USDAmount / $row['worth_in_usd'];
-
+        $cryptocurrencyAmount = ($type == 'buy') ? ((float)$USDAmount / $row['worth_in_usd'] * -1) : (float)$USDAmount / $row['worth_in_usd'];
+        if($type == 'sell') {
+            $cryptocurrencyAmount *= -1;
+        }
         return (string)$cryptocurrencyAmount;
     }
 }

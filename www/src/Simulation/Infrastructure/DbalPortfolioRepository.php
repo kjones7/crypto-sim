@@ -2,6 +2,7 @@
 
 namespace CryptoSim\Simulation\Infrastructure;
 
+use CryptoSim\Simulation\Application\OwnedCryptocurrency;
 use CryptoSim\Simulation\Application\Portfolio;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
 use Doctrine\DBAL\Connection;
@@ -34,28 +35,77 @@ final class DbalPortfolioRepository implements PortfolioRepository
 
         $portfolioUSDAmount = $this->getPortfolioUSDAmountFromId($portfolioId);
         $portfolioCryptoWorthInUSD = $this->getPortfolioCryptoWorthInUSDFromId($portfolioId);
-        $portfolioWorth = (string)($portfolioUSDAmount + $portfolioCryptoWorthInUSD);
+        $portfolioWorth = (string)($portfolioUSDAmount + $portfolioCryptoWorthInUSD); // TODO - fix floating point error here
+        $cryptocurrencies = $this->getCryptocurrenciesFromPortfolioId($portfolioId);
 
         return new Portfolio(
             $row['id'],
             $row['title'],
             $portfolioUSDAmount,
             $portfolioCryptoWorthInUSD,
-            $portfolioWorth
+            $portfolioWorth,
+            $cryptocurrencies
         );
     }
 
+    /**
+     * @param string $portfolioId
+     * @return Cryptocurrency[]
+     */
+    private function getCryptocurrenciesFromPortfolioId(string $portfolioId): array
+    {
+        $stmt = $this->connection->prepare("
+            SELECT
+              t.portfolio_id,
+              c.abbreviation,
+              c.name,
+              c.id,
+              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth,
+              SUM(t.cryptocurrency_amount) AS quantity
+            FROM transactions t 
+            LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id 
+            WHERE 
+              t.portfolio_id = :portfolioId
+              AND status = 'active' 
+            GROUP BY c.id
+        ");
+        $stmt->bindParam(':portfolioId', $portfolioId);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll();
+        $cryptocurrencies = [];
+
+        // TODO - Error handling
+
+        if(!$rows) {
+            return null;
+        }
+
+        foreach ($rows as $row){
+            $cryptocurrencies[] = new OwnedCryptocurrency(
+                $row['id'],
+                $row['name'],
+                $row['abbreviation'],
+                $row['crypto_worth'],
+                $row['quantity']
+            );
+        }
+
+        return $cryptocurrencies;
+    }
+    // TODO - Instead of just mention 'FromId' maybe say 'FromPortfolioId'
     private function getPortfolioCryptoWorthInUSDFromId(string $portfolioId): ?string
     {
-//        $qb = $this->connection->createQueryBuilder();
-        $stmt = $this->connection->prepare(
-            "SELECT (
-                        (SELECT SUM(t.usd_amount) FROM transactions t WHERE type = 'buy' AND t.portfolio_id = :portfolioId1 AND status='active')
-                         - (SELECT SUM(t.usd_amount) FROM transactions t WHERE type = 'sell' AND t.portfolio_id = :portfolioId2 AND status='active')) 
-                         AS crypto_amount
+        $stmt = $this->connection->prepare("
+            SELECT
+              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth 
+            FROM transactions t 
+            LEFT JOIN cryptocurrencies c on t.cryptocurrency_id = c.id
+            WHERE 
+              t.portfolio_id = :portfolioId1
+              AND status = 'active'
          ");
         $stmt->bindParam(':portfolioId1', $portfolioId);
-        $stmt->bindParam(':portfolioId2', $portfolioId);
         $stmt->execute();
 
         $row =$stmt->fetch();
@@ -64,25 +114,26 @@ final class DbalPortfolioRepository implements PortfolioRepository
             return null; // TODO - Add error catching for when this returns NULL
         }
 
-        return $row['crypto_amount'];
+        return $row['crypto_worth'];
     }
 
 
     private function getPortfolioUSDAmountFromId(string $portfolioId): ?string
     {
         // TODO - Make these queries readable
-        $stmt = $this->connection->prepare(
-            "SELECT (
-                        portfolios.start_amount -
-                        (
-                          (SELECT SUM(t.usd_amount) FROM transactions t WHERE type = 'buy' AND t.portfolio_id = :portfolioId1 AND status='active')
-                        - (SELECT SUM(t.usd_amount) FROM transactions t WHERE type = 'sell' AND t.portfolio_id = :portfolioId2 AND status='active')
-                        )
-                     ) AS usd_amount
-                     FROM portfolios"
-        );
+        $stmt = $this->connection->prepare("
+          SELECT
+            p.start_amount,
+            (p.start_amount + SUM(t.usd_amount)) AS usd_amount
+          FROM transactions t 
+          LEFT JOIN portfolios p ON p.id = t.portfolio_id
+          LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id
+          WHERE 
+            t.portfolio_id = :portfolioId1 
+            AND t.status='active'
+        ");
         $stmt->bindParam(':portfolioId1', $portfolioId);
-        $stmt->bindParam(':portfolioId2', $portfolioId);
+//        $stmt->bindParam(':portfolioId2', $portfolioId);
         $stmt->execute();
 
         $row =$stmt->fetch();

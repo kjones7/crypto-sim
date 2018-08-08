@@ -4,5 +4,5 @@ namespace CryptoSim\Simulation\Domain;
 
 interface TransactionRepository
 {
-    public function save(Transaction $transaction): void;
+    public function add(Transaction $transaction): void;
 }

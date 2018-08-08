@@ -4,7 +4,7 @@
                 <form action="" method="POST">
                     <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
                         <span class="crypto">{{ cryptocurrency.abbreviation }} - {{ cryptocurrency.worthInUSD }}</span>
-                        <input type="text" name="buy-amount">
+                        <input type="text" name="transaction-amount">
                         <button type="submit" class="buy-crypto" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
                         <input type="hidden" value="{{ cryptocurrency.id }}" name="cryptocurrency-id">
                         <input type="hidden" name="type" value="buy">
@@ -15,7 +15,7 @@
 
     <hr>
 
-    <div class="portfolio-content">
+    <div class="portfolio-content" style="max-height: 50%; overflow: auto;">
         <h1 style="text-align: center">Portfolio</h1>
         <h4>{{ portfolio.title }} --- {{ portfolioId }}</h4>
 
@@ -24,6 +24,22 @@
         <h4>Crypto Worth In USD: {{ portfolio.cryptoWorthInUSD }}</h4>
 
         <h4>Portfolio Worth: {{ portfolio.portfolioWorth }}</h4>
+
+        <hr>
+
+        {% for ownedCryptocurrency in portfolio.cryptocurrencies %}
+            <div class="owned-cryptocurrency-data">
+                <form action="" method="POST">
+                    <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
+                        <span class="owned-cryptocurrency"> {{ ownedCryptocurrency.name }} ({{ ownedCryptocurrency.abbreviation }}) - {{ ownedCryptocurrency.quantity }} - ${{ ownedCryptocurrency.worthInUSD }}</span>
+                        <input type="text" name="transaction-amount">
+                        <button type="submit" class="sell-crypto" name="crypto-worth" value="{{ ownedCryptocurrency.worthInUSD }}">Sell</button>
+                        <input type="hidden" value="{{ ownedCryptocurrency.id }}" name="cryptocurrency-id">
+                        <input type="hidden" name="type" value="sell">
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
     </div>
 
     <hr>

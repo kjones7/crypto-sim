@@ -56,10 +56,11 @@ final class SimulationController
         $portfolioId = $vars['portfolioId'];
         $response = new RedirectResponse("/play/{$portfolioId}");
 
+        $transactionAmount = ((string)$request->get('type') == "buy") ? (string)(-1 * (string)$request->get('transaction-amount')) : (string)$request->get('transaction-amount');
         $saveTransaction = new SaveTransaction(
             $portfolioId,
             (int)$request->get('cryptocurrency-id'),
-            (string)$request->get('buy-amount'),
+            $transactionAmount,
             (string)$request->get('type')
         );
         $this->saveTransactionHandler->handle($saveTransaction);

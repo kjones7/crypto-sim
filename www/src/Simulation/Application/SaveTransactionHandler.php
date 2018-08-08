@@ -23,6 +23,6 @@ final class SaveTransactionHandler
             $command->getType()
         );
 
-        $this->transactionRepository->save($transaction);
+        $this->transactionRepository->add($transaction);
     }
 }
