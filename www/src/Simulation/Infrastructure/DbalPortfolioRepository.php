@@ -78,7 +78,7 @@ final class DbalPortfolioRepository implements PortfolioRepository
         // TODO - Error handling
 
         if(!$rows) {
-            return null;
+            return [];
         }
 
         foreach ($rows as $row){
@@ -98,12 +98,14 @@ final class DbalPortfolioRepository implements PortfolioRepository
     {
         $stmt = $this->connection->prepare("
             SELECT
-              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth 
-            FROM transactions t 
+              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth,
+              p.start_amount
+            FROM portfolios p
+            LEFT JOIN transactions t ON p.id = t.portfolio_id
             LEFT JOIN cryptocurrencies c on t.cryptocurrency_id = c.id
             WHERE 
               t.portfolio_id = :portfolioId1
-              AND status = 'active'
+              AND t.status = 'active'
          ");
         $stmt->bindParam(':portfolioId1', $portfolioId);
         $stmt->execute();
@@ -112,6 +114,9 @@ final class DbalPortfolioRepository implements PortfolioRepository
 
         if(!$row) {
             return null; // TODO - Add error catching for when this returns NULL
+        }
+        if(!$row['crypto_worth'] && $row['start_amount']) {
+            return '0'; // no transactions, but portfolio exists
         }
 
         return $row['crypto_worth'];
@@ -125,8 +130,8 @@ final class DbalPortfolioRepository implements PortfolioRepository
           SELECT
             p.start_amount,
             (p.start_amount + SUM(t.usd_amount)) AS usd_amount
-          FROM transactions t 
-          LEFT JOIN portfolios p ON p.id = t.portfolio_id
+          FROM portfolios p
+          LEFT JOIN transactions t ON p.id = t.portfolio_id
           LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id
           WHERE 
             t.portfolio_id = :portfolioId1 
@@ -139,7 +144,10 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $row =$stmt->fetch();
 
         if(!$row) {
-            return null; // TODO - Add error catching for when this returns NULL
+            return null;// TODO - Add error catching for when this returns NULL
+        }
+        if(!$row['usd_amount'] && $row['start_amount']) {
+            return $row['start_amount'];
         }
 
         return $row['usd_amount'];
