@@ -7,13 +7,13 @@ var conn = new ab.Session('ws://localhost:8079',
 
             for(var symbol in cryptoData) {
                 let div = `
-                    <form action="" method="POST">
+                    <!--<form action="" method="POST">-->
                         <div id="${symbol}" style="padding-bottom: 5px">
                             <span class="crypto">${symbol} - $${cryptoData[symbol]}</span>
                             <input type="text" name="transaction-amount">
                             <button type="submit" class="buy-crypto" value="${cryptoData[symbol]}">Buy</button>
                         </div>
-                    </form>
+                    <!--</form>-->
                 `;
                 cryptoDataElement.innerHTML += div;
             }
