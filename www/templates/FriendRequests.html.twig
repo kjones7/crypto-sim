@@ -1,18 +1,20 @@
 {% block content %}
     <h3>Friend Requests</h3>
     <div class="friend-requests">
-        <ol>
-            {% for friendRequest in friendRequests %}
-                <li class="friend-request" id="{{ friendRequest.nickname }}-friend-request">
+        {% for friendRequest in friendRequests %}
+                <div class="friend-request" id="{{ friendRequest.nickname }}-friend-request">
+                    <form class="inline" action="/dashboard/friendrequest/accept" method="post">
+                        <button name="from-user-id" class="btn btn-outline-success accept-friend-request-btn response-buttons" type="submit" value={{ friendRequest.fromUserId }}>
+                            <i class="accept-friend-request-icon fas fa-check"></i>
+                        </button>
+                    </form>
+                    <form class="inline" action="/dashboard/friendrequest/decline" method="post">
+                        <button name="from-user-id" class="btn btn-outline-danger decline-friend-request-btn response-buttons" type="submit" value={{ friendRequest.fromUserId }}>
+                            <i class="decline-friend-request-icon fas fa-times"></i>
+                        </button>
+                    </form>
                     <a class="friend-request-nickname" href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
-                    <form action="/dashboard/friendrequest/accept" method="post">
-                        <button name="from-user-id" class="accept-friend-request-btn" type="submit" value={{ friendRequest.fromUserId }}>Accept</button>
-                    </form>
-                    <form action="/dashboard/friendrequest/decline" method="post">
-                        <button name="from-user-id" class="decline-friend-request-btn" type="submit" value={{ friendRequest.fromUserId }}>Decline</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ol>
+                </div>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -1,0 +1,20 @@
+.underline {
+    text-decoration: underline;
+}
+
+.homepage-content {
+    /*background-color: lightgrey;*/
+    height: 100%;
+}
+
+.homepage-signup-container {
+    padding-bottom: 1rem;
+}
+
+.homepage-buttons {
+    padding-top: 2rem;
+}
+
+.homepage-button {
+    width: 8rem;
+}

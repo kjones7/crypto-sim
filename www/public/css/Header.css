@@ -1,0 +1,19 @@
+.dark-background {
+    background-color: #343a40;
+}
+
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.white-text {
+    color: whitesmoke;
+}

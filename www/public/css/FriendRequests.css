@@ -1,0 +1,13 @@
+.response-buttons {
+    height: 22px;
+    width: 22px;
+    padding: 0px 0px 0px 0px;
+}
+
+.inline {
+    display: inline;
+}
+
+.friend-request {
+    margin-left: 1rem;
+}

@@ -1,9 +1,25 @@
 {% extends 'Layout.html.twig' %}
 
 {% block content %}
+    {% include 'GenericHeader.html.twig' %}
     {% include 'FlashMessages.html.twig' %}
-    <h3 class="welcome">Welcome to CryptoSim!</h3>
-    {#<script src="websocketjs.js"></script>#}
-    {#<script src="autobahn-js.js"></script>#}
-    {#<script src="websocket-conn.js"></script>#}
+
+    <div class="container homepage-content">
+        <br>
+        <div class="intro-text-container">
+            <h3 class="intro-text text-center">Buy and sell your favorite crypto <span class="underline">without the risk</span></h3>
+        </div>
+        <div class="homepage-buttons text-center">
+            <div class="homepage-signup-container">
+                <a href="/register" class="btn btn-primary btn-lg homepage-signup homepage-button">Sign Up</a>
+            </div>
+            <div class="homepage-login-container">
+                <a href="/login" class="btn btn-primary btn-lg homepage-login homepage-button">Login</a>
+            </div>
+        </div>
+    </div>
+
+    {# Include resources #}
+    <link rel="stylesheet" type="text/css" href="/css/FrontPage.css">
+    <link rel="stylesheet" type="text/css" href="/css/Header.css">
 {% endblock %}

@@ -1,14 +1,23 @@
 {% extends 'Layout.html.twig' %}
 
 {% block content %}
+    {% include 'GenericHeader.html.twig' %}
     {% include 'FlashMessages.html.twig' %}
-    <form class="register-form" method="post" action="">
-        <label for="nickname">Nickname</label>
-        <input type="text" name="nickname" id="nickname"><br>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password"><br>
-        <input type="hidden" name="token"
-            value="{{ get_token('registration') }}">
-        <input type="submit" value="Register">
-    </form>
+
+    <div class="registration-container text-center">
+        <h3 class="create-account-text">Create a New Account</h3>
+        <form class="register-form" method="post" action="">
+            <label for="nickname">Nickname</label>
+            <input type="text" name="nickname" id="nickname"><br>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password"><br>
+            <input type="hidden" name="token"
+                value="{{ get_token('registration') }}">
+            {#<input class="register-button" type="submit" value="Register">#}
+            <button class="register-button btn btn-primary" type="submit">Register</button>
+        </form>
+    </div>
+
+    {% include 'resources/Header.html.twig' %}
+    {% include 'resources/Registration.html.twig' %}
 {% endblock %}
