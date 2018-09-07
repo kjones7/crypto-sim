@@ -1,6 +1,6 @@
 .response-buttons {
-    height: 22px;
-    width: 22px;
+    height: 25px;
+    width: 25px;
     padding: 0px 0px 0px 0px;
 }
 
@@ -10,4 +10,8 @@
 
 .friend-request {
     margin-left: 1rem;
+}
+
+.friend-request-nickname {
+    font-size: 22px;
 }
