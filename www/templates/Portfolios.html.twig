@@ -1,5 +1,6 @@
 {% block content %}
-    <h3>Portfolios</h3>
+    <h3 class="portfolios-header">Portfolios</h3>
+    <a href="/portfolios/create" class="add-portfolio"><i class="fas fa-plus"></i></a>
 <div class="portfolios">
     {% for portfolio in portfolios %}
         <a href="/play/{{ portfolio.id }}" class="portfolio">{{ portfolio.title }}</a>
