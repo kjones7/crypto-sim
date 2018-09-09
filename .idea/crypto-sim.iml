@@ -24,6 +24,7 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/jaggedsoft/php-binance-api" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/josegonzalez/dotenv" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/m1/env" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/moneyphp/money" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/nikic/fast-route" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/paragonie/random_compat" />
