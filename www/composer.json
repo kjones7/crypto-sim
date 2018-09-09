@@ -20,6 +20,7 @@
         "rdlowrey/auryn": "^1.4",
         "doctrine/dbal": "^2.7",
         "josegonzalez/dotenv": "dev-master",
-        "ramsey/uuid": "^3.7"
+        "ramsey/uuid": "^3.7",
+        "moneyphp/money": "^3.1"
     }
 }
