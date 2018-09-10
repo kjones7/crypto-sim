@@ -2,6 +2,7 @@
 
 namespace CryptoSim\Simulation\Infrastructure;
 
+use CryptoSim\Simulation\Domain\Currency;
 use Doctrine\DBAL\Types\Type;
 use CryptoSim\Simulation\Domain\Transaction;
 use CryptoSim\Simulation\Domain\TransactionRepository;
@@ -63,8 +64,14 @@ final class DbalTransactionRepository implements TransactionRepository
             return null;
         }
 
-        // TODO - Download a library to handle float mathemtical operations accurately
-        $cryptocurrencyAmount = ($type == 'buy') ? ((float)$USDAmount / $row['worth_in_usd'] * -1) : (float)$USDAmount / $row['worth_in_usd'];
+        $USDAmountCurrency = new Currency($USDAmount);
+        $worthInUSDCurrency = new Currency($row['worth_in_usd']);
+
+        // TODO - Improve the structure of this flow control
+        $cryptocurrencyAmount =
+            ($type == 'buy')
+                ? ($USDAmountCurrency->divide($worthInUSDCurrency, Currency::CRYPTOCURRENCY_FRACTION_DIGITS) * -1)
+                : $USDAmountCurrency->divide($row['worth_in_usd'], Currency::CRYPTOCURRENCY_FRACTION_DIGITS);
         if($type == 'sell') {
             $cryptocurrencyAmount *= -1;
         }

@@ -4,6 +4,7 @@ namespace CryptoSim\Simulation\Infrastructure;
 
 use CryptoSim\Simulation\Application\OwnedCryptocurrency;
 use CryptoSim\Simulation\Application\Portfolio;
+use CryptoSim\Simulation\Domain\Currency;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
 use Doctrine\DBAL\Connection;
 
@@ -35,7 +36,12 @@ final class DbalPortfolioRepository implements PortfolioRepository
 
         $portfolioUSDAmount = $this->getPortfolioUSDAmountFromId($portfolioId);
         $portfolioCryptoWorthInUSD = $this->getPortfolioCryptoWorthInUSDFromId($portfolioId);
-        $portfolioWorth = (string)($portfolioUSDAmount + $portfolioCryptoWorthInUSD); // TODO - fix floating point error here
+
+        // TODO - Maybe use dependency injection instead of creating these objects
+        $portfolioUSDAmountCurrency = new Currency($portfolioUSDAmount);
+        $portfolioCryptoWorthInUSDCurrency = new Currency($portfolioCryptoWorthInUSD);
+
+        $portfolioWorth = $portfolioUSDAmountCurrency->add($portfolioCryptoWorthInUSDCurrency, Currency::USD_FRACTION_DIGITS);
         $cryptocurrencies = $this->getCryptocurrenciesFromPortfolioId($portfolioId);
 
         return new Portfolio(
@@ -50,7 +56,8 @@ final class DbalPortfolioRepository implements PortfolioRepository
 
     /**
      * @param string $portfolioId
-     * @return Cryptocurrency[]
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
     private function getCryptocurrenciesFromPortfolioId(string $portfolioId): array
     {
@@ -60,8 +67,8 @@ final class DbalPortfolioRepository implements PortfolioRepository
               c.abbreviation,
               c.name,
               c.id,
-              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth,
-              SUM(t.cryptocurrency_amount) AS quantity
+              CAST(SUM(t.cryptocurrency_amount*c.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
+              CAST(SUM(t.cryptocurrency_amount) AS DECIMAL(17,8)) AS quantity
             FROM transactions t 
             LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id 
             WHERE 
@@ -96,9 +103,10 @@ final class DbalPortfolioRepository implements PortfolioRepository
     // TODO - Instead of just mention 'FromId' maybe say 'FromPortfolioId'
     private function getPortfolioCryptoWorthInUSDFromId(string $portfolioId): ?string
     {
+        // TODO - To prevent floating point errors, test out doing the math operations out of SQL
         $stmt = $this->connection->prepare("
             SELECT
-              SUM(t.cryptocurrency_amount*c.worth_in_USD) AS crypto_worth,
+              CAST(SUM(t.cryptocurrency_amount*c.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
               p.start_amount
             FROM portfolios p
             LEFT JOIN transactions t ON p.id = t.portfolio_id
@@ -129,7 +137,7 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $stmt = $this->connection->prepare("
           SELECT
             p.start_amount,
-            (p.start_amount + SUM(t.usd_amount)) AS usd_amount
+            CAST((p.start_amount + SUM(t.usd_amount)) AS DECIMAL(17,2)) AS usd_amount
           FROM portfolios p
           LEFT JOIN transactions t ON p.id = t.portfolio_id
           LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id
@@ -138,7 +146,6 @@ final class DbalPortfolioRepository implements PortfolioRepository
             AND t.status='active'
         ");
         $stmt->bindParam(':portfolioId1', $portfolioId);
-//        $stmt->bindParam(':portfolioId2', $portfolioId);
         $stmt->execute();
 
         $row =$stmt->fetch();
@@ -152,12 +159,4 @@ final class DbalPortfolioRepository implements PortfolioRepository
 
         return $row['usd_amount'];
     }
-
-//    private function getPortfolioWorth(string $portfolioId): string
-//    {
-//        $USDAmount = $this->getPortfolioUSDAmountFromId($portfolioId);
-//        $cryptoAmountInUSD = $this->getPortfolioCryptoAmountInUSDFromId($portfolioId);
-//
-//        return $USDAmount + $cryptoAmountInUSD;
-//    }
 }
