@@ -8,10 +8,14 @@ final class RegisterUser
     private $nickname;
     private $password;
 
-    public function __construct(string $nickname, string $password)
-    {
+    public function __construct(
+        string $nickname,
+        string $password,
+        string $country
+    ){
         $this->nickname = $nickname;
         $this->password = $password;
+        $this->country = $country;
     }
 
     public function getNickname(): string
@@ -22,5 +26,13 @@ final class RegisterUser
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }

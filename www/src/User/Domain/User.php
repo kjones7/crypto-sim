@@ -11,6 +11,7 @@ final class User
     private $id;
     private $nickname;
     private $passwordHash;
+    private $country;
     private $creationDate;
     private $failedLoginAttempts;
     private $lastFailedLoginAttempt;
@@ -19,6 +20,7 @@ final class User
     public function __construct(
         UuidInterface $id,
         string $nickname,
+        string $country,
         string $passwordHash,
         DateTimeImmutable $creationDate,
         int $failedLoginAttempts,
@@ -30,13 +32,18 @@ final class User
         $this->creationDate = $creationDate;
         $this->failedLoginAttempts = $failedLoginAttempts;
         $this->lastFailedLoginAttempt = $lastFailedLoginAttempt;
+        $this->country = $country;
     }
 
-    public static function register(string $nickname, string $password): User
-    {
+    public static function register(
+        string $nickname,
+        string $password,
+        string $country
+    ): User {
         return new User(
             Uuid::uuid4(),
             $nickname,
+            $country,
             password_hash($password, PASSWORD_DEFAULT),
             new DateTimeImmutable(),
             0,
@@ -94,5 +101,13 @@ final class User
     public function clearRecordedEvents(): void
     {
         $this->recordedEvents = [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }

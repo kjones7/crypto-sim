@@ -33,6 +33,7 @@ final class DbalUserRepository implements UserRepository
         $qb->values([
             'id' => $qb->createNamedParameter($user->getId()->toString()),
             'nickname' => $qb->createNamedParameter($user->getNickname()),
+            'country' => $qb->createNamedParameter($user->getCountry()),
             'password_hash' => $qb->createNamedParameter(
                 $user->getPasswordHash()
             ),
@@ -93,6 +94,7 @@ final class DbalUserRepository implements UserRepository
         return new User(
             Uuid::fromString($row['id']),
             $row['nickname'],
+            $row['country'],
             $row['password_hash'],
             new DateTimeImmutable($row['creation_date']),
             (int)$row['failed_login_attempts'],
@@ -105,6 +107,7 @@ final class DbalUserRepository implements UserRepository
         $qb = $this->connection->createQueryBuilder();
         $qb->addSelect('id');
         $qb->addSelect('nickname');
+        $qb->addSelect('country');
         $qb->addSelect('password_hash');
         $qb->addSelect('creation_date');
         $qb->addSelect('failed_login_attempts');

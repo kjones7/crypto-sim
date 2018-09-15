@@ -18,7 +18,8 @@ final class RegisterUserHandler
     {
         $user = User::register(
             $command->getNickname(),
-            $command->getPassword()
+            $command->getPassword(),
+            $command->getCountry()
         );
         $this->userRepository->add($user);
     }

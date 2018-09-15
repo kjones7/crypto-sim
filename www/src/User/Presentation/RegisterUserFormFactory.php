@@ -26,6 +26,7 @@ final class RegisterUserFormFactory
             $this->nicknameTakenQuery,
             (string)$request->get('token'),
             (string)$request->get('nickname'),
+            (string)$request->get('country'),
             (string)$request->get('password')
         );
     }

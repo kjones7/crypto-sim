@@ -12,6 +12,7 @@ final class RegisterUserForm
     private $storedTokenValidator;
     private $token;
     private $nickname;
+    private $country;
     private $password;
     private $nicknameTakenQuery;
 
@@ -20,11 +21,13 @@ final class RegisterUserForm
         DoesNicknameExistQuery $nicknameTakenQuery,
         string $token,
         string $nickname,
+        string $country,
         string $password
     ) {
         $this->storedTokenValidator = $storedTokenValidator;
         $this->token = $token;
         $this->nickname = $nickname;
+        $this->country = $country;
         $this->password = $password;
         $this->nicknameTakenQuery = $nicknameTakenQuery;
     }
@@ -60,12 +63,19 @@ final class RegisterUserForm
         if ($this->nicknameTakenQuery->execute($this->nickname)) {
             $errors[] = 'This nickname is already being used';
         }
+        if(strlen($this->country) > 64) {
+            $errors[] = 'Country cannot be longer than 64 characters';
+        }
 
         return $errors;
     }
 
     public function toCommand(): RegisterUser
     {
-        return new RegisterUser($this->nickname, $this->password);
+        return new RegisterUser(
+            $this->nickname,
+            $this->password,
+            $this->country
+        );
     }
 }

@@ -6,13 +6,16 @@ final class PublicUser
 {
     private $nickname;
     private $userId;
+    private $country;
 
     public function __construct(
         string $nickname,
-        string $userId
+        string $userId,
+        string $country
     ){
         $this->nickname = $nickname;
         $this->userId = $userId;
+        $this->country = $country;
     }
 
     public function getNickname(): string
@@ -23,5 +26,13 @@ final class PublicUser
     public function getUserId(): string
     {
         return $this->userId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }

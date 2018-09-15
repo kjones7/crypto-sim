@@ -5,6 +5,7 @@ USE crypto_sim;
 CREATE TABLE users (
     id VARCHAR(255) NOT NULL,
     nickname VARCHAR(64) NOT NULL,
+    country VARCHAR(64) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     creation_date DATETIME NOT NULL,
     failed_login_attempts INT NOT NULL DEFAULT 0,
