@@ -19,7 +19,7 @@ final class DbalGetPublicUserFromNicknameQuery implements GetPublicUserFromNickn
     {
         $qb = $this->connection->createQueryBuilder();
         $qb
-            ->select('id')
+            ->select('id, country')
             ->from('users')
             ->where('nickname = :nickname')
             ->setParameter(':nickname', $nickname)
@@ -35,7 +35,8 @@ final class DbalGetPublicUserFromNicknameQuery implements GetPublicUserFromNickn
 
         return new PublicUser(
             $nickname,
-            $rows[0]['id'] // TODO - Use something like fetch instead of fetchAll above
+            $rows[0]['id'],  // TODO - Use something like fetch instead of fetchAll above
+            $rows[0]['country']
         );
     }
 }

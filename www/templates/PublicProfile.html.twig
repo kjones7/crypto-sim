@@ -2,6 +2,10 @@
 
 {% block content %}
     <h3 class="welcome">Profile: {{ publicUser.nickname }}</h3>
+    <h4>Information</h4>
+    <div>
+        <p>Country: {{  publicUser.country }}</p>
+    </div>
     {% if isUserOnFriendsList %}
         {% include 'UsersAreFriends.html.twig' %}
     {% elseif isFriendRequestAwaitingResponse %}
