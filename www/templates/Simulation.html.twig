@@ -1,16 +1,18 @@
 {% block content %}
         <div id="crypto-data" style="max-height: 50%; overflow: auto;">
+            <div class="buy-wrapper">
             {% for cryptocurrency in cryptocurrencies %}
                 <form action="" method="POST">
                     <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
                         <span class="crypto">{{ cryptocurrency.abbreviation }} - {{ cryptocurrency.worthInUSD }}</span>
-                        <input type="text" name="transaction-amount">
-                        <button type="submit" class="buy-crypto" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
+                        {#<input type="text" name="transaction-amount">#}
+                        <button type="submit" class="buy-crypto" data-toggle="popover" title="Buy" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
                         <input type="hidden" value="{{ cryptocurrency.id }}" name="cryptocurrency-id">
                         <input type="hidden" name="type" value="buy">
                     </div>
                 </form>
             {% endfor %}
+            </div>
         </div>
 
     <hr>
@@ -44,6 +46,11 @@
 
     <hr>
 
+    {% include 'resources/Bootstrap.html.twig' %}
+    <script src="https://unpkg.com/currency.js@~1.1.0/dist/currency.min.js"></script>
     <script src="/autobahn-js.js" type="text/javascript"></script>
     <script src="/websocket-conn.js" type="text/javascript"></script>
+    <script src="/js/Views/Simulation/base.js" type="text/javascript"></script>
+    <script src="/js/Views/Simulation/SimulationView.js" type="text/javascript"></script>
+    <script src="/js/Controllers/Simulation/SimulationController.js" type="text/javascript"></script>
 {% endblock %}
