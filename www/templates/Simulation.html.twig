@@ -19,38 +19,37 @@
 
     <div class="portfolio-content" style="max-height: 50%; overflow: auto;">
         <h1 style="text-align: center">Portfolio</h1>
-        <h4>{{ portfolio.title }} --- {{ portfolioId }}</h4>
+        <h4><span class="portfolio-title">{{ portfolio.title }}</span> --- <span class="portfolio-id">{{ portfolioId }}</span></h4>
 
-        <h4>USD Amount: {{ portfolio.USDAmount }}</h4>
+        <h4>USD Amount: <span class="usd-amount">{{ portfolio.USDAmount }}</span></h4>
 
-        <h4>Crypto Worth In USD: {{ portfolio.cryptoWorthInUSD }}</h4>
+        <h4>Crypto Worth In USD: <span class="crypto-worth-in-usd">{{ portfolio.cryptoWorthInUSD }}</span></h4>
 
-        <h4>Portfolio Worth: {{ portfolio.portfolioWorth }}</h4>
+        <h4>Portfolio Worth: <span class="portfolio-worth">{{ portfolio.portfolioWorth }}</span></h4>
 
         <hr>
 
-        {% for ownedCryptocurrency in portfolio.cryptocurrencies %}
-            <div class="owned-cryptocurrency-data">
-                <form action="" method="POST">
-                    <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
-                        <span class="owned-cryptocurrency"> {{ ownedCryptocurrency.name }} ({{ ownedCryptocurrency.abbreviation }}) - {{ ownedCryptocurrency.quantity }} - ${{ ownedCryptocurrency.worthInUSD }}</span>
-                        <input type="text" name="transaction-amount">
-                        <button type="submit" class="sell-crypto" name="crypto-worth" value="{{ ownedCryptocurrency.worthInUSD }}">Sell</button>
-                        <input type="hidden" value="{{ ownedCryptocurrency.id }}" name="cryptocurrency-id">
-                        <input type="hidden" name="type" value="sell">
-                    </div>
-                </form>
-            </div>
-        {% endfor %}
+        <div class="owned-crypto">
+            {% include 'responses/PortfolioCrypto.html.twig' %}
+        </div>
+
     </div>
 
     <hr>
 
+    <div class="popover-wrapper">
+
+    </div>
+
     {% include 'resources/Bootstrap.html.twig' %}
     <script src="https://unpkg.com/currency.js@~1.1.0/dist/currency.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/autobahn-js.js" type="text/javascript"></script>
     <script src="/websocket-conn.js" type="text/javascript"></script>
     <script src="/js/Views/Simulation/base.js" type="text/javascript"></script>
+    <script src="/js/Models/Simulation/Transaction.js" type="text/javascript"></script>
     <script src="/js/Views/Simulation/SimulationView.js" type="text/javascript"></script>
     <script src="/js/Controllers/Simulation/SimulationController.js" type="text/javascript"></script>
+
+
 {% endblock %}

@@ -63,4 +63,14 @@ final class OwnedCryptocurrency
     {
         return $this->quantity;
     }
+
+    public function jsonify() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'abbreviation' => $this->abbreviation,
+            'worthInUSD' => $this->worthInUSD,
+            'quantity' => $this->quantity
+        ];
+    }
 }

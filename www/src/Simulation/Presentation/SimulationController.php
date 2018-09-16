@@ -7,6 +7,7 @@ use CryptoSim\Simulation\Application\SaveTransactionHandler;
 use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
 use CryptoSim\Simulation\Domain\Transaction;
+use CryptoSim\Simulation\Domain\TransactionRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +55,7 @@ final class SimulationController
     public function saveTransaction(Request $request, array $vars)
     {
         $portfolioId = $vars['portfolioId'];
-        $response = new RedirectResponse("/play/{$portfolioId}");
+//        $response = new RedirectResponse("/play/{$portfolioId}");
 
         $transactionAmount = ((string)$request->get('type') == "buy") ? (string)(-1 * (string)$request->get('transaction-amount')) : (string)$request->get('transaction-amount');
         $saveTransaction = new SaveTransaction(
@@ -65,7 +66,26 @@ final class SimulationController
         );
         $this->saveTransactionHandler->handle($saveTransaction);
 
+        $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId);
+        $cryptocurrencies = $this->getCryptocurrenciesQuery->execute();
+
+        $template = 'responses/PortfolioCrypto.html.twig';
+        if(!$updatedPortfolio) {
+            $template = 'PageNotFound.html.twig';
+        }
+
+        $content = $this->templateRenderer->render($template, [
+            'portfolioId' => $portfolioId,
+            'portfolio' => $updatedPortfolio,
+            'cryptocurrencies' => $cryptocurrencies
+        ]);
         // TODO - Add error handling before returning response
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'content' => $content,
+            'updatedPortfolio' => $updatedPortfolio->jsonify()
+        )));
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 }

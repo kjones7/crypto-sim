@@ -74,4 +74,20 @@ final class Portfolio
     {
         return $this->cryptocurrencies;
     }
+
+    public function jsonify() {
+        $cryptocurrencies = [];
+        foreach ($this->cryptocurrencies as $crypto) {
+            $cryptocurrencies[] = $crypto->jsonify();
+        }
+
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'USDAmount' => $this->USDAmount,
+            'cryptoWorthInUSD' => $this->cryptoWorthInUSD,
+            'portfolioWorth' => $this->portfolioWorth,
+            'cryptocurrencies' => $cryptocurrencies
+        ];
+    }
 }
