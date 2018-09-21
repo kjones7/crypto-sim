@@ -71,7 +71,7 @@ final class DbalTransactionRepository implements TransactionRepository
         $cryptocurrencyAmount =
             ($type == 'buy')
                 ? ($USDAmountCurrency->divide($worthInUSDCurrency, Currency::CRYPTOCURRENCY_FRACTION_DIGITS) * -1)
-                : $USDAmountCurrency->divide($row['worth_in_usd'], Currency::CRYPTOCURRENCY_FRACTION_DIGITS);
+                : $USDAmountCurrency->divide($worthInUSDCurrency, Currency::CRYPTOCURRENCY_FRACTION_DIGITS);
         if($type == 'sell') {
             $cryptocurrencyAmount *= -1;
         }

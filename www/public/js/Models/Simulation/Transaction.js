@@ -21,7 +21,7 @@ class Transaction {
     //     });
     //     //TODO - Get total USD amount, crypto worth in USD, portfolio worth, and portfolio entry HTML
     // }
-    async buy() {
+    async saveTransaction() {
         const results = await $.ajax({
             method: 'POST',
             url: '',

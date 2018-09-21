@@ -3,7 +3,7 @@
             <div class="buy-wrapper">
             {% for cryptocurrency in cryptocurrencies %}
                 <form action="" method="POST">
-                    <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
+                    <div data-abbreviation="{{ cryptocurrency.abbreviation }}-buy" style="padding-bottom: 5px">
                         <span class="crypto">{{ cryptocurrency.abbreviation }} - {{ cryptocurrency.worthInUSD }}</span>
                         {#<input type="text" name="transaction-amount">#}
                         <button type="submit" class="buy-crypto" data-toggle="popover" title="Buy" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Buy</button>
@@ -29,7 +29,7 @@
 
         <hr>
 
-        <div class="owned-crypto">
+        <div class="sell-wrapper">
             {% include 'responses/PortfolioCrypto.html.twig' %}
         </div>
 
@@ -38,6 +38,7 @@
     <hr>
 
     <div class="popover-wrapper">
+        {# Stores the popover #}
 
     </div>
 

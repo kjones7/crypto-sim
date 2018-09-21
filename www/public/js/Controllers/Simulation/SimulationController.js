@@ -15,7 +15,7 @@ const transactionController = async function(cryptoID, type, usdAmount, cryptoAm
     const transaction = new Transaction(cryptoID, type, usdAmount, cryptoAmount);
 
     try {
-        const results = await transaction.buy();
+        const results = await transaction.saveTransaction();
         const portfolioData = {
             totalUSDAmount : results.updatedPortfolio.USDAmount,
             cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
@@ -28,6 +28,10 @@ const transactionController = async function(cryptoID, type, usdAmount, cryptoAm
 
         // In SimulationView.js
         renderPortfolio(portfolioData);
+
+        // reinitialize popovers since the sell buttons are new and uninitialized
+        initializePopovers();
+
     } catch(e) {
         console.error(e);
         alert('Error in transactionController');
@@ -35,30 +39,19 @@ const transactionController = async function(cryptoID, type, usdAmount, cryptoAm
 }
 
 // Initialize popovers
-$(function () {
-    $('[data-toggle="popover"]').popover({
-        container : '.popover-wrapper'
-    })
-});
+$(initializePopovers());
 
-// Buy button
+// Initial 'Buy' button that opens up the transaction window popover
 elements.buyWrapper.addEventListener('click', function(e) {
     if(e.target.className === classNames.buyButton) {
-        e.preventDefault(); // prevent submit
-
-        // Grab crypto data from clicked target
-        const cryptoName = e.target.closest('div').id; // ex: 'BTC'
-        const cryptoPrice = e.target.value; // ex: '6536.07000000'
-
-        // Call transaction controller
-        transactionWindowController(e.target, cryptoName, cryptoPrice);
+        handleBuyOrSellButtonPress(e);
     }
 });
 
-// Submit (buy) button
+// Submit transaction button (buy or sell)
 elements.popoverWrapper.addEventListener('click', function(e) {
-    if(e.target.id === IdNames.buySubmit) {
-        const cryptoDataDiv = `div#${e.target.dataset.id}`; // ex: <div id="ETH"></div>
+    if(e.target.id === IdNames.submitTransaction) {
+        const cryptoDataDiv = `div[data-abbreviation=${e.target.dataset.id}]`; // ex: <div id="ETH-buy"></div>
         const cryptoID = document.querySelector(`${cryptoDataDiv} input[name="cryptocurrency-id"]`).value;
         const type = document.querySelector(`${cryptoDataDiv} input[name="type"]`).value;
         const enteredUSDAmount = document.querySelector('.popover-body input[name="transaction-amount"]').value;
@@ -67,3 +60,37 @@ elements.popoverWrapper.addEventListener('click', function(e) {
         transactionController(cryptoID, type, enteredUSDAmount, null);
     }
 });
+
+// Initial 'Sell' button that opens up the transaction window popover
+elements.sellWrapper.addEventListener('click', function(e){
+    if(e.target.className === classNames.sellButton) {
+        handleBuyOrSellButtonPress(e);
+    }
+});
+
+/**
+ * Handles the even when the buy or sell button gets clicked.
+ * Runs transactionWindowController() to open a transaction window
+ * @param {Event} e - The click event that is being handled
+ */
+function handleBuyOrSellButtonPress(e) {
+    e.preventDefault(); // prevent submit
+
+    // Grab crypto data from clicked target
+    const cryptoName = e.target.closest('div').id; // ex: 'BTC'
+    const cryptoPrice = e.target.value; // ex: '6536.07000000'
+    const type =
+
+    // Call transaction controller
+    transactionWindowController(e.target, cryptoName, cryptoPrice);
+}
+
+function initializePopovers(popoverIdentifiers) {
+    if(popoverIdentifiers === undefined) {
+        popoverIdentifiers = '';
+    }
+
+    $(`[data-toggle="popover"] ${popoverIdentifiers}`).popover({
+        container : '.popover-wrapper'
+    })
+}

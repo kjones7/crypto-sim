@@ -1,13 +1,11 @@
 {% for ownedCryptocurrency in portfolio.cryptocurrencies %}
-    <div class="owned-cryptocurrency-data">
-        <form action="" method="POST">
-            <div id="{{ cryptocurrency.abbreviation }}" style="padding-bottom: 5px">
-                <span class="owned-cryptocurrency"> {{ ownedCryptocurrency.name }} ({{ ownedCryptocurrency.abbreviation }}) - {{ ownedCryptocurrency.quantity }} - ${{ ownedCryptocurrency.worthInUSD }}</span>
-                <input type="text" name="transaction-amount">
-                <button type="submit" class="sell-crypto" name="crypto-worth" value="{{ ownedCryptocurrency.worthInUSD }}">Sell</button>
-                <input type="hidden" value="{{ ownedCryptocurrency.id }}" name="cryptocurrency-id">
-                <input type="hidden" name="type" value="sell">
-            </div>
-        </form>
-    </div>
+    <form action="" method="POST">
+        <div data-abbreviation="{{ ownedCryptocurrency.abbreviation }}-sell" style="padding-bottom: 5px">
+            <span class="owned-cryptocurrency"> {{ ownedCryptocurrency.name }} ({{ ownedCryptocurrency.abbreviation }}) - {{ ownedCryptocurrency.quantity }} - ${{ ownedCryptocurrency.worthInUSD }}</span>
+            {#<input type="text" name="transaction-amount">#}
+            <button type="submit" class="sell-crypto" data-toggle="popover" title="Sell" name="crypto-worth" value="{{ cryptocurrency.worthInUSD }}">Sell</button>
+            <input type="hidden" value="{{ ownedCryptocurrency.id }}" name="cryptocurrency-id">
+            <input type="hidden" name="type" value="sell">
+        </div>
+    </form>
 {% endfor %}
