@@ -1,0 +1,13 @@
+.or-text {
+    font-size: medium;
+    font-weight: bold;
+    color: darkgrey;
+}
+
+.or-text-wrapper {
+    margin-top: 0.75rem;
+}
+
+.currency-unit-label {
+    margin-bottom: 0;
+}
