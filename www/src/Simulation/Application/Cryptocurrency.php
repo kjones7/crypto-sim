@@ -2,7 +2,7 @@
 
 namespace CryptoSim\Simulation\Application;
 
-final class Cryptocurrency
+final class Cryptocurrency implements \JsonSerializable
 {
     private $id;
     private $name;
@@ -51,5 +51,15 @@ final class Cryptocurrency
     public function getWorthInUSD(): string
     {
         return $this->worthInUSD;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'abbreviation' => $this->getAbbreviation(),
+            'name' => $this->getName(),
+            'worthInUSD' => $this->getWorthInUSD()
+        ];
     }
 }

@@ -83,7 +83,8 @@ final class SimulationController
         $response = new Response();
         $response->setContent(json_encode(array(
             'content' => $content,
-            'updatedPortfolio' => $updatedPortfolio->jsonify()
+            'updatedPortfolio' => $updatedPortfolio->jsonify(),
+            'cryptocurrencies' => $cryptocurrencies
         )));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

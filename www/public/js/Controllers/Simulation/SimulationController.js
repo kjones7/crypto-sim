@@ -1,6 +1,19 @@
 // import elements from '/js/Views/Simulation/base.js';
 
-const state = {};
+// Stores data about the state once a transaction is started
+const transactionState = {
+    cryptoAbbreviation : '',
+    worthInUsd: ''
+};
+
+// Initialization START
+
+// Initialize popovers
+$(initializePopovers());
+
+// Initialization END
+
+// Controllers START
 
 // Controller for the popover that contains the transaction controls
 const transactionWindowController = function(button, cryptoName, cryptoPrice) {
@@ -36,14 +49,36 @@ const transactionController = async function(cryptoID, type, usdAmount, cryptoAm
         console.error(e);
         alert('Error in transactionController');
     }
-}
+};
 
-// Initialize popovers
-$(initializePopovers());
+
+
+const usdInputChangeController = function(inputElement) {
+    const usd = inputElement.value;
+    const crypto = calculateCryptoFromUsd(usd);
+
+    if(crypto !== null) {
+        renderCryptoInput(crypto);
+    }
+};
+
+const cryptoInputChangeController = function(inputElement) {
+    const crypto = inputElement.value;
+    const usd = calculateUsdFromCrypto(crypto);
+
+    if(usd !== null) {
+        renderUsdInput(usd);
+    }
+};
+
+// Controllers END
+
+// Event listeners START
 
 // Initial 'Buy' button that opens up the transaction window popover
 elements.buyWrapper.addEventListener('click', function(e) {
-    if(e.target.className === classNames.buyButton) {
+    if(e.target.id === IdNames.buyButton) {
+        populateTransactionState(e.target);
         handleBuyOrSellButtonPress(e);
     }
 });
@@ -58,15 +93,36 @@ elements.popoverWrapper.addEventListener('click', function(e) {
 
         // TODO - Implement the cryptoAmount (instead of NULL placeholder)
         transactionController(cryptoID, type, enteredUSDAmount, null);
+        $('[data-toggle="popover"]').popover('hide');
     }
 });
 
 // Initial 'Sell' button that opens up the transaction window popover
 elements.sellWrapper.addEventListener('click', function(e){
-    if(e.target.className === classNames.sellButton) {
+    if(e.target.id === IdNames.sellButton) {
+        populateTransactionState(e.target);
         handleBuyOrSellButtonPress(e);
     }
 });
+
+elements.popoverWrapper.addEventListener('input', function(e){
+    if(e.target.id === IdNames.usdInput) {
+        handleUsdInputChange(e.target);
+    } else if(e.target.id === IdNames.cryptoInput) {
+        handleCryptoInputChange(e.target);
+    }
+});
+
+// Event listeners END
+
+// Handlers START
+function handleUsdInputChange(inputElement) {
+    usdInputChangeController(inputElement);
+}
+
+function handleCryptoInputChange(inputElement) {
+    cryptoInputChangeController(inputElement);
+}
 
 /**
  * Handles the even when the buy or sell button gets clicked.
@@ -74,16 +130,20 @@ elements.sellWrapper.addEventListener('click', function(e){
  * @param {Event} e - The click event that is being handled
  */
 function handleBuyOrSellButtonPress(e) {
-    e.preventDefault(); // prevent submit
+    // e.preventDefault(); // prevent submit
 
     // Grab crypto data from clicked target
     const cryptoName = e.target.closest('div').id; // ex: 'BTC'
     const cryptoPrice = e.target.value; // ex: '6536.07000000'
-    const type =
+    // const type =
 
     // Call transaction controller
     transactionWindowController(e.target, cryptoName, cryptoPrice);
 }
+
+// Handlers END
+
+// Helpers START
 
 function initializePopovers(popoverIdentifiers) {
     if(popoverIdentifiers === undefined) {
@@ -94,3 +154,31 @@ function initializePopovers(popoverIdentifiers) {
         container : '.popover-wrapper'
     })
 }
+
+function calculateCryptoFromUsd(usd) {
+    usd = currency(usd, { precision : 8 });
+    const cryptoWorthInUSD = currency(transactionState['worthInUsd'], { precision : 8 });
+
+    return usd.divide(cryptoWorthInUSD);
+}
+
+function calculateUsdFromCrypto(crypto) {
+    crypto = currency(crypto, { precision : 8 });
+    const cryptoWorthInUSD = currency(transactionState['worthInUsd'], { precision : 8 });
+
+    return crypto.multiply(cryptoWorthInUSD);
+}
+
+function populateTransactionState(button) {
+    transactionState['cryptoAbbreviation'] = '';
+    transactionState['worthInUsd'] = '';
+
+    transactionState['cryptoAbbreviation'] = button.dataset.abbr;
+    transactionState['worthInUsd'] = currency(
+        button.value,
+        {
+            precision : 8
+        }
+    );
+}
+// Helpers END

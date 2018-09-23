@@ -1,6 +1,25 @@
+const IdNames = {
+    submitTransaction : 'submit-transaction',
+    usdInput : 'usd-transaction',
+    cryptoInput : 'crypto-transaction',
+    buyButton : 'buy-crypto',
+    sellButton: 'sell-crypto'
+};
+
+const classNames = {
+    buyWrapper : 'buy-wrapper',
+    popoverWrapper : 'popover-wrapper',
+    portfolioTitle: 'portfolio-title',
+    portfolioID : 'portfolio-id',
+    portfolioUSDAmount: 'usd-amount',
+    cryptoWorthInUSD: 'crypto-worth-in-usd',
+    portfolioWorth: 'portfolio-worth',
+    sellWrapper: 'sell-wrapper',
+};
+
 const elements = {
     buyWrapper : document.querySelector('.buy-wrapper'),
-    buyButton : document.querySelectorAll('.buy-crypto'),
+    buyButton : document.querySelectorAll('#buy-crypto'),
     submitTransaction : document.querySelector('#submit-transaction'),
     popoverWrapper : document.querySelector('.popover-wrapper'),
     portfolioTitle: document.querySelector('.portfolio-title'),
@@ -10,20 +29,3 @@ const elements = {
     portfolioWorth : document.querySelector('.portfolio-worth'),
     sellWrapper : document.querySelector('.sell-wrapper')
 };
-
-const classNames = {
-    buyWrapper : 'buy-wrapper',
-    buyButton : 'buy-crypto',
-    popoverWrapper : 'popover-wrapper',
-    portfolioTitle: 'portfolio-title',
-    portfolioID : 'portfolio-id',
-    portfolioUSDAmount: 'usd-amount',
-    cryptoWorthInUSD: 'crypto-worth-in-usd',
-    portfolioWorth: 'portfolio-worth',
-    sellWrapper: 'sell-wrapper',
-    sellButton: 'sell-crypto',
-};
-
-const IdNames = {
-    submitTransaction : 'submit-transaction',
-}

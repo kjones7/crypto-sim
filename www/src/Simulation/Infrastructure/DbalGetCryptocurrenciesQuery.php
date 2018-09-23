@@ -32,7 +32,7 @@ final class DbalGetCryptocurrenciesQuery implements GetCryptocurrenciesQuery
         $cryptocurrencies = [];
 
         foreach($rows as $row){
-            $cryptocurrencies[] = new Cryptocurrency(
+            $cryptocurrencies[$row['abbreviation']] = new Cryptocurrency(
                 $row['id'],
                 $row['name'],
                 $row['abbreviation'],

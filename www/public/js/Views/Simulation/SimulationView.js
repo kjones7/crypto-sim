@@ -2,7 +2,7 @@ const renderTransactionWindow  = function(button, cryptoPrice) {
     // Get body of popover
     const popoverBody = document.querySelector('.popover-body');
     const divID = button.closest('div').dataset.abbreviation; // ID of div that contains crypto data
-    const cryptoAbbreviation = document.querySelector(`${button.parentElement.className} .crypto-abbr`).innerHTML;
+    const cryptoAbbreviation = transactionState['cryptoAbbreviation'];
 
     // Clear stale contents of popover
     popoverBody.innerHTML = '';
@@ -26,7 +26,7 @@ const renderTransactionWindow  = function(button, cryptoPrice) {
             <button class="btn btn-success btn-sm" id="submit-transaction" data-id="${divID}" type="button" name="crypto-worth" value="${cryptoPrice}">Submit</button>
         </div>
     `;
-}
+};
 
 const renderPortfolio = function(portfolioData) {
     // Overwrite values
@@ -36,4 +36,14 @@ const renderPortfolio = function(portfolioData) {
 
     // Add portfolio HTML
     elements.sellWrapper.innerHTML = portfolioData.portfolioHTML;
-}
+};
+
+const renderUsdInput = function(usd) {
+    const usdInput= document.querySelector(`#${IdNames.usdInput}`);
+    usdInput.value = usd;
+};
+
+const renderCryptoInput = function(crypto) {
+    const cryptoInput = document.querySelector(`#${IdNames.cryptoInput}`);
+    cryptoInput.value = crypto;
+};
