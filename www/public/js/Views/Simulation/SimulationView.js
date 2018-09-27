@@ -47,3 +47,24 @@ const renderCryptoInput = function(crypto) {
     const cryptoInput = document.querySelector(`#${IdNames.cryptoInput}`);
     cryptoInput.value = crypto;
 };
+
+const renderBuyCryptocurrencies = function(cryptoData) {
+    const cryptoDataElement = document.getElementById(IdNames.buyWrapper);
+    cryptoDataElement.innerHTML = '';
+    var accumulator = '';
+
+    for(var symbol in cryptoData) {
+        let div = `
+                    <div data-abbreviation="${symbol}-buy" style="padding-bottom: 5px">
+                        <span class="crypto-abbr">${symbol}</span> - <span class="worth-in-usd">${currency(cryptoData[symbol]['price'], { precision : 8 })}</span>
+                        <button type="submit" class="btn btn-info" id="buy-crypto" data-toggle="popover" title="Buy" name="crypto-worth"
+                                value="${cryptoData[symbol]['price']}" data-abbr="${symbol}">Buy</button>
+                        <input type="hidden" value="${cryptoData[symbol]['id']}" name="cryptocurrency-id">
+                        <input type="hidden" name="type" value="buy">
+                    </div>
+                `;
+        accumulator += div;
+    }
+
+    cryptoDataElement.innerHTML = accumulator;
+};

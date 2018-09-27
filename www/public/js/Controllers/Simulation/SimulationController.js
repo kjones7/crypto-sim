@@ -78,6 +78,7 @@ const cryptoInputChangeController = function(inputElement) {
 // Initial 'Buy' button that opens up the transaction window popover
 elements.buyWrapper.addEventListener('click', function(e) {
     if(e.target.id === IdNames.buyButton) {
+        // $('[data-toggle="popover"]').popover('hide');
         populateTransactionState(e.target);
         handleBuyOrSellButtonPress(e);
     }
@@ -113,6 +114,12 @@ elements.popoverWrapper.addEventListener('input', function(e){
     }
 });
 
+// closes popover once you click out of it
+$('html').on('click', function(e) {
+    if (typeof $(e.target).data('toggle') == 'undefined' && !$(e.target).parents().is('.popover-wrapper')) {
+        $('[data-toggle="popover"]').popover('hide');
+    }
+});
 // Event listeners END
 
 // Handlers START
@@ -182,3 +189,24 @@ function populateTransactionState(button) {
     );
 }
 // Helpers END
+
+// START - Websocket connection
+
+var conn = new ab.Session('ws://localhost:8079',
+    function() {
+        conn.subscribe('cryptoData', function(topic, cryptoData) {
+            // render
+            renderBuyCryptocurrencies(cryptoData);
+
+            // reinitalize popovers
+            $('.popover-wrapper')[0].innerHTML = ''; // TEMP - this deletes the popover once data is refreshed
+            initializePopovers();
+        });
+    },
+    function() {
+        console.warn('WebSocket connection closed');
+    },
+    {'skipSubprotocolCheck': true}
+);
+
+// END - Websocket Connection

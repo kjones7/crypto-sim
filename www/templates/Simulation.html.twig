@@ -1,6 +1,6 @@
 {% block content %}
         <div id="crypto-data" style="max-height: 50%; overflow: auto;">
-            <div class="buy-wrapper">
+            <div id="buy-wrapper">
             {% for cryptocurrency in cryptocurrencies %}
                 {#<form action="" method="POST">#}
                     <div data-abbreviation="{{ cryptocurrency.abbreviation }}-buy" style="padding-bottom: 5px">
@@ -47,11 +47,11 @@
     <script src="https://unpkg.com/currency.js@~1.1.0/dist/currency.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/autobahn-js.js" type="text/javascript"></script>
-    <script src="/websocket-conn.js" type="text/javascript"></script>
     <script src="/js/Views/Simulation/base.js" type="text/javascript"></script>
     <script src="/js/Models/Simulation/Transaction.js" type="text/javascript"></script>
     <script src="/js/Views/Simulation/SimulationView.js" type="text/javascript"></script>
     <script src="/js/Controllers/Simulation/SimulationController.js" type="text/javascript"></script>
+    <script src="/websocket-conn.js" type="text/javascript"></script> {# depends on SimulationController #}
 
     <link rel="stylesheet" type="text/css" href="/css/Simulation.css">
 

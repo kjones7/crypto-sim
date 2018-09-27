@@ -3,11 +3,11 @@ const IdNames = {
     usdInput : 'usd-transaction',
     cryptoInput : 'crypto-transaction',
     buyButton : 'buy-crypto',
-    sellButton: 'sell-crypto'
+    sellButton: 'sell-crypto',
+    buyWrapper: 'buy-wrapper'
 };
 
 const classNames = {
-    buyWrapper : 'buy-wrapper',
     popoverWrapper : 'popover-wrapper',
     portfolioTitle: 'portfolio-title',
     portfolioID : 'portfolio-id',
@@ -18,7 +18,7 @@ const classNames = {
 };
 
 const elements = {
-    buyWrapper : document.querySelector('.buy-wrapper'),
+    buyWrapper : document.querySelector('#buy-wrapper'),
     buyButton : document.querySelectorAll('#buy-crypto'),
     submitTransaction : document.querySelector('#submit-transaction'),
     popoverWrapper : document.querySelector('.popover-wrapper'),

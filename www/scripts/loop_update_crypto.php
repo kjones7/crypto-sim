@@ -6,12 +6,13 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require 'hidden_keys.php'; // contains binance api key and secret
 require dirname(__DIR__) . '/sql/hidden_data.php'; // contains sql username and password
 // TODO - get sql username and pass from .env file
+use CryptoSim\Simulation\Domain\Currency;
 
 //TODO Add database connection to separate php file, so it can be reused
 $api = new Binance\API($binance_key, $binance_secret);
 $ticker = $api->prices();
 $bitcoinResultsOnly = array(); // will contain only cryptocurrncies that are in BTC, meaning 'symbol' ends in 'BTC'
-$oneBTCtoUSD = $ticker['BTCUSDT']; // TODO - Is USDT close enough to USD to use?
+$oneBTCtoUSD = new Currency($ticker['BTCUSDT']); // TODO - Is USDT close enough to USD to use?
 $dsn = 'mysql:dbname=' . $dbName . ';host=mysql';
 $cryptoData = [];
 
@@ -26,21 +27,32 @@ try {
     echo 'Connection failed: ' . $e->getMessage();
 }
 
+$cryptoSymbolsAndIds = getCryptoSymbolsAndIDs();
+
 while (true) {
     $ticker = $api->prices();
     foreach ($ticker as $symbol => $price) {
         if (endsWith($symbol, 'BTC')) {
             $strLength = strlen($symbol);
             $symbol = substr($symbol, 0, $strLength - 3);
-            $price = $price * $oneBTCtoUSD;
+
+            $price = new Currency($price);
+            $price = $price->multiply($oneBTCtoUSD, Currency::CRYPTOCURRENCY_FRACTION_DIGITS);
             if ($symbol != null && $price != null) {
                 executeUpdateStmt($symbol, $price);
-                $cryptoData[$symbol] = $price;
+                $cryptoData[$symbol] = [
+                    'price' => $price,
+                    'id' => $cryptoSymbolsAndIds[$symbol]
+                ];
             }
         }
         if ($symbol === 'BTCUSDT') {
             executeUpdateStmt('BTC', $price);
-            $cryptoData[$symbol] = $price;
+            $symbol = substr($symbol, 0, $strLength - 3);
+            $cryptoData[$symbol] = [
+                'price' => $price,
+                'id' => $cryptoSymbolsAndIds[$symbol]
+            ];
         }
     }
     $socket->send(json_encode($cryptoData));
@@ -77,4 +89,22 @@ function endsWith($haystack, $needle)
 
     return $length === 0 ||
     (substr($haystack, -$length) === $needle);
+}
+
+function getCryptoSymbolsAndIDs()
+{
+    global $conn;
+    $stmt = $conn->prepare('
+        SELECT id, abbreviation
+        FROM cryptocurrencies
+    ');
+    $stmt->execute();
+
+    $cryptoInfo = [];
+    $rows = $stmt->fetchAll(PDO::FETCH_NUM);
+    foreach($rows as $row) {
+        $cryptoInfo[$row[1]] = $row[0];
+    }
+
+    return $cryptoInfo;
 }
