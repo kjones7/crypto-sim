@@ -65,5 +65,9 @@ return [
         'POST',
         '/play/{portfolioId}',
         'CryptoSim\Simulation\Presentation\SimulationController#saveTransaction'
+    ],[
+        'POST',
+        '/api/v1/play/{portfolioId}',
+        'CryptoSim\Simulation\Presentation\SimulationController#getUpdatedPortfolio'
     ],
 ];

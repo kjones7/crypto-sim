@@ -68,3 +68,8 @@ const renderBuyCryptocurrencies = function(cryptoData) {
 
     cryptoDataElement.innerHTML = accumulator;
 };
+
+const getPortfolioId = function()
+{
+    return elements.portfolioID.innerHTML;
+};

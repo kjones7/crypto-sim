@@ -37,7 +37,7 @@ const transactionController = async function(cryptoID, type, usdAmount, cryptoAm
             portfolioWorth : results.updatedPortfolio.portfolioWorth,
             title : results.updatedPortfolio.title,
             portfolioHTML : results.content
-        }
+        };
 
         // In SimulationView.js
         renderPortfolio(portfolioData);
@@ -194,9 +194,25 @@ function populateTransactionState(button) {
 
 var conn = new ab.Session('ws://localhost:8079',
     function() {
-        conn.subscribe('cryptoData', function(topic, cryptoData) {
-            // render
+        conn.subscribe('cryptoData', async function (topic, cryptoData) {
+            // render cryptocurrencies to buy
             renderBuyCryptocurrencies(cryptoData);
+
+            // get updated portfolio
+            const portfolioId = getPortfolioId();
+            const update = new Update(portfolioId);
+            const results = await update.updatePortfolio();
+            const portfolioData = {
+                totalUSDAmount : results.updatedPortfolio.USDAmount,
+                cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
+                cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
+                portfolioID : results.updatedPortfolio.id,
+                portfolioWorth : results.updatedPortfolio.portfolioWorth,
+                title : results.updatedPortfolio.title,
+                portfolioHTML : results.content
+            };
+            // render updated portfolio
+            renderPortfolio(portfolioData);
 
             // reinitalize popovers
             $('.popover-wrapper')[0].innerHTML = ''; // TEMP - this deletes the popover once data is refreshed

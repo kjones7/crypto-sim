@@ -52,6 +52,7 @@ final class SimulationController
         return new Response($content);
     }
 
+    // TODO - Use a more secure way of getting the portfolio ID
     public function saveTransaction(Request $request, array $vars)
     {
         $portfolioId = $vars['portfolioId'];
@@ -66,6 +67,18 @@ final class SimulationController
         );
         $this->saveTransactionHandler->handle($saveTransaction);
 
+        return $this->getUpdatedPortfolioResponse($portfolioId);
+    }
+
+    public function getUpdatedPortfolio(Request $request, array $vars)
+    {
+        $portfolioId = $vars['portfolioId'];
+
+        return $this->getUpdatedPortfolioResponse($portfolioId);
+    }
+
+    private function getUpdatedPortfolioResponse($portfolioId)
+    {
         $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId);
         $cryptocurrencies = $this->getCryptocurrenciesQuery->execute();
 
@@ -87,6 +100,7 @@ final class SimulationController
             'cryptocurrencies' => $cryptocurrencies
         )));
         $response->headers->set('Content-Type', 'application/json');
+
         return $response;
     }
 }
