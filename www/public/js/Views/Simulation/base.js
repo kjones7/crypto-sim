@@ -4,7 +4,8 @@ const IdNames = {
     cryptoInput : 'crypto-transaction',
     buyButton : 'buy-crypto',
     sellButton: 'sell-crypto',
-    buyWrapper: 'buy-wrapper'
+    buyWrapper: 'buy-wrapper',
+    buyCryptoTable: 'buy-crypto-table'
 };
 
 const classNames = {
@@ -27,5 +28,6 @@ const elements = {
     portfolioUSDAmount: document.querySelector('.usd-amount'),
     cryptoWorthInUSD : document.querySelector('.crypto-worth-in-usd'),
     portfolioWorth : document.querySelector('.portfolio-worth'),
-    sellWrapper : document.querySelector('.sell-wrapper')
+    sellWrapper : document.querySelector('.sell-wrapper'),
+    buyCryptoTable : document.querySelector(`#${IdNames.buyCryptoTable}`)
 };

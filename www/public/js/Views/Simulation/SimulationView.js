@@ -73,3 +73,30 @@ const getPortfolioId = function()
 {
     return elements.portfolioID.innerHTML;
 };
+
+const getBuyCryptoTable = function() {
+    return `
+        <table id="buy-crypto-table" class="display">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th>Worth in USD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Name 1</td>
+                    <td>Abbr. 1</td>
+                    <td>Worth 1</td>
+                </tr>
+                <tr>
+                    <td>Name 2</td>
+                    <td>Abbr. 2</td>
+                    <td>Worth 2</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+};
+
