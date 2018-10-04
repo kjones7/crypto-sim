@@ -79,24 +79,21 @@ const getBuyCryptoTable = function() {
         <table id="buy-crypto-table" class="display">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
-                    <th>Worth in USD</th>
+                    <th>Worth In USD</th>
                 </tr>
             </thead>
-            <tbody>
+            <tfoot>
                 <tr>
-                    <td>Name 1</td>
-                    <td>Abbr. 1</td>
-                    <td>Worth 1</td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th>Worth In USD</th>
                 </tr>
-                <tr>
-                    <td>Name 2</td>
-                    <td>Abbr. 2</td>
-                    <td>Worth 2</td>
-                </tr>
-            </tbody>
+            </tfoot>
+            
         </table>
     `;
 };
-
