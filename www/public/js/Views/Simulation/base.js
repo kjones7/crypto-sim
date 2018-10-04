@@ -31,3 +31,7 @@ const elements = {
     sellWrapper : document.querySelector('.sell-wrapper'),
     buyCryptoTable : document.querySelector(`#${IdNames.buyCryptoTable}`)
 };
+
+const api = {
+    getBuyCryptoData : '/api/v1/simulation/getBuyCryptoData'
+};
