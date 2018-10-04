@@ -5,6 +5,7 @@ namespace CryptoSim\Simulation\Infrastructure;
 use CryptoSim\Simulation\Application\Cryptocurrency;
 use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
 use Doctrine\DBAL\Connection;
+use PDO;
 
 final class DbalGetCryptocurrenciesQuery implements GetCryptocurrenciesQuery
 {
@@ -41,5 +42,25 @@ final class DbalGetCryptocurrenciesQuery implements GetCryptocurrenciesQuery
         }
 
         return $cryptocurrencies;
+    }
+
+    /**
+     * @return array
+     */
+    public function apiExecute(): array
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $stmt = $qb
+            ->addSelect('id')
+            ->addSelect('name')
+            ->addSelect('abbreviation')
+            ->addSelect('worth_in_USD')
+            ->from('cryptocurrencies')
+            ->execute()
+        ;
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $rows;
     }
 }
