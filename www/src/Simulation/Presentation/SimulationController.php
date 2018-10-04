@@ -77,6 +77,23 @@ final class SimulationController
         return $this->getUpdatedPortfolioResponse($portfolioId);
     }
 
+    // API
+    public function getBuyCryptoData() {
+        $cryptocurrencies = $this->getCryptocurrenciesQuery->apiExecute();
+
+        if(!$cryptocurrencies) {
+            // TODO - Handle error
+        }
+
+        $response = new Response();
+        $response->setContent(
+            json_encode($cryptocurrencies)
+        );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     private function getUpdatedPortfolioResponse($portfolioId)
     {
         $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId);
