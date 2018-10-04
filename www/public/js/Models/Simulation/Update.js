@@ -13,4 +13,14 @@ class Update {
 
         return results;
     }
+
+    async getBuyCryptoData() {
+        return await $.ajax({
+            method: 'POST',
+            url: api.getBuyCryptoData,
+            data : {},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+    }
+
 }
