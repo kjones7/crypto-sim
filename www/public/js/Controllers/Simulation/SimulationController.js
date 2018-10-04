@@ -228,7 +228,14 @@
 // // END - Websocket Connection
 
 $(document).ready( function () {
+    // Initialize
+    initializeGoldenLayout();
+    initializeBuyCryptoDataTable();
+} );
+
+function initializeGoldenLayout() {
     const buyCryptoTableHTML = getBuyCryptoTable();
+
     var config = {
         content: [{
             type: 'row',
@@ -241,11 +248,11 @@ $(document).ready( function () {
                 content:[{
                     type: 'component',
                     componentName: 'testComponent',
-                    componentState: { label: buyCryptoTableHTML }
+                    componentState: { label: 'B' }
                 },{
                     type: 'component',
                     componentName: 'testComponent',
-                    componentState: { label: buyCryptoTableHTML }
+                    componentState: { label: 'C' }
                 }]
             }]
         }]
@@ -257,6 +264,20 @@ $(document).ready( function () {
     });
 
     myLayout.init();
+}
 
-    $(`#${IdNames.buyCryptoTable}`).DataTable();
-} );
+function initializeBuyCryptoDataTable() {
+    $(`#${IdNames.buyCryptoTable}`).DataTable( {
+        "ajax" : {
+            "url": api.getBuyCryptoData,
+            "type": "POST",
+            "dataSrc": ""
+        },
+        "columns" : [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "abbreviation" },
+            { "data": "worth_in_USD" }
+        ]
+    });
+}
