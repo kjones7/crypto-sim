@@ -27,10 +27,9 @@ try {
     echo 'Connection failed: ' . $e->getMessage();
 }
 
-$cryptoSymbolsAndIds = getCryptoSymbolsAndIDs();
-
 while (true) {
     $ticker = $api->prices();
+    $counter = 0;
     foreach ($ticker as $symbol => $price) {
         if (endsWith($symbol, 'BTC')) {
             $strLength = strlen($symbol);
@@ -40,21 +39,23 @@ while (true) {
             $price = $price->multiply($oneBTCtoUSD, Currency::CRYPTOCURRENCY_FRACTION_DIGITS);
             if ($symbol != null && $price != null) {
                 executeUpdateStmt($symbol, $price);
-                $cryptoData[$symbol] = [
-                    'price' => $price,
-                    'id' => $cryptoSymbolsAndIds[$symbol]
-                ];
+//                $cryptoData[$symbol] = [
+//                    'price' => $price,
+//                    'id' => $cryptoSymbolsAndIds[$symbol]
+//                ];
             }
         }
         if ($symbol === 'BTCUSDT') {
             executeUpdateStmt('BTC', $price);
-            $symbol = substr($symbol, 0, $strLength - 3);
-            $cryptoData[$symbol] = [
-                'price' => $price,
-                'id' => $cryptoSymbolsAndIds[$symbol]
-            ];
+//            $symbol = substr($symbol, 0, $strLength - 3);
+//            $cryptoData[$symbol] = [
+//                'price' => $price,
+//                'id' => $cryptoSymbolsAndIds[$symbol]
+//            ];
         }
     }
+//    $socket->send(json_encode($cryptoData));
+    $cryptoData = getCryptoData();
     $socket->send(json_encode($cryptoData));
     echo 'working! ';
     sleep(10);
@@ -91,20 +92,21 @@ function endsWith($haystack, $needle)
     (substr($haystack, -$length) === $needle);
 }
 
-function getCryptoSymbolsAndIDs()
+function getCryptoData()
 {
     global $conn;
     $stmt = $conn->prepare('
-        SELECT id, abbreviation
+        SELECT id, abbreviation, name, worth_in_USD
         FROM cryptocurrencies
     ');
     $stmt->execute();
 
-    $cryptoInfo = [];
-    $rows = $stmt->fetchAll(PDO::FETCH_NUM);
-    foreach($rows as $row) {
-        $cryptoInfo[$row[1]] = $row[0];
-    }
-
-    return $cryptoInfo;
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+//    $cryptoInfo = [];
+//    $rows = $stmt->fetchAll(PDO::FETCH_NUM);
+//    foreach($rows as $row) {
+//        $cryptoInfo[$row[1]] = $row[0];
+//    }
+//
+//    return $cryptoInfo;
 }

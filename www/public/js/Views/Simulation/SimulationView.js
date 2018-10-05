@@ -97,3 +97,19 @@ const getBuyCryptoTable = function() {
         </table>
     `;
 };
+
+/**
+ * Repopulates the buy crypto datatable with updated cryptocurrency data from the database. This is used in the
+ * websocket connection to update the table periodically with fresh data.
+ * @param {array} cryptoData - Array containing all of the cryptocurrencies from the database
+ * @param dataTable - The buy crypto data table
+ */
+const repopulateBuyCryptoTable = function(cryptoData, dataTable) {
+    // var table = $(`#${IdNames.buyCryptoTable}`).DataTable();
+
+    state.dataTable.clear();
+    state.dataTable.rows.add(cryptoData);
+    state.dataTable.draw();
+    // dataTable.rows().add(cryptoData);
+    // dataTable.draw();
+};

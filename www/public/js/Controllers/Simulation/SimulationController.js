@@ -231,7 +231,12 @@ $(document).ready( function () {
     // Initialize
     initializeGoldenLayout();
     initializeBuyCryptoDataTable();
+    initializeWebsocketConn();
 } );
+
+var state = {
+    dataTable : null
+};
 
 function initializeGoldenLayout() {
     const buyCryptoTableHTML = getBuyCryptoTable();
@@ -267,7 +272,7 @@ function initializeGoldenLayout() {
 }
 
 function initializeBuyCryptoDataTable() {
-    $(`#${IdNames.buyCryptoTable}`).DataTable( {
+    state.dataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
         "ajax" : {
             "url": api.getBuyCryptoData,
             "type": "POST",
@@ -280,4 +285,40 @@ function initializeBuyCryptoDataTable() {
             { "data": "worth_in_USD" }
         ]
     });
+}
+
+function initializeWebsocketConn() {
+    var conn = new ab.Session('ws://localhost:8079',
+        function() {
+            conn.subscribe('cryptoData', async function (topic, cryptoData) {
+                // render cryptocurrencies to buy
+                // renderBuyCryptocurrencies(cryptoData);
+                repopulateBuyCryptoTable(cryptoData, state.dataTable);
+
+                // get updated portfolio
+                // const portfolioId = getPortfolioId();
+                // const update = new Update(portfolioId);
+                // const results = await update.updatePortfolio();
+                // const portfolioData = {
+                //     totalUSDAmount : results.updatedPortfolio.USDAmount,
+                //     cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
+                //     cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
+                //     portfolioID : results.updatedPortfolio.id,
+                //     portfolioWorth : results.updatedPortfolio.portfolioWorth,
+                //     title : results.updatedPortfolio.title,
+                //     portfolioHTML : results.content
+                // };
+                // render updated portfolio
+                // renderPortfolio(portfolioData);
+
+                // reinitalize popovers
+                // $('.popover-wrapper')[0].innerHTML = ''; // TEMP - this deletes the popover once data is refreshed
+                // initializePopovers();
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
 }
