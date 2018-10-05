@@ -272,7 +272,7 @@ function initializeGoldenLayout() {
 }
 
 function initializeBuyCryptoDataTable() {
-    state.dataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
+    state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
         "ajax" : {
             "url": api.getBuyCryptoData,
             "type": "POST",
@@ -293,7 +293,7 @@ function initializeWebsocketConn() {
             conn.subscribe('cryptoData', async function (topic, cryptoData) {
                 // render cryptocurrencies to buy
                 // renderBuyCryptocurrencies(cryptoData);
-                repopulateBuyCryptoTable(cryptoData, state.dataTable);
+                repopulateBuyCryptoTable(cryptoData, state.buyDataTable);
 
                 // get updated portfolio
                 // const portfolioId = getPortfolioId();

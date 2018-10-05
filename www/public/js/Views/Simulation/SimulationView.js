@@ -107,9 +107,9 @@ const getBuyCryptoTable = function() {
 const repopulateBuyCryptoTable = function(cryptoData, dataTable) {
     // var table = $(`#${IdNames.buyCryptoTable}`).DataTable();
 
-    state.dataTable.clear();
-    state.dataTable.rows.add(cryptoData);
-    state.dataTable.draw();
+    state.buyDataTable.clear();
+    state.buyDataTable.rows.add(cryptoData);
+    state.buyDataTable.draw();
     // dataTable.rows().add(cryptoData);
     // dataTable.draw();
 };
