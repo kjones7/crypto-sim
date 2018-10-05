@@ -105,11 +105,7 @@ const getBuyCryptoTable = function() {
  * @param dataTable - The buy crypto data table
  */
 const repopulateBuyCryptoTable = function(cryptoData, dataTable) {
-    // var table = $(`#${IdNames.buyCryptoTable}`).DataTable();
-
     state.buyDataTable.clear();
     state.buyDataTable.rows.add(cryptoData);
     state.buyDataTable.draw();
-    // dataTable.rows().add(cryptoData);
-    // dataTable.draw();
 };
