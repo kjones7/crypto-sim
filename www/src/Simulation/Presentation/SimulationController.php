@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 final class SimulationController
 {
@@ -19,25 +20,29 @@ final class SimulationController
     private $portfolioRepository;
     private $getCryptocurrenciesQuery;
     private $saveTransactionHandler;
+    private $session;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         PortfolioRepository $portfolioRepository,
         GetCryptocurrenciesQuery $getCryptocurrenciesQuery,
-        SaveTransactionHandler $saveTransactionHandler
+        SaveTransactionHandler $saveTransactionHandler,
+        Session $session
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->portfolioRepository = $portfolioRepository;
         $this->getCryptocurrenciesQuery = $getCryptocurrenciesQuery;
         $this->saveTransactionHandler = $saveTransactionHandler;
+        $this->session = $session;
     }
 
     public function show(Request $request, array $vars) {
         $portfolioId = $vars['portfolioId'];
+        $userId = $this->session->get('userId');
         $template = 'Simulation.html.twig';
 
         //TODO - Validate the $portfolioId once you get the portfolio data from database
-        $portfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId);
+        $portfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId, $userId); // Commented out since I changed the parameters of getPortfolioFromId
         $cryptocurrencies = $this->getCryptocurrenciesQuery->execute();
 
         if(!$portfolio) {
@@ -56,6 +61,7 @@ final class SimulationController
     public function saveTransaction(Request $request, array $vars)
     {
         $portfolioId = $vars['portfolioId'];
+        $userId = $this->session->get('userId');
 //        $response = new RedirectResponse("/play/{$portfolioId}");
 
         $transactionAmount = ((string)$request->get('type') == "buy") ? (string)(-1 * (string)$request->get('transaction-amount')) : (string)$request->get('transaction-amount');
@@ -67,14 +73,15 @@ final class SimulationController
         );
         $this->saveTransactionHandler->handle($saveTransaction);
 
-        return $this->getUpdatedPortfolioResponse($portfolioId);
+        return $this->getUpdatedPortfolioResponse($portfolioId, $userId);
     }
 
     public function getUpdatedPortfolio(Request $request, array $vars)
     {
         $portfolioId = $vars['portfolioId'];
+        $userId = $this->session->get('userId');
 
-        return $this->getUpdatedPortfolioResponse($portfolioId);
+        return $this->getUpdatedPortfolioResponse($portfolioId, $userId);
     }
 
     // API
@@ -94,9 +101,23 @@ final class SimulationController
         return $response;
     }
 
-    private function getUpdatedPortfolioResponse($portfolioId)
+    // API
+    public function getPortfolio(Request $request)
     {
-        $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId);
+        $portfolioId = $request->get('portfolio-id');
+        $userId = $this->session->get('userId');
+
+        $portfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId, $userId);
+
+        $response = new Response(json_encode($portfolio->jsonify()));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    private function getUpdatedPortfolioResponse($portfolioId, $userId)
+    {
+        $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId, $userId);
         $cryptocurrencies = $this->getCryptocurrenciesQuery->execute();
 
         $template = 'responses/PortfolioCrypto.html.twig';

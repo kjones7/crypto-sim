@@ -5,7 +5,8 @@ const IdNames = {
     buyButton : 'buy-crypto',
     sellButton: 'sell-crypto',
     buyWrapper: 'buy-wrapper',
-    buyCryptoTable: 'buy-crypto-table'
+    buyCryptoTable: 'buy-crypto-table',
+    sellCryptoTable: 'sell-crypto-table',
 };
 
 const classNames = {
@@ -16,6 +17,7 @@ const classNames = {
     cryptoWorthInUSD: 'crypto-worth-in-usd',
     portfolioWorth: 'portfolio-worth',
     sellWrapper: 'sell-wrapper',
+    dataTables: 'data-table',
 };
 
 const elements = {
@@ -24,14 +26,16 @@ const elements = {
     submitTransaction : document.querySelector('#submit-transaction'),
     popoverWrapper : document.querySelector('.popover-wrapper'),
     portfolioTitle: document.querySelector('.portfolio-title'),
-    portfolioID: document.querySelector('.portfolio-id'),
+    portfolioID: document.querySelector(`.${classNames.portfolioID}`),
     portfolioUSDAmount: document.querySelector('.usd-amount'),
     cryptoWorthInUSD : document.querySelector('.crypto-worth-in-usd'),
     portfolioWorth : document.querySelector('.portfolio-worth'),
     sellWrapper : document.querySelector('.sell-wrapper'),
-    buyCryptoTable : document.querySelector(`#${IdNames.buyCryptoTable}`)
+    buyCryptoTable : document.querySelector(`#${IdNames.buyCryptoTable}`),
+    sellCryptoTable : document.querySelector(`#${IdNames.sellCryptoTable}`),
 };
 
 const api = {
-    getBuyCryptoData : '/api/v1/simulation/getBuyCryptoData'
+    getBuyCryptoData : '/api/v1/simulation/getBuyCryptoData',
+    getPortfolio : '/api/v1/simulation/getPortfolio',
 };

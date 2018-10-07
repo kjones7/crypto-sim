@@ -17,7 +17,7 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $this->connection = $connection;
     }
 
-    public function getPortfolioFromId(string $portfolioId): Portfolio
+    public function getPortfolioFromId(string $portfolioId, string $userId): Portfolio
     {
         $qb = $this->connection->createQueryBuilder();
         $stmt = $qb
@@ -25,6 +25,7 @@ final class DbalPortfolioRepository implements PortfolioRepository
             ->addSelect('title')
             ->from('portfolios')
             ->where("id = {$qb->createNamedParameter($portfolioId)}")
+            ->andWhere("user_id = {$qb->createNamedParameter($userId)}")
             ->execute()
         ;
 

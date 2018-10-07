@@ -71,12 +71,12 @@ const renderBuyCryptocurrencies = function(cryptoData) {
 
 const getPortfolioId = function()
 {
-    return elements.portfolioID.innerHTML;
+    return elements.portfolioID.value;
 };
 
 const getBuyCryptoTable = function() {
     return `
-        <table id="buy-crypto-table" class="display">
+        <table id="buy-crypto-table" class="data-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -98,13 +98,37 @@ const getBuyCryptoTable = function() {
     `;
 };
 
+const getSellCryptoTable = function() {
+    return `
+        <table id="sell-crypto-table" class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th>Worth In USD</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th>Worth In USD</th>
+                    <th>Quantity</th>
+                </tr>
+            </tfoot>
+        </table>
+    `;
+}
+
 /**
  * Repopulates the buy crypto datatable with updated cryptocurrency data from the database. This is used in the
  * websocket connection to update the table periodically with fresh data.
  * @param {array} cryptoData - Array containing all of the cryptocurrencies from the database
- * @param dataTable - The buy crypto data table
  */
-const repopulateBuyCryptoTable = function(cryptoData, dataTable) {
+const repopulateBuyCryptoTable = function(cryptoData) {
     state.buyDataTable.clear();
     state.buyDataTable.rows.add(cryptoData);
     state.buyDataTable.draw();

@@ -232,40 +232,43 @@ $(document).ready( function () {
     initializeGoldenLayout();
     initializeBuyCryptoDataTable();
     initializeWebsocketConn();
+    initializeSellCryptoDataTable();
 } );
 
 var state = {
-    dataTable : null
+    buyDataTable : null,
+    sellDataTable : null,
+    updateModel : new Update(getPortfolioId()),
 };
 
 function initializeGoldenLayout() {
     const buyCryptoTableHTML = getBuyCryptoTable();
+    const sellCryptoTableHTML = getSellCryptoTable();
 
     var config = {
         content: [{
             type: 'row',
-            content:[{
-                type: 'component',
-                componentName: 'testComponent',
-                componentState: { label: buyCryptoTableHTML }
-            },{
-                type: 'column',
-                content:[{
-                    type: 'component',
-                    componentName: 'testComponent',
-                    componentState: { label: 'B' }
-                },{
-                    type: 'component',
-                    componentName: 'testComponent',
-                    componentState: { label: 'C' }
-                }]
-            }]
+            content: [
+                {
+                    type:'component',
+                    componentName: 'Buy',
+                    componentState: { text: buyCryptoTableHTML}
+                },
+                {
+                    type:'component',
+                    componentName: 'Sell',
+                    componentState: { text: sellCryptoTableHTML }
+                }
+            ]
         }]
     };
     var myLayout = new GoldenLayout( config );
 
-    myLayout.registerComponent( 'testComponent', function( container, componentState ){
-        container.getElement().html( '<h5>' + componentState.label + '</h5>' );
+    myLayout.registerComponent( 'Buy', function( container, componentState ){
+        container.getElement().html(componentState.text);
+    });
+    myLayout.registerComponent( 'Sell', function( container, componentState ){
+        container.getElement().html(componentState.text);
     });
 
     myLayout.init();
@@ -285,6 +288,32 @@ function initializeBuyCryptoDataTable() {
             { "data": "worth_in_USD" }
         ]
     });
+}
+
+async function initializeSellCryptoDataTable() {
+    const initialPortfolio = await state.updateModel.getPortfolio();
+
+    state.sellDataTable = $(`#${IdNames.sellCryptoTable}`).DataTable({
+        "data": initialPortfolio.cryptocurrencies,
+        "columns" : [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "abbreviation" },
+            { "data": "worthInUSD" },
+            { "data": "quantity" },
+        ]
+    });
+}
+
+// function initializeDataTables() {
+//     state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable();
+//     state.sellDataTable = $(`#${IdNames.sellCryptoTable}`).DataTable();
+// }
+
+async function initialPopulateBuyCryptoTable() {
+    const buyCryptoData = await state.updateModel.getBuyCryptoData();
+
+    repopulateBuyCryptoTable(buyCryptoData);
 }
 
 function initializeWebsocketConn() {

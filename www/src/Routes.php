@@ -73,5 +73,9 @@ return [
         'POST',
         '/api/v1/simulation/getBuyCryptoData',
         'CryptoSim\Simulation\Presentation\SimulationController#getBuyCryptoData'
+    ],[
+        'POST',
+        '/api/v1/simulation/getPortfolio',
+        'CryptoSim\Simulation\Presentation\SimulationController#getPortfolio'
     ],
 ];

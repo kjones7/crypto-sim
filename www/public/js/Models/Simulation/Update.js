@@ -23,4 +23,15 @@ class Update {
         });
     }
 
+    async getPortfolio() {
+        return await $.ajax({
+            method: 'POST',
+            url: api.getPortfolio,
+            data : {
+                'portfolio-id': getPortfolioId()
+            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+    }
+
 }

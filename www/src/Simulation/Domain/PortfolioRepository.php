@@ -6,5 +6,5 @@ use CryptoSim\Simulation\Application\Portfolio;
 
 interface PortfolioRepository
 {
-    public function getPortfolioFromId(string $portfolioId): Portfolio; // TODO - This should probably be a query, not in repository
+    public function getPortfolioFromId(string $portfolioId, string $userId): Portfolio; // TODO - This should probably be a query, not in repository
 }
