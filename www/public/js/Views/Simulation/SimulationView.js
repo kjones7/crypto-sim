@@ -79,6 +79,7 @@ const getBuyCryptoTable = function() {
         <table id="buy-crypto-table" class="data-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
@@ -87,6 +88,7 @@ const getBuyCryptoTable = function() {
             </thead>
             <tfoot>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
@@ -103,6 +105,7 @@ const getSellCryptoTable = function() {
         <table id="sell-crypto-table" class="data-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
@@ -112,6 +115,7 @@ const getSellCryptoTable = function() {
             </thead>
             <tfoot>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
@@ -121,7 +125,7 @@ const getSellCryptoTable = function() {
             </tfoot>
         </table>
     `;
-}
+};
 
 /**
  * Repopulates the buy crypto datatable with updated cryptocurrency data from the database. This is used in the
@@ -132,4 +136,56 @@ const repopulateBuyCryptoTable = function(cryptoData) {
     state.buyDataTable.clear();
     state.buyDataTable.rows.add(cryptoData);
     state.buyDataTable.draw();
+};
+
+const renderChildRow = function(elementClicked, dataTable, tableId) {
+    var childRowContent = getChildRowContent(tableId);
+
+    var tr = $(elementClicked).parents('tr');
+    var row = dataTable.row( tr );
+
+    if ( row.child.isShown() ) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
+    else {
+        // Open this row (the format() function would return the data to be shown)
+        row.child( childRowContent ).show();
+        tr.addClass('shown');
+    }
+};
+
+const getChildRowContent = function(tableId) {
+    if(tableId === IdNames.buyCryptoTable) {
+        return `
+            <div class="row">
+                <div class="col-md-1 offset-md-1">
+                    <button class="btn btn-success btn-sm">Submit</button>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group form-inline">
+                        <label for="buy-usd-transaction-input">USD</label>
+                        <input class="form-control usd-transaction-input" id="buy-usd-transaction-input">
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (tableId === IdNames.sellCryptoTable) {
+        return `
+            <div class="row">
+                <div class="col-md-1 offset-md-1">
+                    <button class="btn btn-success btn-sm">Submit</button>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group form-inline">
+                        <label for="buy-usd-transaction-input">USD</label>
+                        <input class="form-control usd-transaction-input" id="buy-usd-transaction-input">
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        throw new Error;
+    }
 };

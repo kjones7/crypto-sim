@@ -282,12 +282,20 @@ function initializeBuyCryptoDataTable() {
             "dataSrc": ""
         },
         "columns" : [
+            {
+                className:      'details-control',
+                orderable:      false,
+                data:           null,
+                defaultContent: '<button class="btn btn-primary btn-sm">Buy</button>'
+            },
             { "data": "id" },
             { "data": "name" },
             { "data": "abbreviation" },
             { "data": "worth_in_USD" }
         ]
     });
+
+    initializeDetailsControlEventListener(state.buyDataTable, IdNames.buyCryptoTable);
 }
 
 async function initializeSellCryptoDataTable() {
@@ -296,6 +304,12 @@ async function initializeSellCryptoDataTable() {
     state.sellDataTable = $(`#${IdNames.sellCryptoTable}`).DataTable({
         "data": initialPortfolio.cryptocurrencies,
         "columns" : [
+            {
+                className:      'details-control',
+                orderable:      false,
+                data:           null,
+                defaultContent: '<button class="btn btn-success btn-sm">Sell</button>'
+            },
             { "data": "id" },
             { "data": "name" },
             { "data": "abbreviation" },
@@ -303,6 +317,14 @@ async function initializeSellCryptoDataTable() {
             { "data": "quantity" },
         ]
     });
+
+    initializeDetailsControlEventListener(state.sellDataTable, IdNames.sellCryptoTable);
+}
+
+function initializeDetailsControlEventListener(dataTable, tableId) {
+    $(`#${tableId} tbody`).on('click', 'td.details-control', function () {
+        renderChildRow(this, dataTable, tableId);
+    } );
 }
 
 // function initializeDataTables() {
