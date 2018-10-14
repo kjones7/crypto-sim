@@ -28,15 +28,15 @@ const renderTransactionWindow  = function(button, cryptoPrice) {
     `;
 };
 
-const renderPortfolio = function(portfolioData) {
-    // Overwrite values
-    elements.portfolioUSDAmount.innerHTML = portfolioData.totalUSDAmount;
-    elements.cryptoWorthInUSD.innerHTML = portfolioData.cryptoWorthInUSD;
-    elements.portfolioWorth.innerHTML = portfolioData.portfolioWorth;
-
-    // Add portfolio HTML
-    elements.sellWrapper.innerHTML = portfolioData.portfolioHTML;
-};
+// const renderPortfolio = function(portfolioData) {
+//     // Overwrite values
+//     elements.portfolioUSDAmount.innerHTML = portfolioData.totalUSDAmount;
+//     elements.cryptoWorthInUSD.innerHTML = portfolioData.cryptoWorthInUSD;
+//     elements.portfolioWorth.innerHTML = portfolioData.portfolioWorth;
+//
+//     // Add portfolio HTML
+//     elements.sellWrapper.innerHTML = portfolioData.portfolioHTML;
+// };
 
 const renderUsdInput = function(usd) {
     const usdInput= document.querySelector(`#${IdNames.usdInput}`);
@@ -67,6 +67,12 @@ const renderBuyCryptocurrencies = function(cryptoData) {
     }
 
     cryptoDataElement.innerHTML = accumulator;
+};
+
+const renderPortfolio = function(cryptoData) {
+    state.sellDataTable.clear();
+    state.sellDataTable.rows.add(cryptoData);
+    state.sellDataTable.draw();
 };
 
 const getPortfolioId = function()
@@ -138,8 +144,8 @@ const repopulateBuyCryptoTable = function(cryptoData) {
     state.buyDataTable.draw();
 };
 
-const renderChildRow = function(elementClicked, dataTable, tableId) {
-    var childRowContent = getChildRowContent(tableId);
+const renderChildRow = function(elementClicked, dataTable, tableId, cryptoId) {
+    var childRowContent = getChildRowContent(tableId, cryptoId);
 
     var tr = $(elementClicked).parents('tr');
     var row = dataTable.row( tr );
@@ -156,31 +162,32 @@ const renderChildRow = function(elementClicked, dataTable, tableId) {
     }
 };
 
-const getChildRowContent = function(tableId) {
+const getChildRowContent = function(tableId, cryptoId) {
     if(tableId === IdNames.buyCryptoTable) {
         return `
-            <div class="row">
+            <div class="row transaction-wrapper">
                 <div class="col-md-1 offset-md-1">
-                    <button class="btn btn-success btn-sm">Submit</button>
+                    <button class="btn btn-success btn-sm submit-transaction-btn" data-type="buy" data-id="${cryptoId}">Submit</button>
                 </div>
                 <div class="col-md-8">
                     <div class="form-group form-inline">
                         <label for="buy-usd-transaction-input">USD</label>
                         <input class="form-control usd-transaction-input" id="buy-usd-transaction-input">
+                        <input type="hidden" name="cryptocurrency-id" value="${cryptoId}">
                     </div>
                 </div>
             </div>
         `;
     } else if (tableId === IdNames.sellCryptoTable) {
         return `
-            <div class="row">
+            <div class="row transaction-wrapper">
                 <div class="col-md-1 offset-md-1">
-                    <button class="btn btn-success btn-sm">Submit</button>
+                    <button class="btn btn-success btn-sm submit-transaction-btn" data-type="sell" data-id="${cryptoId}">Submit</button>
                 </div>
                 <div class="col-md-8">
                     <div class="form-group form-inline">
                         <label for="buy-usd-transaction-input">USD</label>
-                        <input class="form-control usd-transaction-input" id="buy-usd-transaction-input">
+                        <input class="form-control usd-transaction-input" id="sell-usd-transaction-input">
                     </div>
                 </div>
             </div>
@@ -188,4 +195,16 @@ const getChildRowContent = function(tableId) {
     } else {
         throw new Error;
     }
+};
+
+const getTransactionType = function(element) {
+    return element.dataset['type'];
+};
+
+const getTransactionAmount = function(element) {
+    return element.parentElement.parentElement.querySelector(`.${classNames.transactionInput}`).value;
+};
+
+const getCryptocurrencyId = function(element) {
+    return element.dataset['id'];
 };

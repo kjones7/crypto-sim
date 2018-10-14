@@ -34,4 +34,18 @@ class Update {
         });
     }
 
+    async saveTransaction(type, transactionAmount, cryptocurrencyId) {
+        return await $.ajax({
+            method: 'POST',
+            url: api.saveTransaction,
+            data : {
+                'portfolio-id': getPortfolioId(),
+                'type' : type,
+                'transaction-amount': transactionAmount,
+                'cryptocurrency-id': cryptocurrencyId
+            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+    }
+
 }

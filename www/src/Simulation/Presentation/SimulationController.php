@@ -85,6 +85,25 @@ final class SimulationController
     }
 
     // API
+    public function saveTransactionAPI(Request $request, array $vars) {
+//        $portfolioId = $vars['portfolioId'];
+        $portfolioId = $request->get('portfolio-id');
+        $userId = $this->session->get('userId');
+//        $response = new RedirectResponse("/play/{$portfolioId}");
+
+        $transactionAmount = ((string)$request->get('type') == "buy") ? (string)(-1 * (string)$request->get('transaction-amount')) : (string)$request->get('transaction-amount');
+        $saveTransaction = new SaveTransaction(
+            $portfolioId,
+            (int)$request->get('cryptocurrency-id'),
+            $transactionAmount,
+            (string)$request->get('type')
+        );
+        $this->saveTransactionHandler->handle($saveTransaction);
+
+        return $this->getUpdatedPortfolioResponse($portfolioId, $userId);
+    }
+
+    // API
     public function getBuyCryptoData() {
         $cryptocurrencies = $this->getCryptocurrenciesQuery->apiExecute();
 

@@ -18,6 +18,7 @@ const classNames = {
     portfolioWorth: 'portfolio-worth',
     sellWrapper: 'sell-wrapper',
     dataTables: 'data-table',
+    transactionInput: 'usd-transaction-input',
 };
 
 const elements = {
@@ -38,4 +39,5 @@ const elements = {
 const api = {
     getBuyCryptoData : '/api/v1/simulation/getBuyCryptoData',
     getPortfolio : '/api/v1/simulation/getPortfolio',
+    saveTransaction: '/api/v1/simulation/saveTransaction'
 };

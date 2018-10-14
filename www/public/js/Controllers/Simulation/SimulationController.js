@@ -292,7 +292,10 @@ function initializeBuyCryptoDataTable() {
             { "data": "name" },
             { "data": "abbreviation" },
             { "data": "worth_in_USD" }
-        ]
+        ],
+        "createdRow": function(row, data) {
+            $(row).data('id', data.id);
+        }
     });
 
     initializeDetailsControlEventListener(state.buyDataTable, IdNames.buyCryptoTable);
@@ -323,19 +326,21 @@ async function initializeSellCryptoDataTable() {
 
 function initializeDetailsControlEventListener(dataTable, tableId) {
     $(`#${tableId} tbody`).on('click', 'td.details-control', function () {
-        renderChildRow(this, dataTable, tableId);
+        const cryptoId = $(this.parentElement).data('id');
+        renderChildRow(this, dataTable, tableId, cryptoId);
+        initializeSubmitTransactionEventListener();
     } );
 }
 
-// function initializeDataTables() {
-//     state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable();
-//     state.sellDataTable = $(`#${IdNames.sellCryptoTable}`).DataTable();
-// }
+function initializeSubmitTransactionEventListener() {
+    $('.transaction-wrapper').on('click', '.submit-transaction-btn', async function() {
+        const type = getTransactionType(this);
+        const transactionAmount = getTransactionAmount(this);
+        const cryptocurrencyId = getCryptocurrencyId(this);
 
-async function initialPopulateBuyCryptoTable() {
-    const buyCryptoData = await state.updateModel.getBuyCryptoData();
-
-    repopulateBuyCryptoTable(buyCryptoData);
+        const updatedPortfolio = await state.updateModel.saveTransaction(type, transactionAmount, cryptocurrencyId);
+        renderPortfolio(updatedPortfolio.updatedPortfolio.cryptocurrencies);
+    });
 }
 
 function initializeWebsocketConn() {
