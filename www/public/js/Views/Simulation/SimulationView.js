@@ -139,8 +139,21 @@ const getSellCryptoTable = function() {
  * @param {array} cryptoData - Array containing all of the cryptocurrencies from the database
  */
 const repopulateBuyCryptoTable = function(cryptoData) {
-    state.buyDataTable.clear();
-    state.buyDataTable.rows.add(cryptoData);
+    const numRecords = state.buyDataTable.rows().data().length;
+
+    var counter = 0;
+    var cellCryptoId = '';
+    var newWorthInUSD = '';
+
+    while(counter < numRecords) {
+        cellCryptoId = state.buyDataTable.cell(counter, 1).data();
+        newWorthInUSD = cryptoData[cellCryptoId]['worth_in_USD'];
+
+        state.buyDataTable.cell(counter, 4).data(newWorthInUSD);
+
+        counter += 1;
+    }
+
     state.buyDataTable.draw();
 };
 

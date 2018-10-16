@@ -92,6 +92,10 @@ function endsWith($haystack, $needle)
     (substr($haystack, -$length) === $needle);
 }
 
+/**
+ * Gets the cryptocurrency data from the database
+ * @return array Crypto data indexed by id
+ */
 function getCryptoData()
 {
     global $conn;
@@ -101,12 +105,10 @@ function getCryptoData()
     ');
     $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-//    $cryptoInfo = [];
-//    $rows = $stmt->fetchAll(PDO::FETCH_NUM);
-//    foreach($rows as $row) {
-//        $cryptoInfo[$row[1]] = $row[0];
-//    }
-//
-//    return $cryptoInfo;
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return array_combine(
+        array_column($rows, 'id'),
+        $rows
+    );
 }
