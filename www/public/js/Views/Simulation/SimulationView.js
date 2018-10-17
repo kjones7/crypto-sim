@@ -69,9 +69,19 @@ const renderBuyCryptocurrencies = function(cryptoData) {
     cryptoDataElement.innerHTML = accumulator;
 };
 
-const renderPortfolio = function(cryptoData) {
-    state.sellDataTable.clear();
-    state.sellDataTable.rows.add(cryptoData);
+const updatePortfolio = function(portfolioData) {
+    const numRecords = state.sellDataTable.rows().data().length;
+
+    var cellCryptoId = '';
+    var newWorthInUSD = '';
+
+    for(var i = 0; i < numRecords; i++) {
+        cellCryptoId = state.sellDataTable.cell(i, 1).data();
+        newWorthInUSD = portfolioData['cryptocurrencies'][cellCryptoId]['worthInUSD'];
+
+        state.sellDataTable.cell(i, 4).data(newWorthInUSD);
+    }
+
     state.sellDataTable.draw();
 };
 

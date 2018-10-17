@@ -4,14 +4,12 @@ class Update {
     }
 
     async updatePortfolio() {
-        const results = await $.ajax({
+        return await $.ajax({
             method: 'POST',
-            url: `/api/v1/play/${this.portfolioId}`,
+            url: `/api/v1/play/${this.portfolioId}/getUpdatedPortfolio`,
             data : {},
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
-
-        return results;
     }
 
     async getBuyCryptoData() {

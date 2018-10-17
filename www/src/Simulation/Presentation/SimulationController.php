@@ -134,6 +134,38 @@ final class SimulationController
         return $response;
     }
 
+    //API
+    public function getUpdatedPortfolioAPI(Request $request, array $vars)
+    {
+        $portfolioId = $vars['portfolioId'];
+        $userId = $this->session->get('userId');
+
+        // Copied from getUpdatedPortfolioResponse(), but instead uses jsonify_repopulate
+        $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId, $userId);
+        $cryptocurrencies = $this->getCryptocurrenciesQuery->execute();
+
+        $template = 'responses/PortfolioCrypto.html.twig';
+        if(!$updatedPortfolio) {
+            $template = 'PageNotFound.html.twig';
+        }
+
+        $content = $this->templateRenderer->render($template, [
+            'portfolioId' => $portfolioId,
+            'portfolio' => $updatedPortfolio,
+            'cryptocurrencies' => $cryptocurrencies
+        ]);
+        // TODO - Add error handling before returning response
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'content' => $content,
+            'updatedPortfolio' => $updatedPortfolio->jsonify_repopulate(),
+            'cryptocurrencies' => $cryptocurrencies
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     private function getUpdatedPortfolioResponse($portfolioId, $userId)
     {
         $updatedPortfolio = $this->portfolioRepository->getPortfolioFromId($portfolioId, $userId);

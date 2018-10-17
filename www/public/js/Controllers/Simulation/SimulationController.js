@@ -352,24 +352,18 @@ function initializeWebsocketConn() {
                 repopulateBuyCryptoTable(cryptoData, state.buyDataTable);
 
                 // get updated portfolio
-                // const portfolioId = getPortfolioId();
-                // const update = new Update(portfolioId);
-                // const results = await update.updatePortfolio();
-                // const portfolioData = {
-                //     totalUSDAmount : results.updatedPortfolio.USDAmount,
-                //     cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
-                //     cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
-                //     portfolioID : results.updatedPortfolio.id,
-                //     portfolioWorth : results.updatedPortfolio.portfolioWorth,
-                //     title : results.updatedPortfolio.title,
-                //     portfolioHTML : results.content
-                // };
+                const results = await state.updateModel.updatePortfolio();
+                const portfolioData = {
+                    totalUSDAmount : results.updatedPortfolio.USDAmount,
+                    cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
+                    cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
+                    portfolioID : results.updatedPortfolio.id,
+                    portfolioWorth : results.updatedPortfolio.portfolioWorth,
+                    title : results.updatedPortfolio.title,
+                    portfolioHTML : results.content
+                };
                 // render updated portfolio
-                // renderPortfolio(portfolioData);
-
-                // reinitalize popovers
-                // $('.popover-wrapper')[0].innerHTML = ''; // TEMP - this deletes the popover once data is refreshed
-                // initializePopovers();
+                updatePortfolio(portfolioData);
             });
         },
         function() {

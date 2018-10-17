@@ -90,4 +90,20 @@ final class Portfolio
             'cryptocurrencies' => $cryptocurrencies
         ];
     }
+
+    public function jsonify_repopulate() {
+        $cryptocurrencies = [];
+        foreach ($this->cryptocurrencies as $crypto) {
+            $cryptocurrencies[$crypto->getId()] = $crypto->jsonify();
+        }
+
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'USDAmount' => $this->USDAmount,
+            'cryptoWorthInUSD' => $this->cryptoWorthInUSD,
+            'portfolioWorth' => $this->portfolioWorth,
+            'cryptocurrencies' => $cryptocurrencies
+        ];
+    }
 }
