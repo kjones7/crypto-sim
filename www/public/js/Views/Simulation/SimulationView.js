@@ -92,7 +92,7 @@ const getPortfolioId = function()
 
 const getBuyCryptoTable = function() {
     return `
-        <table id="buy-crypto-table" class="data-table">
+        <table id="buy-crypto-table" class="data-table display compact">
             <thead>
                 <tr>
                     <th></th>
@@ -118,7 +118,7 @@ const getBuyCryptoTable = function() {
 
 const getSellCryptoTable = function() {
     return `
-        <table id="sell-crypto-table" class="data-table">
+        <table id="sell-crypto-table" class="data-table display compact">
             <thead>
                 <tr>
                     <th></th>
