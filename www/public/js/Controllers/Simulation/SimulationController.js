@@ -227,12 +227,24 @@
 //
 // // END - Websocket Connection
 
-$(document).ready( function () {
+$(document).ready( async function () {
     // Initialize
     initializeGoldenLayout();
     initializeBuyCryptoDataTable();
     initializeWebsocketConn();
     initializeSellCryptoDataTable();
+
+    const results = await state.updateModel.updatePortfolio();
+    const portfolioData = {
+        totalUSDAmount : results.updatedPortfolio.USDAmount,
+        cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
+        cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
+        portfolioID : results.updatedPortfolio.id,
+        portfolioWorth : results.updatedPortfolio.portfolioWorth,
+        title : results.updatedPortfolio.title,
+        portfolioHTML : results.content
+    };
+    updatePortfolioInfo(portfolioData);
 } );
 
 var state = {
@@ -244,6 +256,7 @@ var state = {
 function initializeGoldenLayout() {
     const buyCryptoTableHTML = getBuyCryptoTable();
     const sellCryptoTableHTML = getSellCryptoTable();
+    const portfolioInfo = getPortfolioInfo();
 
     var config = {
         content: [{
@@ -257,7 +270,7 @@ function initializeGoldenLayout() {
                 {
                     type:'component',
                     componentName: 'Sell',
-                    componentState: { text: sellCryptoTableHTML }
+                    componentState: { text: portfolioInfo + sellCryptoTableHTML }
                 }
             ]
         }]
@@ -318,7 +331,10 @@ async function initializeSellCryptoDataTable() {
             { "data": "abbreviation" },
             { "data": "worthInUSD" },
             { "data": "quantity" },
-        ]
+        ],
+        "createdRow": function(row, data) {
+            $(row).data('id', data.id);
+        }
     });
 
     initializeDetailsControlEventListener(state.sellDataTable, IdNames.sellCryptoTable);
@@ -338,8 +354,18 @@ function initializeSubmitTransactionEventListener() {
         const transactionAmount = getTransactionAmount(this);
         const cryptocurrencyId = getCryptocurrencyId(this);
 
-        const updatedPortfolio = await state.updateModel.saveTransaction(type, transactionAmount, cryptocurrencyId);
-        renderPortfolio(updatedPortfolio.updatedPortfolio.cryptocurrencies);
+        const results = await state.updateModel.saveTransaction(type, transactionAmount, cryptocurrencyId);
+        const portfolioData = {
+            totalUSDAmount : results.updatedPortfolio.USDAmount,
+            cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
+            cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
+            portfolioID : results.updatedPortfolio.id,
+            portfolioWorth : results.updatedPortfolio.portfolioWorth,
+            title : results.updatedPortfolio.title,
+            portfolioHTML : results.content
+        };
+        repopulateSellCryptoTable(portfolioData);
+        updatePortfolioInfo(portfolioData);
     });
 }
 
@@ -364,6 +390,7 @@ function initializeWebsocketConn() {
                 };
                 // render updated portfolio
                 updatePortfolio(portfolioData);
+                updatePortfolioInfo(portfolioData);
             });
         },
         function() {

@@ -85,6 +85,12 @@ const updatePortfolio = function(portfolioData) {
     state.sellDataTable.draw();
 };
 
+const updatePortfolioInfo = function(portfolioData) {
+    document.querySelector(`.${classNames.portfolioWorth}`).innerHTML = portfolioData.portfolioWorth;
+    document.querySelector(`.${classNames.cryptoWorthInUSD}`).innerHTML = portfolioData.cryptoWorthInUSD;
+    document.querySelector(`.${classNames.portfolioUSDLeft}`).innerHTML = portfolioData.totalUSDAmount;
+};
+
 const getPortfolioId = function()
 {
     return elements.portfolioID.value;
@@ -143,6 +149,25 @@ const getSellCryptoTable = function() {
     `;
 };
 
+const getPortfolioInfo = function() {
+    return `<div class="card">
+                <div class="card-header">
+                    Portfolio Information
+                </div>
+                <div class="card-body">
+                    <div>
+                        <p>Portfolio Worth: $<span class="portfolio-worth"></span></p>
+                    </div>
+                    <div>
+                        <p>Crypto Worth: $<span class="portfolio-crypto-worth"></span></p>
+                    </div>
+                    <div>
+                        <p>USD Left to Spend: $<span class="portfolio-usd-left"></span></p>
+                    </div>
+                </div>
+            </div>`;
+};
+
 /**
  * Repopulates the buy crypto datatable with updated cryptocurrency data from the database. This is used in the
  * websocket connection to update the table periodically with fresh data.
@@ -165,6 +190,12 @@ const repopulateBuyCryptoTable = function(cryptoData) {
     }
 
     state.buyDataTable.draw();
+};
+
+const repopulateSellCryptoTable = function(cryptoData) {
+    state.sellDataTable.clear();
+    state.sellDataTable.rows.add(cryptoData.cryptocurrencies);
+    state.sellDataTable.draw();
 };
 
 const renderChildRow = function(elementClicked, dataTable, tableId, cryptoId) {
@@ -211,6 +242,7 @@ const getChildRowContent = function(tableId, cryptoId) {
                     <div class="form-group form-inline">
                         <label for="buy-usd-transaction-input">USD</label>
                         <input class="form-control usd-transaction-input" id="sell-usd-transaction-input">
+                        <input type="hidden" name="cryptocurrency-id" value="${cryptoId}">
                     </div>
                 </div>
             </div>

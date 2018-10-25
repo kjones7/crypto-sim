@@ -73,7 +73,7 @@ final class SimulationController
         );
         $this->saveTransactionHandler->handle($saveTransaction);
 
-        return $this->getUpdatedPortfolioResponse($portfolioId, $userId);
+        return $this->getUpdatedPortfolioAPI($portfolioId, $userId);
     }
 
     public function getUpdatedPortfolio(Request $request, array $vars)
