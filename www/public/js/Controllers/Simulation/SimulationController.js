@@ -1,4 +1,12 @@
-import elements from '/js/Views/Simulation/base.js';
+import {Update} from "../../Models/Simulation/Update";
+import * as simulationView from "../../Views/Simulation/SimulationView";
+import {IdNames, classNames, elements, api} from "../../Views/Simulation/base";
+
+export var state = {
+    buyDataTable : null,
+    sellDataTable : null,
+    updateModel : new Update(),
+};
 
 $(document).ready( async function () {
     // Initialize
@@ -17,19 +25,14 @@ $(document).ready( async function () {
         title : results.updatedPortfolio.title,
         portfolioHTML : results.content
     };
-    updatePortfolioInfo(portfolioData);
+    simulationView.updatePortfolioInfo(portfolioData);
 } );
 
-var state = {
-    buyDataTable : null,
-    sellDataTable : null,
-    updateModel : new Update(getPortfolioId()),
-};
-
+// TODO - Look into downloading this using npm instead of using cdn
 function initializeGoldenLayout() {
-    const buyCryptoTableHTML = getBuyCryptoTable();
-    const sellCryptoTableHTML = getSellCryptoTable();
-    const portfolioInfo = getPortfolioInfo();
+    const buyCryptoTableHTML = simulationView.getBuyCryptoTable();
+    const sellCryptoTableHTML = simulationView.getSellCryptoTable();
+    const portfolioInfo = simulationView.getPortfolioInfo();
 
     var config = {
         content: [{
@@ -60,6 +63,8 @@ function initializeGoldenLayout() {
     myLayout.init();
 }
 
+// TODO - Consider using npm version of jquery over cdn (look into pros and cons)
+// TODO - Consider using npm version of datatables over cdn (look into pros and cons)
 function initializeBuyCryptoDataTable() {
     state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
         "ajax" : {
@@ -116,18 +121,19 @@ async function initializeSellCryptoDataTable() {
 function initializeDetailsControlEventListener(dataTable, tableId) {
     $(`#${tableId} tbody`).on('click', 'td.details-control', function () {
         const cryptoId = $(this.parentElement).data('id');
-        renderChildRow(this, dataTable, tableId, cryptoId);
+        simulationView.renderChildRow(this, dataTable, tableId, cryptoId);
         initializeSubmitTransactionEventListener();
     } );
 }
 
 function initializeSubmitTransactionEventListener() {
     $('.transaction-wrapper').on('click', '.submit-transaction-btn', async function() {
-        const type = getTransactionType(this);
-        const transactionAmount = getTransactionAmount(this);
-        const cryptocurrencyId = getCryptocurrencyId(this);
+        const type = simulationView.getTransactionType(this);
+        const transactionAmount = simulationView.getTransactionAmount(this);
+        const cryptocurrencyId = simulationView.getCryptocurrencyId(this);
 
         const results = await state.updateModel.saveTransaction(type, transactionAmount, cryptocurrencyId);
+        // TODO - This code is copy pasted in some places, turn it into an object that can be used everywhere
         const portfolioData = {
             totalUSDAmount : results.updatedPortfolio.USDAmount,
             cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
@@ -137,8 +143,8 @@ function initializeSubmitTransactionEventListener() {
             title : results.updatedPortfolio.title,
             portfolioHTML : results.content
         };
-        repopulateSellCryptoTable(portfolioData);
-        updatePortfolioInfo(portfolioData);
+        simulationView.repopulateSellCryptoTable(portfolioData);
+        simulationView.updatePortfolioInfo(portfolioData);
     });
 }
 
@@ -147,8 +153,7 @@ function initializeWebsocketConn() {
         function() {
             conn.subscribe('cryptoData', async function (topic, cryptoData) {
                 // render cryptocurrencies to buy
-                // renderBuyCryptocurrencies(cryptoData);
-                repopulateBuyCryptoTable(cryptoData, state.buyDataTable);
+                simulationView.repopulateBuyCryptoTable(cryptoData, state.buyDataTable);
 
                 // get updated portfolio
                 const results = await state.updateModel.updatePortfolio();
@@ -162,8 +167,8 @@ function initializeWebsocketConn() {
                     portfolioHTML : results.content
                 };
                 // render updated portfolio
-                updatePortfolio(portfolioData);
-                updatePortfolioInfo(portfolioData);
+                simulationView.updatePortfolio(portfolioData);
+                simulationView.updatePortfolioInfo(portfolioData);
             });
         },
         function() {

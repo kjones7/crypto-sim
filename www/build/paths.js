@@ -17,5 +17,5 @@ module.exports = {
     machine-related config file. (If you don't already have something like that,
     google for "dotenv" or something similar.)
     */
-    ASSETS: '/dist'
+    ASSETS: '/dist',
 };

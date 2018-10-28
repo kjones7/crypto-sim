@@ -1,4 +1,4 @@
-const IdNames = {
+export const IdNames = {
     submitTransaction : 'submit-transaction',
     usdInput : 'usd-transaction',
     cryptoInput : 'crypto-transaction',
@@ -9,7 +9,7 @@ const IdNames = {
     sellCryptoTable: 'sell-crypto-table',
 };
 
-const classNames = {
+export const classNames = {
     popoverWrapper : 'popover-wrapper',
     portfolioTitle: 'portfolio-title',
     portfolioID : 'portfolio-id',
@@ -21,7 +21,7 @@ const classNames = {
     transactionInput: 'usd-transaction-input',
 };
 
-const elements = {
+export const elements = {
     buyWrapper : document.querySelector('#buy-wrapper'),
     buyButton : document.querySelectorAll('#buy-crypto'),
     submitTransaction : document.querySelector('#submit-transaction'),
@@ -34,7 +34,7 @@ const elements = {
     sellCryptoTable : document.querySelector(`#${IdNames.sellCryptoTable}`),
 };
 
-const api = {
+export const api = {
     getBuyCryptoData : '/api/v1/simulation/getBuyCryptoData',
     getPortfolio : '/api/v1/simulation/getPortfolio',
     saveTransaction: '/api/v1/simulation/saveTransaction'
