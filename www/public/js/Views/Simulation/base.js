@@ -7,6 +7,7 @@ export const IdNames = {
     buyWrapper: 'buy-wrapper',
     buyCryptoTable: 'buy-crypto-table',
     sellCryptoTable: 'sell-crypto-table',
+    leaderboardTable: 'leaderboard-table',
 };
 
 export const classNames = {

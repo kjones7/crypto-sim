@@ -267,3 +267,25 @@ export const getTransactionAmount = function(element) {
 export const getCryptocurrencyId = function(element) {
     return element.dataset['id'];
 };
+
+export const getLeaderboardButton = function() {
+    return `
+        <br>
+        <div id="leaderboard-button">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#leaderboardModal">Leaderboard</button>
+        </div>
+        <br>
+    `;
+};
+
+/**
+ * Renders the leaderboard
+ * @param {DataTable} leaderboardTable - The leaderboard datatable
+ * @param {object} leaderboardData - Contains an object that contains the position, username, portfolio title, and
+ *     portfolio worth of all public competitive portfolios
+ */
+export const renderLeaderboard = function(leaderboardTable, leaderboardData) {
+    leaderboardTable.clear();
+    leaderboardTable.rows.add(leaderboardData.leaderboardEntries);
+    leaderboardTable.draw();
+};

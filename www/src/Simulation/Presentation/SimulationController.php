@@ -5,6 +5,7 @@ namespace CryptoSim\Simulation\Presentation;
 use CryptoSim\Simulation\Application\SaveTransaction;
 use CryptoSim\Simulation\Application\SaveTransactionHandler;
 use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
+use CryptoSim\Simulation\Domain\GetLeaderboardQuery;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
 use CryptoSim\Simulation\Domain\Transaction;
 use CryptoSim\Simulation\Domain\TransactionRepository;
@@ -20,6 +21,7 @@ final class SimulationController
     private $portfolioRepository;
     private $getCryptocurrenciesQuery;
     private $saveTransactionHandler;
+    private $getLeaderboardQuery;
     private $session;
 
     public function __construct(
@@ -27,12 +29,14 @@ final class SimulationController
         PortfolioRepository $portfolioRepository,
         GetCryptocurrenciesQuery $getCryptocurrenciesQuery,
         SaveTransactionHandler $saveTransactionHandler,
+        GetLeaderboardQuery $getLeaderboardQuery,
         Session $session
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->portfolioRepository = $portfolioRepository;
         $this->getCryptocurrenciesQuery = $getCryptocurrenciesQuery;
         $this->saveTransactionHandler = $saveTransactionHandler;
+        $this->getLeaderboardQuery = $getLeaderboardQuery;
         $this->session = $session;
     }
 
@@ -161,6 +165,22 @@ final class SimulationController
             'updatedPortfolio' => $updatedPortfolio->jsonify_repopulate(),
             'cryptocurrencies' => $cryptocurrencies
         )));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    // API
+    public function getLeaderboardAPI(Request $request)
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode(
+                [
+                    'leaderboardEntries' => $this->getLeaderboardQuery->execute()
+                ]
+            )
+        );
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

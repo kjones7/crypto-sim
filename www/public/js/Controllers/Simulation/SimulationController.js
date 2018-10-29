@@ -1,4 +1,5 @@
 import {Update} from "../../Models/Simulation/Update";
+import {Leaderboard} from "../../Models/Simulation/Leaderboard";
 import * as simulationView from "../../Views/Simulation/SimulationView";
 import {IdNames, classNames, elements, api} from "../../Views/Simulation/base";
 
@@ -6,6 +7,8 @@ export var state = {
     buyDataTable : null,
     sellDataTable : null,
     updateModel : new Update(),
+    leaderboard : new Leaderboard(),
+    leaderboardDataTable : null,
 };
 
 $(document).ready( async function () {
@@ -14,6 +17,7 @@ $(document).ready( async function () {
     initializeBuyCryptoDataTable();
     initializeWebsocketConn();
     initializeSellCryptoDataTable();
+    initializeLeaderboardTable();
 
     const results = await state.updateModel.updatePortfolio();
     const portfolioData = {
@@ -33,6 +37,7 @@ function initializeGoldenLayout() {
     const buyCryptoTableHTML = simulationView.getBuyCryptoTable();
     const sellCryptoTableHTML = simulationView.getSellCryptoTable();
     const portfolioInfo = simulationView.getPortfolioInfo();
+    const leaderboardButton = simulationView.getLeaderboardButton();
 
     var config = {
         content: [{
@@ -41,7 +46,7 @@ function initializeGoldenLayout() {
                 {
                     type:'component',
                     componentName: 'Buy',
-                    componentState: { text: buyCryptoTableHTML}
+                    componentState: { text: leaderboardButton + buyCryptoTableHTML}
                 },
                 {
                     type:'component',
@@ -146,6 +151,30 @@ function initializeSubmitTransactionEventListener() {
         simulationView.repopulateSellCryptoTable(portfolioData);
         simulationView.updatePortfolioInfo(portfolioData);
     });
+}
+
+function initializeLeaderboardButtonEventListener() {
+    $('#leaderboard-button button').on('click', async function() {
+        const leaderboardData = await state.leaderboard.getLeaderboardData();
+
+        simulationView.renderLeaderboard(state.leaderboardDataTable, leaderboardData);
+    });
+}
+
+async function initializeLeaderboardTable() {
+    const leaderboardData = await state.leaderboard.getLeaderboardData();
+
+    state.leaderboardDataTable = $(`#${IdNames.leaderboardTable}`).DataTable( {
+        "data": leaderboardData.leaderboardEntries,
+        "columns" : [
+            { "data": "position" },
+            { "data": "username" },
+            { "data": "portfolioName" },
+            { "data": "portfolioWorth" }
+        ]
+    });
+
+    initializeLeaderboardButtonEventListener();
 }
 
 function initializeWebsocketConn() {

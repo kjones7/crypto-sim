@@ -85,5 +85,9 @@ return [
         'POST',
         '/api/v1/play/{portfolioId}/getUpdatedPortfolio',
         'CryptoSim\Simulation\Presentation\SimulationController#getUpdatedPortfolioAPI'
+    ],[
+        'POST',
+        '/api/v1/play/{portfolioId}/getLeaderboard',
+        'CryptoSim\Simulation\Presentation\SimulationController#getLeaderboardAPI'
     ],
 ];
