@@ -9,19 +9,22 @@ final class OwnedCryptocurrency
     private $abbreviation;
     private $worthInUSD;
     private $quantity;
+    private $percentChange;
 
     public function __construct(
         string $id,
         string $name,
         string $abbreviation,
         string $worthInUSD,
-        string $quantity
+        string $quantity,
+        string $percentChange
     ){
         $this->id = $id;
         $this->name = $name;
         $this->abbreviation = $abbreviation;
         $this->worthInUSD = $worthInUSD;
         $this->quantity = $quantity;
+        $this->percentChange = $percentChange;
     }
 
     /**
@@ -64,13 +67,22 @@ final class OwnedCryptocurrency
         return $this->quantity;
     }
 
+    /**
+     * @return string
+     */
+    public function getPercentChange(): string
+    {
+        return $this->percentChange;
+    }
+
     public function jsonify() {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
             'worthInUSD' => $this->worthInUSD,
-            'quantity' => $this->quantity
+            'quantity' => $this->quantity,
+            'percentChange' => $this->percentChange
         ];
     }
 }

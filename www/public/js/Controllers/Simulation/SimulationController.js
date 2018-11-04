@@ -84,7 +84,7 @@ function initializeBuyCryptoDataTable() {
                 data:           null,
                 defaultContent: '<button class="btn btn-primary btn-sm">Buy</button>'
             },
-            { "data": "id" },
+            { "data": "percent_change" },
             { "data": "name" },
             { "data": "abbreviation" },
             { "data": "worth_in_USD" }
@@ -109,7 +109,7 @@ async function initializeSellCryptoDataTable() {
                 data:           null,
                 defaultContent: '<button class="btn btn-success btn-sm">Sell</button>'
             },
-            { "data": "id" },
+            { "data": "percentChange" },
             { "data": "name" },
             { "data": "abbreviation" },
             { "data": "worthInUSD" },

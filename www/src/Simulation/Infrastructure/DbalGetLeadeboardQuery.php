@@ -25,11 +25,12 @@ final class DbalGetLeadeboardQuery implements GetLeaderboardQuery
             SELECT
               portfolios.title,
               users.nickname,
-              CAST(SUM(cryptocurrencies.worth_in_USD * transactions.cryptocurrency_amount) AS DECIMAL(17,2)) As portfolioWorth
+              CAST(SUM(cp.worth_in_USD * transactions.cryptocurrency_amount) AS DECIMAL(17,2)) As portfolioWorth
             FROM portfolios
             INNER JOIN users ON portfolios.user_id = users.id
             INNER JOIN transactions ON transactions.portfolio_id = portfolios.id
-            INNER JOIN cryptocurrencies ON cryptocurrencies.id = transactions.cryptocurrency_id
+            INNER JOIN cryptocurrency_prices cp ON cp.cryptocurrency_id = transactions.cryptocurrency_id
+            WHERE cp.date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)
             GROUP BY portfolios.title, users.nickname
             ORDER BY portfolioWorth DESC
         ");

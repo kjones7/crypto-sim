@@ -68,13 +68,16 @@ final class DbalPortfolioRepository implements PortfolioRepository
               c.abbreviation,
               c.name,
               c.id,
-              CAST(SUM(t.cryptocurrency_amount*c.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
-              CAST(SUM(t.cryptocurrency_amount) AS DECIMAL(17,8)) AS quantity
+              CAST(SUM(t.cryptocurrency_amount*cp.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
+              CAST(SUM(t.cryptocurrency_amount) AS DECIMAL(17,8)) AS quantity,
+              (( ( (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = c.id AND date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)) - (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = 1 AND date_added = (SELECT MIN(date_added) FROM cryptocurrency_prices)) ) / (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = 1 AND date_added = (SELECT MIN(date_added) FROM cryptocurrency_prices)) ) * 100) AS percent_change
             FROM transactions t 
             LEFT JOIN cryptocurrencies c ON t.cryptocurrency_id = c.id 
+            INNER JOIN cryptocurrency_prices cp ON t.cryptocurrency_id = cp.cryptocurrency_id
             WHERE 
               t.portfolio_id = :portfolioId
               AND status = 'active' 
+              AND cp.date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)
             GROUP BY c.id
         ");
         $stmt->bindParam(':portfolioId', $portfolioId);
@@ -95,7 +98,8 @@ final class DbalPortfolioRepository implements PortfolioRepository
                 $row['name'],
                 $row['abbreviation'],
                 $row['crypto_worth'],
-                $row['quantity']
+                $row['quantity'],
+                $row['percent_change']
             );
         }
 
@@ -107,14 +111,16 @@ final class DbalPortfolioRepository implements PortfolioRepository
         // TODO - To prevent floating point errors, test out doing the math operations out of SQL
         $stmt = $this->connection->prepare("
             SELECT
-              CAST(SUM(t.cryptocurrency_amount*c.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
+              CAST(SUM(t.cryptocurrency_amount*cp.worth_in_USD) AS DECIMAL(17,2)) AS crypto_worth,
               p.start_amount
             FROM portfolios p
             LEFT JOIN transactions t ON p.id = t.portfolio_id
             LEFT JOIN cryptocurrencies c on t.cryptocurrency_id = c.id
+            INNER JOIN cryptocurrency_prices cp ON cp.cryptocurrency_id = c.id
             WHERE 
               t.portfolio_id = :portfolioId1
               AND t.status = 'active'
+              AND cp.date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)
          ");
         $stmt->bindParam(':portfolioId1', $portfolioId);
         $stmt->execute();

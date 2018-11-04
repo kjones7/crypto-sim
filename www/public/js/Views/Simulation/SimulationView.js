@@ -78,12 +78,18 @@ export const updatePortfolio = function(portfolioData) {
 
     var cellCryptoId = '';
     var newWorthInUSD = '';
+    var newPercentChange = '';
 
     for(var i = 0; i < numRecords; i++) {
-        cellCryptoId = state.sellDataTable.cell(i, 1).data();
+        cellCryptoId = state.sellDataTable.row(i).data().id;
+        if(portfolioData['cryptocurrencies'][cellCryptoId]['worthInUSD'] === undefined) {
+            console.log('Counter = ' + i);
+        }
         newWorthInUSD = portfolioData['cryptocurrencies'][cellCryptoId]['worthInUSD'];
+        newPercentChange =portfolioData['cryptocurrencies'][cellCryptoId]['percentChange'];
 
         state.sellDataTable.cell(i, 4).data(newWorthInUSD);
+        state.sellDataTable.cell(i, 1).data(newPercentChange);
     }
 
     state.sellDataTable.draw();
@@ -106,7 +112,7 @@ export const getBuyCryptoTable = function() {
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
+                    <th>% Change</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
                     <th>Worth In USD</th>
@@ -115,7 +121,7 @@ export const getBuyCryptoTable = function() {
             <tfoot>
                 <tr>
                     <th></th>
-                    <th>ID</th>
+                    <th>% Change</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
                     <th>Worth In USD</th>
@@ -132,7 +138,7 @@ export const getSellCryptoTable = function() {
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
+                    <th>% Change</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
                     <th>Worth In USD</th>
@@ -142,7 +148,7 @@ export const getSellCryptoTable = function() {
             <tfoot>
                 <tr>
                     <th></th>
-                    <th>ID</th>
+                    <th>% Change</th>
                     <th>Name</th>
                     <th>Abbreviation</th>
                     <th>Worth In USD</th>
@@ -183,12 +189,15 @@ export const repopulateBuyCryptoTable = function(cryptoData) {
     var counter = 0;
     var cellCryptoId = '';
     var newWorthInUSD = '';
+    var newPercentChange = '';
 
     while(counter < numRecords) {
-        cellCryptoId = state.buyDataTable.cell(counter, 1).data();
+        cellCryptoId = state.buyDataTable.row(counter).data().id;
         newWorthInUSD = cryptoData[cellCryptoId]['worth_in_USD'];
+        newPercentChange = cryptoData[cellCryptoId]['percent_change'];
 
         state.buyDataTable.cell(counter, 4).data(newWorthInUSD);
+        state.buyDataTable.cell(counter, 1).data(newPercentChange);
 
         counter += 1;
     }

@@ -52,8 +52,9 @@ final class DbalTransactionRepository implements TransactionRepository
         $qb = $this->connection->createQueryBuilder();
         $stmt = $qb
             ->addSelect('worth_in_usd')
-            ->from('cryptocurrencies')
-            ->where("id = {$qb->createNamedParameter($cryptocurrencyId)}")
+            ->from('cryptocurrency_prices')
+            ->where("cryptocurrency_id = {$qb->createNamedParameter($cryptocurrencyId)}")
+            ->andWhere("date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)")
             ->execute()
         ;
 

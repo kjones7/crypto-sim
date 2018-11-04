@@ -90,23 +90,38 @@ function insertCryptocurrency($symbol, $price, $overrideInsert = false, $overrid
         $cryptoName = $cryptoSymbolsAndNames[$cryptoSymbol];
     }
     if ($worthInUSD !== null && $cryptoSymbol !== null && $cryptoName !== null) {
+        // Insert into cryptocurrencies table
         $insertCryptoStmt = $conn->prepare(
             "INSERT INTO cryptocurrencies(
                 name,
-                abbreviation,
-                worth_in_USD
+                abbreviation
                 ) VALUES (
                     :name,
-                    :symbol,
-                    :worthInUSD
+                    :symbol
                     )"
         );
         $insertCryptoStmt->bindParam(':name', $cryptoName, PDO::PARAM_STR);
         $insertCryptoStmt->bindParam(':symbol', $cryptoSymbol, PDO::PARAM_STR);
-        $insertCryptoStmt->bindParam(':worthInUSD', $worthInUSD);
 
         if (!$insertCryptoStmt->execute()) {
             echo "Error: " . $insertCryptoStmt->errorInfo()[2] . " $symbol";
+        }
+
+        // Insert into cryptocurrency_prices table
+        $insertPricesStmt = $conn->prepare(
+            "INSERT INTO cryptocurrency_prices(
+                cryptocurrency_id,
+                worth_in_USD
+                ) VALUES (
+                    (SELECT id FROM cryptocurrencies WHERE abbreviation = :symbol),
+                    :worthInUSD
+                    )"
+        );
+        $insertPricesStmt->bindParam(':symbol', $cryptoSymbol, PDO::PARAM_STR);
+        $insertPricesStmt->bindParam(':worthInUSD', $worthInUSD);
+
+        if (!$insertPricesStmt->execute()) {
+            echo "Error: " . $insertPricesStmt->errorInfo()[2] . " $symbol";
         }
     }
 }

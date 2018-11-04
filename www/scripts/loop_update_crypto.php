@@ -71,15 +71,25 @@ while (true) {
 function executeUpdateStmt($symbol, $worthInUSD)
 {
     global $conn;
+//    $updateCryptoStmt = $conn->prepare(
+//        "UPDATE cryptocurrencies
+//        SET worth_in_USD = :worthInUSD
+//        WHERE abbreviation = :symbol"
+//    );
     $updateCryptoStmt = $conn->prepare(
-        "UPDATE cryptocurrencies
-        SET worth_in_USD = :worthInUSD
-        WHERE abbreviation = :symbol"
+        "INSERT INTO cryptocurrency_prices (
+            cryptocurrency_id,
+            worth_in_USD
+        ) VALUES (
+            (SELECT id FROM cryptocurrencies WHERE abbreviation = :symbol),
+            :worthInUSD
+        )"
     );
-    $updateCryptoStmt->bindParam('worthInUSD', $worthInUSD);
-    $updateCryptoStmt->bindParam('symbol', $symbol);
+
+    $updateCryptoStmt->bindParam(':worthInUSD', $worthInUSD);
+    $updateCryptoStmt->bindParam(':symbol', $symbol);
     if (!$updateCryptoStmt->execute()) {
-        echo "Error: " . $updateCryptoStmt->errorInfo()[2];
+//        echo "Error: " . $updateCryptoStmt->errorInfo()[2] . " for $symbol\n";
     }
 }
 
@@ -100,8 +110,16 @@ function getCryptoData()
 {
     global $conn;
     $stmt = $conn->prepare('
-        SELECT id, abbreviation, name, worth_in_USD
-        FROM cryptocurrencies
+        SELECT 
+            cryptocurrencies.id, 
+            cryptocurrency_prices.worth_in_USD, 
+            cryptocurrencies.abbreviation, 
+            cryptocurrencies.name,
+            (( ( (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = cryptocurrencies.id AND date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)) - (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = cryptocurrencies.id AND date_added = (SELECT MIN(date_added) FROM cryptocurrency_prices)) ) / (SELECT worth_in_USD FROM cryptocurrency_prices WHERE cryptocurrency_id = cryptocurrencies.id AND date_added = (SELECT MIN(date_added) FROM cryptocurrency_prices)) ) * 100) AS percent_change
+        FROM cryptocurrency_prices 
+        INNER JOIN cryptocurrencies 
+        ON cryptocurrencies.id = cryptocurrency_prices.cryptocurrency_id 
+        WHERE cryptocurrency_prices.date_added > (SELECT MAX(date_added) - 5 FROM cryptocurrency_prices)
     ');
     $stmt->execute();
 

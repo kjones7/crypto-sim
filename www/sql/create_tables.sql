@@ -30,8 +30,15 @@ CREATE TABLE cryptocurrencies (
     id INT NOT NULL AUTO_INCREMENT,
     name varchar(45) NOT NULL,
     abbreviation varchar(8) NOT NULL,
-    worth_in_USD DECIMAL(17,8) NOT NULL,
     CONSTRAINT PK_cryptocurrencies_id PRIMARY KEY (id)
+);
+
+CREATE TABLE cryptocurrency_prices (
+    id INT NOT NULL AUTO_INCREMENT,
+    cryptocurrency_id INT NOT NULL,
+    worth_in_USD DECIMAL(17,8) NOT NULL,
+    date_added DATETIME NOT NULL DEFAULT NOW(),
+    CONSTRAINT PK_cryptocurrencies_prices_id PRIMARY KEY (id)
 );
 
 CREATE TABLE portfolios (
