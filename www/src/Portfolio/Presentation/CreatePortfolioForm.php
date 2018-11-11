@@ -32,7 +32,7 @@ final class CreatePortfolioForm
     public function getValidationErrors(): array
     {
         $errors = [];
-        $possibleTypes = ['freeplay'];
+        $possibleTypes = ['freeplay', 'group'];
         $possibleVisibilities = ['private', 'public'];
 
         if(!$this->storedTokenValidator->validate(
