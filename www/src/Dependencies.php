@@ -82,4 +82,6 @@ $injector->delegate(User::class, function () use ($injector): User {
     return $factory->create();
 });
 
+$injector->alias(\CryptoSim\User\Application\GetFriendsListQuery::class, \CryptoSim\User\Infrastructure\DbalGetFriendsListQuery::class);
+$injector->alias(\CryptoSim\Portfolio\Domain\GroupRepository::class, \CryptoSim\Portfolio\Infrastructure\DbalGroupRepository::class);
 return $injector;

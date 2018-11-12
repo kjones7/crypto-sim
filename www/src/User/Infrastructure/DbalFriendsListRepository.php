@@ -33,7 +33,7 @@ final class DbalFriendsListRepository implements FriendsListRepository
         $stmt = $qb->execute();
 
         $nickname = $stmt->fetch()['nickname'];
-        return new Friend($nickname);
+        return new Friend($nickname, $userId);
     }
 
     /**

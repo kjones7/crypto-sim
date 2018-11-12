@@ -54,8 +54,10 @@ CREATE TABLE portfolios (
     date_last_reset DATETIME,
     visibility ENUM('private', 'public') NOT NULL,
     duration INT,
+    group_id VARCHAR(255),
     CONSTRAINT PK_portfolios_id PRIMARY KEY (id),
-    CONSTRAINT FK_portfolios_user_id_users_id FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT FK_portfolios_user_id_users_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT FK_portfolios_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id)
 );
 
 CREATE TABLE transactions (
@@ -70,4 +72,19 @@ CREATE TABLE transactions (
     CONSTRAINT FK_transactions_cryptocurrency_id_cryptocurrencies_id FOREIGN KEY (cryptocurrency_id) REFERENCES cryptocurrencies(id),
     CONSTRAINT FK_transactions_portfolio_id_portfolios_id FOREIGN KEY (portfolio_id) REFERENCES portfolios(id),
     CONSTRAINT PK_transactions_id PRIMARY KEY (id)
-)
+);
+
+CREATE TABLE group_invites (
+    id VARCHAR(255) NOT NULL,
+    response_received TINYINT DEFAULT 0,
+    user_id VARCHAR(255),
+    group_id VARCHAR(255),
+    CONSTRAINT PK_group_invites_id PRIMARY KEY (id),
+    CONSTRAINT FK_group_invites_user_id_users_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT FK_group_invites_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id)
+);
+
+CREATE TABLE groups (
+    id VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_groups_id PRIMARY KEY (id)
+);

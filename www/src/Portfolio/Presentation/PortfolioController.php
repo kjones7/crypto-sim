@@ -7,6 +7,7 @@ use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\Framework\Rbac\AuthenticatedUser;
 use CryptoSim\Portfolio\Application\CreatePortfolioHandler;
+use CryptoSim\User\Application\GetFriendsListQuery;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,24 +20,31 @@ final class PortfolioController
     private $session;
     private $createPortfolioFormFactory;
     private $createPortfolioHandler;
+    private $getFriendsListQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         User $user,
         Session $session,
         CreatePortfolioFormFactory $createPortfolioFormFactory,
-        CreatePortfolioHandler $createPortfolioHandler
+        CreatePortfolioHandler $createPortfolioHandler,
+        GetFriendsListQuery $getFriendsListQuery
     ){
         $this->templateRenderer = $templateRenderer;
         $this->user = $user;
         $this->session = $session;
         $this->createPortfolioFormFactory = $createPortfolioFormFactory;
         $this->createPortfolioHandler = $createPortfolioHandler;
+        $this->getFriendsListQuery = $getFriendsListQuery;
     }
 
     public function show(): Response
     {
-        $content = $this->templateRenderer->render('CreatePortfolio.html.twig');
+        $friends = $this->getFriendsListQuery->execute($this->session->get('userId'));
+
+        $content = $this->templateRenderer->render('CreatePortfolio.html.twig', [
+            'friends' => $friends
+        ]);
         return new Response($content);
     }
 
@@ -51,6 +59,7 @@ final class PortfolioController
         }
 
         $response = new RedirectResponse('/portfolios/create');
+
         $form = $this->createPortfolioFormFactory->createFromRequest($request);
 
         if($form->hasValidationErrors()) {

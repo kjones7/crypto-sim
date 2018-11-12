@@ -15,13 +15,14 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $this->connection = $connection;
     }
 
-    public function add(Portfolio $portfolio): void
+    public function add(Portfolio $portfolio, $groupId): void
     {
         $qb = $this->connection->createQueryBuilder();
         $qb
             ->insert('portfolios')
             ->values([
                 'id' => $qb->createNamedParameter($portfolio->getId()->toString()),
+                'group_id' => $qb->createNamedParameter($groupId),
                 'title' => $qb->createNamedParameter($portfolio->getTitle()),
                 'type' => $qb->createNamedParameter($portfolio->getType()),
                 'visibility' => $qb->createNamedParameter($portfolio->getVisibility()),
