@@ -64,5 +64,4 @@ final class Portfolio
     {
         return $this->status;
     }
-
 }

@@ -4,5 +4,5 @@ namespace CryptoSim\Portfolio\Domain;
 
 interface GroupRepository
 {
-    public function create(): string;
+    public function create(Portfolio $portfolio): string;
 }

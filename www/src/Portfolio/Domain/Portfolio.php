@@ -15,6 +15,7 @@ Portfolio
     private $type;
     private $dateCreated;
     private $visibility;
+    private $groupInviteUserIds;
 
     private function __construct(
         UuidInterface $id,
@@ -22,7 +23,8 @@ Portfolio
         string $title,
         string $type,
         DateTimeImmutable $dateCreated,
-        string $visibility
+        string $visibility,
+        ?array $groupInviteUserIds
     ){
         $this->id = $id;
         $this->userId = $userId;
@@ -30,13 +32,15 @@ Portfolio
         $this->type = $type;
         $this->dateCreated = $dateCreated;
         $this->visibility = $visibility;
+        $this->groupInviteUserIds = $groupInviteUserIds;
     }
 
     public static function create(
         UuidInterface $userId,
         string $title,
         string $type,
-        string $visibility
+        string $visibility,
+        ?array $groupInviteUserIds
     ): Portfolio
     {
         return new Portfolio(
@@ -45,7 +49,8 @@ Portfolio
             $title,
             $type,
             new DateTimeImmutable(),
-            $visibility
+            $visibility,
+            $groupInviteUserIds
         );
     }
 
@@ -95,5 +100,13 @@ Portfolio
     public function getVisibility(): string
     {
         return $this->visibility;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getGroupInviteUserIds(): ?array
+    {
+        return $this->groupInviteUserIds;
     }
 }

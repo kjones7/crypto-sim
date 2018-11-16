@@ -14,19 +14,22 @@ final class CreatePortfolioForm
     private $title;
     private $type;
     private $visibility;
+    private $groupInviteUserIds;
 
     public function __construct(
         StoredTokenValidator $storedTokenValidator,
         string $token,
         string $title,
         string $type,
-        string $visibility
+        string $visibility,
+        ?array $groupInviteUserIds
     ){
         $this->storedTokenValidator = $storedTokenValidator;
         $this->token = $token;
         $this->title = $title;
         $this->type = $type;
         $this->visibility = $visibility;
+        $this->groupInviteUserIds = $groupInviteUserIds;
     }
 
     public function getValidationErrors(): array
@@ -65,7 +68,8 @@ final class CreatePortfolioForm
             $portfolioCreator->getId(),
             $this->title,
             $this->type,
-            $this->visibility
+            $this->visibility,
+            $this->groupInviteUserIds
         );
     }
 }

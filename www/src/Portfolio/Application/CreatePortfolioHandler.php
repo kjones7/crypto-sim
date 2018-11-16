@@ -23,16 +23,18 @@ final class CreatePortfolioHandler
     public function handle(CreatePortfolio $command): void
     {
         $groupId = null;
-        if($command->getType() == 'group') {
-            $groupId = $this->groupRepository->create();
-        }
+
         $portfolio = Portfolio::create(
             $command->getUserId(),
             $command->getTitle(),
             $command->getType(),
-            $command->getVisibility()
+            $command->getVisibility(),
+            $command->getGroupInviteUserIds()
         );
 
+        if($command->getType() == 'group') {
+            $groupId = $this->groupRepository->create($portfolio);
+        }
         $this->portfolioRepository->add($portfolio, $groupId);
     }
 }

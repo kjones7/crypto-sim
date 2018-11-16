@@ -18,7 +18,7 @@ final class DbalGroupRepository implements GroupRepository
         $this->connection = $connection;
     }
 
-    public function create(): string
+    public function create(Portfolio $portfolio): string
     {
         $id = Uuid::uuid4()->toString();
 
@@ -26,7 +26,8 @@ final class DbalGroupRepository implements GroupRepository
         $qb
             ->insert('groups')
             ->values([
-                'id' => $qb->createNamedParameter($id)
+                'id' => $qb->createNamedParameter($id),
+                'creator_user_id' => $qb->createNamedParameter($portfolio->getUserId()->toString())
             ])
             ->execute();
 

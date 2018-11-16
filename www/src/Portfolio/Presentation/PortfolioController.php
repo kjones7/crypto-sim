@@ -70,7 +70,7 @@ final class PortfolioController
         }
 
         if(!$this->user instanceof AuthenticatedUser) {
-            throw new \LogicException('Only authenticated users can submit links');
+            throw new \LogicException('Only authenticated users can create portfolio');
         }
         $this->createPortfolioHandler->handle($form->toCommand($this->user));
 

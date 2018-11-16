@@ -10,17 +10,20 @@ final class CreatePortfolio
     private $title;
     private $type;
     private $visibility;
+    private $groupInviteUserIds;
 
     public function __construct(
         UuidInterface $userId,
         string $title,
         string $type,
-        string $visibility
+        string $visibility,
+        ?array $groupInviteUserIds
     ){
         $this->userId = $userId;
         $this->title = $title;
         $this->type = $type;
         $this->visibility = $visibility;
+        $this->groupInviteUserIds = $groupInviteUserIds;
     }
 
     /**
@@ -53,5 +56,13 @@ final class CreatePortfolio
     public function getVisibility(): string
     {
         return $this->visibility;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getGroupInviteUserIds(): ?array
+    {
+        return $this->groupInviteUserIds;
     }
 }
