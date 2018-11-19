@@ -1,0 +1,12 @@
+{% block content %}
+<h3>Group Invites</h3>
+    <div class="group-invites">
+        <ol>
+            {% for groupInvite in groupInvites %}
+                <li class="group-invite">
+                    <a>Group Invite from {{ groupInvite.fromUsername }}</a>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}

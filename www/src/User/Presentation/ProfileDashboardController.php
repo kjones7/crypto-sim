@@ -3,6 +3,7 @@
 namespace CryptoSim\User\Presentation;
 
 use CryptoSim\Framework\Rendering\TemplateRenderer;
+use CryptoSim\Portfolio\Domain\GroupRepository;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,19 +18,22 @@ final class ProfileDashboardController
     private $friendRequestsQuery;
     private $friendsListRepository;
     private $portfolioRepository;
+    private $groupRepository;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         Session $session,
         FriendRequestsQuery $friendRequestsQuery,
         FriendsListRepository $friendsListRepository,
-        PortfolioRepository $portfolioRepository
+        PortfolioRepository $portfolioRepository,
+        GroupRepository $groupRepository
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
         $this->friendRequestsQuery = $friendRequestsQuery;
         $this->friendsListRepository = $friendsListRepository;
         $this->portfolioRepository = $portfolioRepository;
+        $this->groupRepository = $groupRepository;
     }
 
     public function show() : Response
@@ -47,7 +51,8 @@ final class ProfileDashboardController
                 'nickname' => $this->session->get('nickname'), // TODO - Use RBAC User
                 'friendRequests' => $this->friendRequestsQuery->execute(),
                 'friendsList' => $this->getFriendsList(),
-                'portfolios' => $this->portfolioRepository->getPortfoliosFromUserId($this->session->get('userId')) // TODO - Use RBAC User
+                'portfolios' => $this->portfolioRepository->getPortfoliosFromUserId($this->session->get('userId')), // TODO - Use RBAC User
+                'groupInvites' => $this->groupRepository->getGroupInvitesForUser($this->session->get('userId'))
             ]
         );
 

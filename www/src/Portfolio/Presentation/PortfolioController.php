@@ -7,6 +7,7 @@ use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\Framework\Rbac\AuthenticatedUser;
 use CryptoSim\Portfolio\Application\CreatePortfolioHandler;
+use CryptoSim\Portfolio\Domain\GroupRepository;
 use CryptoSim\User\Application\GetFriendsListQuery;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ final class PortfolioController
     private $createPortfolioFormFactory;
     private $createPortfolioHandler;
     private $getFriendsListQuery;
+    private $groupRepository;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
@@ -28,7 +30,8 @@ final class PortfolioController
         Session $session,
         CreatePortfolioFormFactory $createPortfolioFormFactory,
         CreatePortfolioHandler $createPortfolioHandler,
-        GetFriendsListQuery $getFriendsListQuery
+        GetFriendsListQuery $getFriendsListQuery,
+        GroupRepository $groupRepository
     ){
         $this->templateRenderer = $templateRenderer;
         $this->user = $user;
@@ -36,14 +39,16 @@ final class PortfolioController
         $this->createPortfolioFormFactory = $createPortfolioFormFactory;
         $this->createPortfolioHandler = $createPortfolioHandler;
         $this->getFriendsListQuery = $getFriendsListQuery;
+        $this->groupRepository = $groupRepository;
     }
 
     public function show(): Response
     {
         $friends = $this->getFriendsListQuery->execute($this->session->get('userId'));
-
+        $groupInvites = $this->groupRepository->getGroupInvitesForUser($this->session->get('userId'));
         $content = $this->templateRenderer->render('CreatePortfolio.html.twig', [
-            'friends' => $friends
+            'friends' => $friends,
+            'groupInvites' => $groupInvites
         ]);
         return new Response($content);
     }
