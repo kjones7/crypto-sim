@@ -4,7 +4,7 @@ namespace CryptoSim\Portfolio\Domain;
 
 interface PortfolioRepository
 {
-    public function add(Portfolio $portfolio, $groupId): void;
+    public function add(Portfolio $portfolio, string $groupId): void;
     /** @returns Portfolio[] */
     public function getPortfoliosFromUserId(string $userId): array; // TODO - This should probably be a query, not in repository
 }
