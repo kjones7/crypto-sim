@@ -1,10 +1,12 @@
 {% block content %}
 <h3>Group Invites</h3>
-    <div class="group-invites">
+    <div id="group-invites">
         <ol>
             {% for groupInvite in groupInvites %}
                 <li class="group-invite">
-                    <a>Group Invite from {{ groupInvite.fromUsername }}</a>
+                    <span>Group Invite from {{ groupInvite.fromUsername }}</span>
+                    <button type="button" class="accept-group-invite" data-groupid="{{ groupInvite.groupId }}">Accept</button>
+                    <button type="button" class="decline-group-invite" data-groupid="{{ groupInvite.groupId }}">Decline</button>
                 </li>
             {% endfor %}
         </ol>

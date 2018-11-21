@@ -6,6 +6,7 @@ use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\Portfolio\Domain\GroupRepository;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\User\Application\FriendRequestsQuery;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\FriendsListRepository;
@@ -57,6 +58,48 @@ final class ProfileDashboardController
         );
 
         return new Response($content);
+    }
+
+    public function acceptGroupInvite(Request $request)
+    {
+        $groupId = $request->get('groupId');
+        $userId = $this->session->get('userId');
+
+        $responseContent = ['success' => true];
+        try {
+            $this->groupRepository->acceptGroupInvite($userId, $groupId);
+        } catch (\Exception $e) {
+            $responseContent['success'] = false;
+        }
+
+        $response = new Response();
+        $response->setContent(
+            json_encode($responseContent)
+        );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function declineGroupInvite(Request $request)
+    {
+        $groupId = $request->get('groupId');
+        $userId = $this->session->get('userId');
+
+        $responseContent = ['success' => true];
+        try {
+            $this->groupRepository->declineGroupInvite($userId, $groupId);
+        } catch (\Exception $e) {
+            $responseContent['success'] = false;
+        }
+
+        $response = new Response();
+        $response->setContent(
+            json_encode($responseContent)
+        );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     private function getFriendsList()

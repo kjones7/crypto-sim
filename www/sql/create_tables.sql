@@ -83,7 +83,7 @@ CREATE TABLE transactions (
 
 CREATE TABLE group_invites (
     id VARCHAR(255) NOT NULL,
-    response_received BOOLEAN DEFAULT FALSE,
+    accepted BOOLEAN NULL,
     to_user_id VARCHAR(255) NOT NULL,
     group_id VARCHAR(255) NOT NULL,
     CONSTRAINT PK_group_invites_id PRIMARY KEY (id),

@@ -65,6 +65,7 @@ final class DbalGroupRepository implements GroupRepository
                 'g.id = gi.group_id'
             )
             ->where("gi.to_user_id = {$qb->createNamedParameter($userId)}")
+            ->andWhere("gi.accepted IS NULL")
         ;
 
         $stmt = $qb->execute();
@@ -76,12 +77,56 @@ final class DbalGroupRepository implements GroupRepository
             $groupInvites[] = new GroupInvite(
                 $row['id'],
                 $row['to_user_id'],
-                $row['group_id'],
                 $row['creator_user_id'],
+                $row['group_id'],
                 $row['nickname']
             );
         }
 
         return $groupInvites;
+    }
+
+    public function acceptGroupInvite(string $userId, string $groupId)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $this->connection->beginTransaction();
+
+        try {
+            $qb
+                ->update('group_invites', 'gi')
+                ->set('accepted', '1')
+                ->where("to_user_id = {$qb->createNamedParameter($userId)}")
+                ->where("group_id = {$qb->createNamedParameter($groupId)}")
+            ;
+
+            $qb->execute();
+            $this->connection->commit();
+
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
+
+    public function declineGroupInvite(string $userId, string $groupId)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $this->connection->beginTransaction();
+
+        try {
+            $qb
+                ->update('group_invites', 'gi')
+                ->set('accepted', '0')
+                ->where("to_user_id = {$qb->createNamedParameter($userId)}")
+                ->where("group_id = {$qb->createNamedParameter($groupId)}")
+            ;
+
+            $qb->execute();
+            $this->connection->commit();
+
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
     }
 }
