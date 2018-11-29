@@ -6,8 +6,7 @@ use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
 use Ramsey\Uuid\Uuid;
 
-final class
-Portfolio
+final class Portfolio
 {
     private $id;
     private $userId;

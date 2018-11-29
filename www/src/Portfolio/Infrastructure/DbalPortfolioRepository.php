@@ -3,9 +3,11 @@
 namespace CryptoSim\Portfolio\Infrastructure;
 
 use CryptoSim\Portfolio\Domain\Portfolio;
+use CryptoSim\Portfolio\Domain\PortfolioCreatedFromGroupInvite;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
+use PDO;
 
 final class DbalPortfolioRepository implements PortfolioRepository
 {
@@ -16,6 +18,12 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $this->connection = $connection;
     }
 
+    /**
+     * @param Portfolio $portfolio
+     * @param string $groupId
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Exception
+     */
     public function add(Portfolio $portfolio, string $groupId): void
     {
         $this->connection->beginTransaction();
@@ -92,5 +100,75 @@ final class DbalPortfolioRepository implements PortfolioRepository
         }
 
         return $portfolios;
+    }
+
+    /**
+     * @param PortfolioCreatedFromGroupInvite $portfolio
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Exception
+     */
+    public function addPortfolioFromGroupInvite(PortfolioCreatedFromGroupInvite $portfolio)
+    {
+
+        $groupCreatorPortfolioData = $this->getGroupCreatorPortfolioData($portfolio->getGroupId());
+
+        $this->connection->beginTransaction();
+        try {
+            $qb = $this->connection->createQueryBuilder();
+
+            $qb
+                ->insert('portfolios')
+                ->values([
+                    "id" => $qb->createNamedParameter($portfolio->getId()->toString()),
+                    "group_id" => $qb->createNamedParameter($portfolio->getGroupId()),
+                    "user_id" => $qb->createNamedParameter($portfolio->getUserId()->toString()),
+                    "date_created" => $qb->createNamedParameter(
+                        $portfolio->getDateCreated(),
+                        'datetime'
+                    ),
+                    "title" => $qb->createNamedParameter($groupCreatorPortfolioData['title']),
+                    "type" => $qb->createNamedParameter($groupCreatorPortfolioData['type']),
+                    "start_amount" => $qb->createNamedParameter($groupCreatorPortfolioData['start_amount']),
+                    "visibility" => $qb->createNamedParameter($groupCreatorPortfolioData['visibility'])
+                ])
+                ->execute();
+
+            $this->connection->commit();
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * @param string $groupId
+     * @return array Contains title, type, start_amount, visibility
+     * @throws \Exception
+     */
+    private function getGroupCreatorPortfolioData(string $groupId)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->addSelect('p.title')
+            ->addSelect('p.type')
+            ->addSelect('p.start_amount')
+            ->addSelect('p.visibility')
+            ->from('portfolios', 'p')
+            ->innerJoin(
+                'p',
+                'groups',
+                'g',
+                "g.id = {$qb->createNamedParameter($groupId)}"
+            )
+            ->where('p.user_id = g.creator_user_id');
+
+        $stmt = $qb->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($rows) !== 1) {
+            throw new \Exception();
+        }
+
+        return $rows[0];
     }
 }

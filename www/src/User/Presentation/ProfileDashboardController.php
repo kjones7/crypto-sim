@@ -2,9 +2,14 @@
 
 namespace CryptoSim\User\Presentation;
 
+use CryptoSim\Framework\Rbac\AuthenticatedUser;
+use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\Portfolio\Domain\GroupRepository;
+use CryptoSim\Portfolio\Domain\Portfolio;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
+use CryptoSim\User\Application\CreatePortfolioFromGroupInvite;
+use CryptoSim\User\Application\CreatePortfolioFromGroupInviteHandler;
 use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +25,8 @@ final class ProfileDashboardController
     private $friendsListRepository;
     private $portfolioRepository;
     private $groupRepository;
+    private $user;
+    private $createPortfolioFromGroupInviteHandler;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
@@ -27,7 +34,9 @@ final class ProfileDashboardController
         FriendRequestsQuery $friendRequestsQuery,
         FriendsListRepository $friendsListRepository,
         PortfolioRepository $portfolioRepository,
-        GroupRepository $groupRepository
+        GroupRepository $groupRepository,
+        User $user,
+        CreatePortfolioFromGroupInviteHandler $createPortfolioFromGroupInviteHandler
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
@@ -35,6 +44,8 @@ final class ProfileDashboardController
         $this->friendsListRepository = $friendsListRepository;
         $this->portfolioRepository = $portfolioRepository;
         $this->groupRepository = $groupRepository;
+        $this->user = $user;
+        $this->createPortfolioFromGroupInviteHandler = $createPortfolioFromGroupInviteHandler;
     }
 
     public function show() : Response
@@ -67,7 +78,15 @@ final class ProfileDashboardController
 
         $responseContent = ['success' => true];
         try {
+            if(!$this->user instanceof AuthenticatedUser) {
+                throw new \LogicException('Only authenticated users can create portfolio');
+            }
             $this->groupRepository->acceptGroupInvite($userId, $groupId);
+            $command = new CreatePortfolioFromGroupInvite(
+                $groupId,
+                $this->user->getId()
+            );
+            $this->createPortfolioFromGroupInviteHandler->handle($command);
         } catch (\Exception $e) {
             $responseContent['success'] = false;
         }
