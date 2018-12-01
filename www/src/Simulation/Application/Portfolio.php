@@ -11,6 +11,8 @@ final class Portfolio
     private $portfolioWorth;
     /** @var OwnedCryptocurrency[] */
     private $cryptocurrencies;
+    private $type;
+    private $groupId;
 
     public function __construct(
         string $id,
@@ -18,7 +20,9 @@ final class Portfolio
         string $USDAmount,
         string $cryptoWorthInUSD,
         string $portfolioWorth,
-        array $cryptocurrencies
+        array $cryptocurrencies,
+        string $type,
+        string $groupId
     ){
         $this->id = $id;
         $this->title = $title;
@@ -26,6 +30,8 @@ final class Portfolio
         $this->cryptoWorthInUSD = $cryptoWorthInUSD;
         $this->portfolioWorth = $portfolioWorth;
         $this->cryptocurrencies = $cryptocurrencies;
+        $this->type = $type;
+        $this->groupId = $groupId;
     }
     /**
      * @return string
@@ -73,6 +79,22 @@ final class Portfolio
     public function getCryptocurrencies(): array
     {
         return $this->cryptocurrencies;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupId(): string
+    {
+        return $this->groupId;
     }
 
     public function jsonify() {

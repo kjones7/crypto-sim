@@ -6,6 +6,7 @@ use CryptoSim\Simulation\Application\SaveTransaction;
 use CryptoSim\Simulation\Application\SaveTransactionHandler;
 use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
 use CryptoSim\Simulation\Domain\GetLeaderboardQuery;
+use CryptoSim\Simulation\Application\GroupHasNotReceivedAllResponsesQuery;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
 use CryptoSim\Simulation\Domain\Transaction;
 use CryptoSim\Simulation\Domain\TransactionRepository;
@@ -23,6 +24,7 @@ final class SimulationController
     private $saveTransactionHandler;
     private $getLeaderboardQuery;
     private $session;
+    private $groupHasNotReceivedAllResponsesQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
@@ -30,7 +32,8 @@ final class SimulationController
         GetCryptocurrenciesQuery $getCryptocurrenciesQuery,
         SaveTransactionHandler $saveTransactionHandler,
         GetLeaderboardQuery $getLeaderboardQuery,
-        Session $session
+        Session $session,
+        GroupHasNotReceivedAllResponsesQuery $groupHasNotReceivedAllResponsesQuery
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->portfolioRepository = $portfolioRepository;
@@ -38,6 +41,7 @@ final class SimulationController
         $this->saveTransactionHandler = $saveTransactionHandler;
         $this->getLeaderboardQuery = $getLeaderboardQuery;
         $this->session = $session;
+        $this->groupHasNotReceivedAllResponsesQuery = $groupHasNotReceivedAllResponsesQuery;
     }
 
     public function show(Request $request, array $vars) {
@@ -51,6 +55,12 @@ final class SimulationController
 
         if(!$portfolio) {
             $template = 'PageNotFound.html.twig';
+        }
+
+        if($portfolio->getType() === 'group') {
+            if($this->groupHasNotReceivedAllResponsesQuery->execute($portfolio->getGroupId())) {
+                $template = 'GroupHasNotReceivedAllResponses.html.twig';
+            }
         }
 
         $content = $this->templateRenderer->render($template, [

@@ -96,7 +96,7 @@ final class DbalGroupRepository implements GroupRepository
                 ->update('group_invites', 'gi')
                 ->set('accepted', '1')
                 ->where("to_user_id = {$qb->createNamedParameter($userId)}")
-                ->where("group_id = {$qb->createNamedParameter($groupId)}")
+                ->andWhere("group_id = {$qb->createNamedParameter($groupId)}")
             ;
 
             $qb->execute();

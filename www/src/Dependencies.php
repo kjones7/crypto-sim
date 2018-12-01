@@ -84,4 +84,6 @@ $injector->delegate(User::class, function () use ($injector): User {
 
 $injector->alias(\CryptoSim\User\Application\GetFriendsListQuery::class, \CryptoSim\User\Infrastructure\DbalGetFriendsListQuery::class);
 $injector->alias(\CryptoSim\Portfolio\Domain\GroupRepository::class, \CryptoSim\Portfolio\Infrastructure\DbalGroupRepository::class);
+
+$injector->alias(\CryptoSim\Simulation\Application\GroupHasNotReceivedAllResponsesQuery::class, \CryptoSim\Simulation\Infrastructure\DbalGroupHasNotReceivedAllResponsesQuery::class);
 return $injector;

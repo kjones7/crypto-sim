@@ -23,6 +23,8 @@ final class DbalPortfolioRepository implements PortfolioRepository
         $stmt = $qb
             ->addSelect('id')
             ->addSelect('title')
+            ->addSelect('type')
+            ->addSelect('group_id')
             ->from('portfolios')
             ->where("id = {$qb->createNamedParameter($portfolioId)}")
             ->andWhere("user_id = {$qb->createNamedParameter($userId)}")
@@ -51,7 +53,9 @@ final class DbalPortfolioRepository implements PortfolioRepository
             $portfolioUSDAmount,
             $portfolioCryptoWorthInUSD,
             $portfolioWorth,
-            $cryptocurrencies
+            $cryptocurrencies,
+            $row['type'],
+            $row['group_id']
         );
     }
 
