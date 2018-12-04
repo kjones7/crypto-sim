@@ -55,18 +55,31 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="leaderboard-table" class="display">
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Username</th>
-                                <th>Portfolio Title</th>
-                                <th>Portfolio Worth</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <ul class="nav nav-tabs" id="leaderboard-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="global-leaderboard-tab" data-toggle="tab" href="#global-leaderboard" role="tab" aria-controls="global-leaderboard" aria-selected="true">Global</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="group-leaderboard-tab" data-toggle="tab" href="#group-leaderboard" role="tab" aria-controls="group-leaderboard" aria-selected="false">Group</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="global-leaderboard" role="tabpanel" aria-labelledby="global-leaderboard-tab">
+                            <table id="leaderboard-table" class="display">
+                                <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Username</th>
+                                    <th>Portfolio Title</th>
+                                    <th>Portfolio Worth</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="group-leaderboard" role="tabpanel" aria-labelledby="group-leaderboard-tab">Group</div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
