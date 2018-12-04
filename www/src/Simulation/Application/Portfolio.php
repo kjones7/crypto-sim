@@ -22,7 +22,7 @@ final class Portfolio
         string $portfolioWorth,
         array $cryptocurrencies,
         string $type,
-        string $groupId
+        ?string $groupId
     ){
         $this->id = $id;
         $this->title = $title;
