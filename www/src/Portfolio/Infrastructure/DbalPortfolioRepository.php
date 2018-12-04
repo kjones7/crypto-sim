@@ -161,13 +161,14 @@ final class DbalPortfolioRepository implements PortfolioRepository
                 'g',
                 "g.id = {$qb->createNamedParameter($groupId)}"
             )
-            ->where('p.user_id = g.creator_user_id');
+            ->where('p.user_id = g.creator_user_id')
+            ->andWhere("p.group_id = {$qb->createNamedParameter($groupId)}");
 
         $stmt = $qb->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if(count($rows) !== 1) {
-            throw new \Exception();
+            throw new \Exception('Getting group creator portfolio should only return one portfolio');
         }
 
         return $rows[0];
