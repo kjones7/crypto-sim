@@ -23,8 +23,9 @@ final class DbalPortfolioRepository implements PortfolioRepository
      * @param string $groupId
      * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Exception
+     * @todo Add $groupId to Portfolio class, then remove $groupId param
      */
-    public function add(Portfolio $portfolio, string $groupId): void
+    public function add(Portfolio $portfolio, ?string $groupId): void
     {
         $this->connection->beginTransaction();
         try {
