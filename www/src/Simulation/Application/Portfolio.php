@@ -92,7 +92,7 @@ final class Portfolio
     /**
      * @return string
      */
-    public function getGroupId(): string
+    public function getGroupId(): ?string
     {
         return $this->groupId;
     }
