@@ -9,7 +9,7 @@ use CryptoSim\Simulation\Domain\GetLeaderboardQuery;
 use Doctrine\DBAL\Connection;
 use PDO;
 
-final class DbalGetLeadeboardQuery implements GetLeaderboardQuery
+final class DbalGetLeaderboardQuery implements GetLeaderboardQuery
 {
     private $connection;
 
