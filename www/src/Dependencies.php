@@ -76,6 +76,8 @@ $injector->alias(GetCryptocurrenciesQuery::class, DbalGetCryptocurrenciesQuery::
 $injector->alias(\CryptoSim\Simulation\Domain\TransactionRepository::class, \CryptoSim\Simulation\Infrastructure\DbalTransactionRepository::class);
 
 $injector->alias(\CryptoSim\Simulation\Domain\GetLeaderboardQuery::class, \CryptoSim\Simulation\Infrastructure\DbalGetLeaderboardQuery::class);
+$injector->alias(\CryptoSim\Simulation\Domain\GetGroupLeaderboardQuery::class, \CryptoSim\Simulation\Infrastructure\DbalGetGroupLeaderboardQuery::class);
+
 // authentication (permissions and roles)
 $injector->delegate(User::class, function () use ($injector): User {
     $factory = $injector->make(SymfonySessionCurrentUserFactory::class);

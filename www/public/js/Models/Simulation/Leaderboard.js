@@ -14,4 +14,15 @@ export class Leaderboard {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
     }
+
+    async getGroupLeaderboardData(groupId) {
+        return await $.ajax({
+            method: 'POST',
+            url: `/api/v1/play/${simulationView.getPortfolioId()}/getGroupLeaderboard`,
+            data : {
+                groupId: groupId
+            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+    }
 }

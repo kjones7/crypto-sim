@@ -97,5 +97,9 @@ return [
         'POST',
         '/api/v1/dashboard/declineGroupInvite',
         'CryptoSim\User\Presentation\ProfileDashboardController#declineGroupInvite'
-    ]
+    ],[
+        'POST',
+        '/api/v1/play/{portfolioId}/getGroupLeaderboard',
+        'CryptoSim\Simulation\Presentation\SimulationController#getGroupLeaderboardAPI'
+    ],
 ];

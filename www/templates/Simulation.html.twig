@@ -44,6 +44,7 @@
     {#</div>#}
 
     <input type="hidden" class="portfolio-id" value="{{ portfolioId }}">
+    <input type="hidden" id="group-id" value="{{ portfolio.groupId }}">
 
     <div class="modal fade" id="leaderboardModal" tabindex="-1" role="dialog" aria-labelledby="leaderboardModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -81,7 +82,20 @@
                             </table>
                         </div>
                         {% if not portfolio.groupId == null %}
-                            <div class="tab-pane fade" id="group-leaderboard" role="tabpanel" aria-labelledby="group-leaderboard-tab">Group</div>
+                            <div class="tab-pane fade" id="group-leaderboard" role="tabpanel" aria-labelledby="group-leaderboard-tab">
+                                <table id="group-leaderboard-table" class="display">
+                                    <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Username</th>
+                                        <th>Portfolio Title</th>
+                                        <th>Portfolio Worth</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

@@ -5,6 +5,7 @@ namespace CryptoSim\Simulation\Presentation;
 use CryptoSim\Simulation\Application\SaveTransaction;
 use CryptoSim\Simulation\Application\SaveTransactionHandler;
 use CryptoSim\Simulation\Domain\GetCryptocurrenciesQuery;
+use CryptoSim\Simulation\Domain\GetGroupLeaderboardQuery;
 use CryptoSim\Simulation\Domain\GetLeaderboardQuery;
 use CryptoSim\Simulation\Application\GroupHasNotReceivedAllResponsesQuery;
 use CryptoSim\Simulation\Domain\PortfolioRepository;
@@ -25,6 +26,7 @@ final class SimulationController
     private $getLeaderboardQuery;
     private $session;
     private $groupHasNotReceivedAllResponsesQuery;
+    private $getGroupLeaderboardQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
@@ -33,7 +35,8 @@ final class SimulationController
         SaveTransactionHandler $saveTransactionHandler,
         GetLeaderboardQuery $getLeaderboardQuery,
         Session $session,
-        GroupHasNotReceivedAllResponsesQuery $groupHasNotReceivedAllResponsesQuery
+        GroupHasNotReceivedAllResponsesQuery $groupHasNotReceivedAllResponsesQuery,
+        GetGroupLeaderboardQuery $getGroupLeaderboardQuery
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->portfolioRepository = $portfolioRepository;
@@ -42,6 +45,7 @@ final class SimulationController
         $this->getLeaderboardQuery = $getLeaderboardQuery;
         $this->session = $session;
         $this->groupHasNotReceivedAllResponsesQuery = $groupHasNotReceivedAllResponsesQuery;
+        $this->getGroupLeaderboardQuery = $getGroupLeaderboardQuery;
     }
 
     public function show(Request $request, array $vars) {
@@ -188,6 +192,23 @@ final class SimulationController
             json_encode(
                 [
                     'leaderboardEntries' => $this->getLeaderboardQuery->execute()
+                ]
+            )
+        );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function getGroupLeaderboardAPI(Request $request)
+    {
+        $groupId = $request->get('groupId');
+
+        $response = new Response();
+        $response->setContent(
+            json_encode(
+                [
+                    'leaderboardEntries' => $this->getGroupLeaderboardQuery->execute($groupId)
                 ]
             )
         );

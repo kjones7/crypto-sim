@@ -9,9 +9,14 @@ export var state = {
     updateModel : new Update(),
     leaderboard : new Leaderboard(),
     leaderboardDataTable : null,
+    portfolioGroupId : null,
+    groupLeaderboardDataTable : null
 };
 
 $(document).ready( async function () {
+    // Initialize state
+    initializePortfolioGroupIdState();
+
     // Initialize
     initializeGoldenLayout();
     initializeBuyCryptoDataTable();
@@ -31,6 +36,10 @@ $(document).ready( async function () {
     };
     simulationView.updatePortfolioInfo(portfolioData);
 } );
+
+function initializePortfolioGroupIdState() {
+    state.portfolioGroupId = document.querySelector('#group-id').value;
+}
 
 // TODO - Look into downloading this using npm instead of using cdn
 function initializeGoldenLayout() {
@@ -155,6 +164,11 @@ function initializeSubmitTransactionEventListener() {
 
 function initializeLeaderboardButtonEventListener() {
     $('#leaderboard-button button').on('click', async function() {
+        if(state.portfolioGroupId !== '') {
+            // portfolio is part of a group, get group leaderboard
+            const groupLeaderboardData = await state.leaderboard.getGroupLeaderboardData(state.portfolioGroupId);
+            simulationView.renderLeaderboard(state.groupLeaderboardDataTable, groupLeaderboardData);
+        }
         const leaderboardData = await state.leaderboard.getLeaderboardData();
 
         simulationView.renderLeaderboard(state.leaderboardDataTable, leaderboardData);
@@ -162,6 +176,20 @@ function initializeLeaderboardButtonEventListener() {
 }
 
 async function initializeLeaderboardTable() {
+    if(state.portfolioGroupId !== undefined) {
+        // portfolio is part of a group, get group leaderboard
+        const groupLeaderboardData = await state.leaderboard.getGroupLeaderboardData(state.portfolioGroupId);
+        state.groupLeaderboardDataTable = $(`#group-leaderboard-table`).DataTable( {
+            "data": groupLeaderboardData.leaderboardEntries,
+            "columns" : [
+                { "data": "position" },
+                { "data": "username" },
+                { "data": "portfolioName" },
+                { "data": "portfolioWorth" }
+            ]
+        });
+    }
+
     const leaderboardData = await state.leaderboard.getLeaderboardData();
 
     state.leaderboardDataTable = $(`#${IdNames.leaderboardTable}`).DataTable( {
