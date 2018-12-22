@@ -1,4 +1,8 @@
 <?php
+/**
+ * This file can be used to start the websocket server for letting users chat live with each other
+ * It is currently not being used.
+ */
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;

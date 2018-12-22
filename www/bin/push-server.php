@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * This file listens for any messages and will push data back to the client.
+ *
+ * This is specifically used for pushing updated data to the client's cryptocurrency tables
+ * when they get updated in the database (in loop_update_crypto.php)
+ */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $loop   = React\EventLoop\Factory::create();
