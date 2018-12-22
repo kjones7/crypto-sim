@@ -73,7 +73,11 @@ import {state} from "../../Controllers/Simulation/SimulationController";
 //     cryptoDataElement.innerHTML = accumulator;
 // };
 
-export const updatePortfolio = function(portfolioData) {
+/**
+ * Renders (update) the cryptocurrencies in the portfolio
+ * @param {UpdatedPortfolio} updatedPortfolio
+ */
+export const updatePortfolio = function(updatedPortfolio) {
     const numRecords = state.sellDataTable.rows().data().length;
 
     var cellCryptoId = '';
@@ -82,11 +86,11 @@ export const updatePortfolio = function(portfolioData) {
 
     for(var i = 0; i < numRecords; i++) {
         cellCryptoId = state.sellDataTable.row(i).data().id;
-        if(portfolioData['cryptocurrencies'][cellCryptoId]['worthInUSD'] === undefined) {
+        if(updatedPortfolio['cryptocurrencies'][cellCryptoId]['worthInUSD'] === undefined) {
             console.log('Counter = ' + i);
         }
-        newWorthInUSD = portfolioData['cryptocurrencies'][cellCryptoId]['worthInUSD'];
-        newPercentChange =portfolioData['cryptocurrencies'][cellCryptoId]['percentChange'];
+        newWorthInUSD = updatedPortfolio['cryptocurrencies'][cellCryptoId]['worthInUSD'];
+        newPercentChange =updatedPortfolio['cryptocurrencies'][cellCryptoId]['percentChange'];
 
         state.sellDataTable.cell(i, 4).data(newWorthInUSD);
         state.sellDataTable.cell(i, 1).data(newPercentChange);
@@ -95,10 +99,14 @@ export const updatePortfolio = function(portfolioData) {
     state.sellDataTable.draw();
 };
 
-export const updatePortfolioInfo = function(portfolioData) {
-    document.querySelector(`.${classNames.portfolioWorth}`).innerHTML = portfolioData.portfolioWorth;
-    document.querySelector(`.${classNames.cryptoWorthInUSD}`).innerHTML = portfolioData.cryptoWorthInUSD;
-    document.querySelector(`.${classNames.portfolioUSDLeft}`).innerHTML = portfolioData.totalUSDAmount;
+/**
+ * Renders (updates) the portfolio info
+ * @param {UpdatedPortfolio} updatedPortfolio
+ */
+export const updatePortfolioInfo = function(updatedPortfolio) {
+    document.querySelector(`.${classNames.portfolioWorth}`).innerHTML = updatedPortfolio.portfolioWorth;
+    document.querySelector(`.${classNames.cryptoWorthInUSD}`).innerHTML = updatedPortfolio.cryptoWorthInUSD;
+    document.querySelector(`.${classNames.portfolioUSDLeft}`).innerHTML = updatedPortfolio.totalUSDAmount;
 };
 
 export const getPortfolioId = function()

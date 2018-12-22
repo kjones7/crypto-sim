@@ -24,17 +24,9 @@ $(document).ready( async function () {
     initializeSellCryptoDataTable();
     initializeLeaderboardTable();
 
-    const results = await state.updateModel.updatePortfolio();
-    const portfolioData = {
-        totalUSDAmount : results.updatedPortfolio.USDAmount,
-        cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
-        cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
-        portfolioID : results.updatedPortfolio.id,
-        portfolioWorth : results.updatedPortfolio.portfolioWorth,
-        title : results.updatedPortfolio.title,
-        portfolioHTML : results.content
-    };
-    simulationView.updatePortfolioInfo(portfolioData);
+    const updatedPortfolio = await Update.updatePortfolio();
+
+    simulationView.updatePortfolioInfo(updatedPortfolio);
 } );
 
 function initializePortfolioGroupIdState() {
@@ -213,19 +205,11 @@ function initializeWebsocketConn() {
                 simulationView.repopulateBuyCryptoTable(cryptoData, state.buyDataTable);
 
                 // get updated portfolio
-                const results = await state.updateModel.updatePortfolio();
-                const portfolioData = {
-                    totalUSDAmount : results.updatedPortfolio.USDAmount,
-                    cryptoWorthInUSD : results.updatedPortfolio.cryptoWorthInUSD,
-                    cryptocurrencies : results.updatedPortfolio.cryptocurrencies,
-                    portfolioID : results.updatedPortfolio.id,
-                    portfolioWorth : results.updatedPortfolio.portfolioWorth,
-                    title : results.updatedPortfolio.title,
-                    portfolioHTML : results.content
-                };
+                const updatedPortfolio = await Update.updatePortfolio();
+
                 // render updated portfolio
-                simulationView.updatePortfolio(portfolioData);
-                simulationView.updatePortfolioInfo(portfolioData);
+                simulationView.updatePortfolio(updatedPortfolio);
+                simulationView.updatePortfolioInfo(updatedPortfolio);
             });
         },
         function() {

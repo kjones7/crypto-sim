@@ -3,16 +3,25 @@
 import * as simulationView from "../../Views/Simulation/SimulationView";
 import {api} from "../../Views/Simulation/base";
 
+/**
+ * Represents any type of update to a portfolio
+ */
 export class Update {
     constructor() {}
 
-    async updatePortfolio() {
-        return await $.ajax({
+    /**
+     * Get the updated data for a portfolio
+     * @returns {Promise<UpdatedPortfolio>}
+     */
+    static async updatePortfolio() {
+        let response = await $.ajax({
             method: 'POST',
             url: `/api/v1/play/${simulationView.getPortfolioId()}/getUpdatedPortfolio`,
             data : {},
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
+
+        return new UpdatedPortfolio(response);
     }
 
     // async getBuyCryptoData() {
@@ -49,5 +58,17 @@ export class Update {
             },
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
+    }
+}
+
+class UpdatedPortfolio {
+    constructor(updatePortfolioResponse) {
+        this.totalUSDAmount = updatePortfolioResponse.updatedPortfolio.USDAmount;
+        this.cryptoWorthInUSD = updatePortfolioResponse.updatedPortfolio.cryptoWorthInUSD;
+        this.cryptocurrencies = updatePortfolioResponse.updatedPortfolio.cryptocurrencies;
+        this.portfolioID = updatePortfolioResponse.updatedPortfolio.id;
+        this.portfolioWorth = updatePortfolioResponse.updatedPortfolio.portfolioWorth;
+        this.title = updatePortfolioResponse.updatedPortfolio.title;
+        this.portfolioHTML = updatePortfolioResponse.content;
     }
 }
