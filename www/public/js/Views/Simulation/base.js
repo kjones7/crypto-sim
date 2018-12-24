@@ -21,11 +21,18 @@ export const classNames = {
     sellWrapper: 'sell-wrapper',
     dataTables: 'data-table',
     transactionInput: 'usd-transaction-input',
+    transactionWrapper: 'transaction-wrapper',
+    submitTransactionButton: 'submit-transaction-btn'
 };
 
-export const selectors = {
+export const idSelectors = {
     groupId: `#${IdNames.groupId}`,
     buyCryptoTable: `#${IdNames.buyCryptoTable}`
+};
+
+export const classSelectors = {
+    transactionWrapper: `.${classNames.transactionWrapper}`,
+    submitTransactionButton: `.${classNames.submitTransactionButton}`
 };
 
 export const elements = {

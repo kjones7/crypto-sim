@@ -1,7 +1,7 @@
 import {Update} from "../../Models/Simulation/Update";
 import {Leaderboard} from "../../Models/Simulation/Leaderboard";
 import * as simulationView from "../../Views/Simulation/SimulationView";
-import {IdNames, selectors, api} from "../../Views/Simulation/base";
+import {IdNames, idSelectors, classSelectors, api} from "../../Views/Simulation/base";
 
 export var state = {
     buyDataTable : null,
@@ -33,7 +33,7 @@ $(document).ready( async function () {
  * Initialize the portfolio group id in the state variable
  */
 function initializePortfolioGroupIdState() {
-    state.portfolioGroupId = document.querySelector(selectors.groupId).value;
+    state.portfolioGroupId = document.querySelector(idSelectors.groupId).value;
 }
 
 /**
@@ -81,7 +81,7 @@ function initializeGoldenLayout() {
  * @todo Consider using npm version of DataTables over cdn (look into pros and cons)
  */
 function initializeBuyCryptoDataTable() {
-    state.buyDataTable = $(selectors.buyCryptoTable).DataTable( {
+    state.buyDataTable = $(idSelectors.buyCryptoTable).DataTable( {
         "ajax" : {
             "url": api.getBuyCryptoData,
             "type": "POST",
@@ -151,8 +151,11 @@ function initializeDetailsControlEventListener(dataTable, tableId) {
     } );
 }
 
+/**
+ * Initializes the event listener for the submit transaction button (for both buying and selling cryptocurrencies)
+ */
 function initializeSubmitTransactionEventListener() {
-    $('.transaction-wrapper').on('click', '.submit-transaction-btn', async function() {
+    $(classSelectors.transactionWrapper).on('click', classSelectors.submitTransactionButton, async function() {
         const type = simulationView.getTransactionType(this);
         const transactionAmount = simulationView.getTransactionAmount(this);
         const cryptocurrencyId = simulationView.getCryptocurrencyId(this);
