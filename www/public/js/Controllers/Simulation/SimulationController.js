@@ -29,6 +29,9 @@ $(document).ready( async function () {
     simulationView.updatePortfolioInfo(updatedPortfolio);
 } );
 
+/**
+ * Initialize the portfolio group id in the state variable
+ */
 function initializePortfolioGroupIdState() {
     state.portfolioGroupId = document.querySelector(selectors.groupId).value;
 }
