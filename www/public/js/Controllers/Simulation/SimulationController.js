@@ -81,7 +81,7 @@ function initializeGoldenLayout() {
  * @todo Consider using npm version of DataTables over cdn (look into pros and cons)
  */
 function initializeBuyCryptoDataTable() {
-    state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
+    state.buyDataTable = $(selectors.buyCryptoTable).DataTable( {
         "ajax" : {
             "url": api.getBuyCryptoData,
             "type": "POST",

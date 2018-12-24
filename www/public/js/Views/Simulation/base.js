@@ -24,7 +24,8 @@ export const classNames = {
 };
 
 export const selectors = {
-    groupId: `#${IdNames.groupId}`
+    groupId: `#${IdNames.groupId}`,
+    buyCryptoTable: `#${IdNames.buyCryptoTable}`
 };
 
 export const elements = {
