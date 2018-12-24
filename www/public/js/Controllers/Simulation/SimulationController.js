@@ -36,7 +36,10 @@ function initializePortfolioGroupIdState() {
     state.portfolioGroupId = document.querySelector(selectors.groupId).value;
 }
 
-// TODO - Look into downloading this using npm instead of using cdn
+/**
+ * Initialize the golden layout for the page by creating it and rendering the content
+ * @todo Look into downloading GoldenLayout using npm instead of using cdn (look into pros and cons)
+ */
 function initializeGoldenLayout() {
     const buyCryptoTableHTML = simulationView.getBuyCryptoTable();
     const sellCryptoTableHTML = simulationView.getSellCryptoTable();
