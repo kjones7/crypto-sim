@@ -21,8 +21,8 @@ $(document).ready( async function () {
     initializeGoldenLayout();
     initializeBuyCryptoDataTable();
     initializeWebsocketConn();
-    initializeSellCryptoDataTable();
-    initializeLeaderboardTable();
+    await initializeSellCryptoDataTable();
+    await initializeLeaderboardTable();
 
     const updatedPortfolio = await Update.updatePortfolio();
 
