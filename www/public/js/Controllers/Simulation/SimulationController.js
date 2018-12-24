@@ -1,7 +1,7 @@
 import {Update} from "../../Models/Simulation/Update";
 import {Leaderboard} from "../../Models/Simulation/Leaderboard";
 import * as simulationView from "../../Views/Simulation/SimulationView";
-import {IdNames, api} from "../../Views/Simulation/base";
+import {IdNames, selectors, api} from "../../Views/Simulation/base";
 
 export var state = {
     buyDataTable : null,
@@ -30,7 +30,7 @@ $(document).ready( async function () {
 } );
 
 function initializePortfolioGroupIdState() {
-    state.portfolioGroupId = document.querySelector('#group-id').value;
+    state.portfolioGroupId = document.querySelector(selectors.groupId).value;
 }
 
 // TODO - Look into downloading this using npm instead of using cdn

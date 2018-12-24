@@ -8,6 +8,7 @@ export const IdNames = {
     buyCryptoTable: 'buy-crypto-table',
     sellCryptoTable: 'sell-crypto-table',
     leaderboardTable: 'leaderboard-table',
+    groupId: 'group-id'
 };
 
 export const classNames = {
@@ -20,6 +21,10 @@ export const classNames = {
     sellWrapper: 'sell-wrapper',
     dataTables: 'data-table',
     transactionInput: 'usd-transaction-input',
+};
+
+export const selectors = {
+    groupId: `#${IdNames.groupId}`
 };
 
 export const elements = {
