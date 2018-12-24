@@ -75,8 +75,11 @@ function initializeGoldenLayout() {
     myLayout.init();
 }
 
-// TODO - Consider using npm version of jquery over cdn (look into pros and cons)
-// TODO - Consider using npm version of datatables over cdn (look into pros and cons)
+/**
+ * Initialize the DataTable used for buying cryptocurrencies
+ * @todo Consider using npm version of jQuery over cdn (look into pros and cons)
+ * @todo Consider using npm version of DataTables over cdn (look into pros and cons)
+ */
 function initializeBuyCryptoDataTable() {
     state.buyDataTable = $(`#${IdNames.buyCryptoTable}`).DataTable( {
         "ajax" : {
