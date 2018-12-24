@@ -137,8 +137,14 @@ async function initializeSellCryptoDataTable() {
     initializeDetailsControlEventListener(state.sellDataTable, IdNames.sellCryptoTable);
 }
 
+/**
+ * Initialize the event listener for the buttons that will render the menu to buy or sell cryptocurrencies
+ * @param dataTable - The DataTable that the button belongs to
+ * @param tableId - The HTML id of the table of the clicked element
+ */
 function initializeDetailsControlEventListener(dataTable, tableId) {
-    $(`#${tableId} tbody`).on('click', 'td.details-control', function () {
+    const tableSelector = `#${tableId} tbody`;
+    $(tableSelector).on('click', 'td.details-control', function () {
         const cryptoId = $(this.parentElement).data('id');
         simulationView.renderChildRow(this, dataTable, tableId, cryptoId);
         initializeSubmitTransactionEventListener();
