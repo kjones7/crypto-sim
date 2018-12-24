@@ -1,7 +1,7 @@
 import {Update} from "../../Models/Simulation/Update";
 import {Leaderboard} from "../../Models/Simulation/Leaderboard";
 import * as simulationView from "../../Views/Simulation/SimulationView";
-import {IdNames, classNames, elements, api} from "../../Views/Simulation/base";
+import {IdNames, api} from "../../Views/Simulation/base";
 
 export var state = {
     buyDataTable : null,
