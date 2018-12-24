@@ -107,6 +107,10 @@ function initializeBuyCryptoDataTable() {
     initializeDetailsControlEventListener(state.buyDataTable, IdNames.buyCryptoTable);
 }
 
+/**
+ * Initialize the DataTable for selling cryptocurrencies
+ * @returns {Promise<void>}
+ */
 async function initializeSellCryptoDataTable() {
     const initialPortfolio = await state.updateModel.getPortfolio();
 
