@@ -6,15 +6,16 @@ use CryptoSim\Framework\Rbac\AuthenticatedUser;
 use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\Portfolio\Domain\GroupRepository;
-use CryptoSim\Portfolio\Domain\Portfolio;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\User\Application\CreatePortfolioFromGroupInvite;
 use CryptoSim\User\Application\CreatePortfolioFromGroupInviteHandler;
 use CryptoSim\User\Application\FriendRequestsQuery;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\FriendsListRepository;
+use CryptoSim\Framework\Rbac\Permission\CanSeeDashboard;
 
 // TODO - Rename this to DashboardController
 final class ProfileDashboardController
@@ -50,12 +51,12 @@ final class ProfileDashboardController
 
     public function show() : Response
     {
-        $template = 'ProfileDashboard.html.twig';
-
-        // TODO - use permissions instead of directly using session (use RBAC User class instead of session)
-        if(!$this->session->get('userId')) {
-            $template = 'PageNotFound.html.twig';
+        if(!$this->user->hasPermission(new CanSeeDashboard())) {
+            // TODO - Store the URL in a config file and access it
+            return new RedirectResponse('/login');
         }
+
+        $template = 'ProfileDashboard.html.twig';
 
         $content = $this->templateRenderer->render(
             $template,

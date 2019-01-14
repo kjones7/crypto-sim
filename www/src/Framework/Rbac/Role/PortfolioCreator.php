@@ -5,6 +5,7 @@ namespace CryptoSim\Framework\Rbac\Role;
 use CryptoSim\Framework\Rbac\Permission;
 use CryptoSim\Framework\Rbac\Role;
 use CryptoSim\Framework\Rbac\Permission\CreatePortfolio;
+use CryptoSim\Framework\Rbac\Permission\CanSeeDashboard;
 
 final class PortfolioCreator extends Role
 {
@@ -13,6 +14,9 @@ final class PortfolioCreator extends Role
      */
     protected function getPermissions(): array
     {
-        return [new CreatePortfolio()];
+        return [
+            new CreatePortfolio(),
+            new CanSeeDashboard()
+        ];
     }
 }
