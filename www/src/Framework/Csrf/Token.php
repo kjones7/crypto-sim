@@ -9,7 +9,7 @@ namespace CryptoSim\Framework\Csrf;
  */
 final class Token
 {
-    /** @var string The CSRF token */
+    /** @var string The CSRF token identifier */
     private $token;
 
     /**
