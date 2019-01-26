@@ -7,6 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/cboden/ratchet" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/codeception/codeception" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/codeception/phpunit-wrapper" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/codeception/specify" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/codeception/stub" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/doctrine/annotations" />

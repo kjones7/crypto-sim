@@ -87,6 +87,7 @@
       <path value="$PROJECT_DIR$/www/vendor/codeception/codeception" />
       <path value="$PROJECT_DIR$/www/vendor/php-cs-fixer/diff" />
       <path value="$PROJECT_DIR$/www/vendor/moneyphp/money" />
+      <path value="$PROJECT_DIR$/www/vendor/codeception/specify" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
