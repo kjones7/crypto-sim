@@ -88,6 +88,11 @@
       <path value="$PROJECT_DIR$/www/vendor/php-cs-fixer/diff" />
       <path value="$PROJECT_DIR$/www/vendor/moneyphp/money" />
       <path value="$PROJECT_DIR$/www/vendor/codeception/specify" />
+      <path value="$PROJECT_DIR$/www/vendor/phpcollection/phpcollection" />
+      <path value="$PROJECT_DIR$/www/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/www/vendor/jms/parser-lib" />
+      <path value="$PROJECT_DIR$/www/vendor/jms/serializer" />
+      <path value="$PROJECT_DIR$/www/vendor/jms/metadata" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

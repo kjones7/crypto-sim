@@ -23,6 +23,9 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/jaggedsoft/php-binance-api" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/jms/metadata" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/jms/parser-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/jms/serializer" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/josegonzalez/dotenv" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/m1/env" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/moneyphp/money" />
@@ -32,9 +35,11 @@
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/php-cs-fixer/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpcollection/phpcollection" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpoption/phpoption" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpspec/prophecy" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpunit/php-code-coverage" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/phpunit/php-file-iterator" />
