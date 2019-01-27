@@ -88,4 +88,7 @@ $injector->alias(\CryptoSim\User\Application\GetFriendsListQuery::class, \Crypto
 $injector->alias(\CryptoSim\Portfolio\Domain\GroupRepository::class, \CryptoSim\Portfolio\Infrastructure\DbalGroupRepository::class);
 
 $injector->alias(\CryptoSim\Simulation\Application\GroupHasNotReceivedAllResponsesQuery::class, \CryptoSim\Simulation\Infrastructure\DbalGroupHasNotReceivedAllResponsesQuery::class);
+
+$injector->alias(\CryptoSim\Portfolio\Application\PortfoliosQuery::class, \CryptoSim\Portfolio\Infrastructure\DbalPortfoliosQuery::class);
+
 return $injector;

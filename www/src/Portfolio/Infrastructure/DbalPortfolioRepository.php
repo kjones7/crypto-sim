@@ -72,37 +72,6 @@ final class DbalPortfolioRepository implements PortfolioRepository
         }
     }
 
-    /** @returns Portfolio[] */
-    public function getPortfoliosFromUserId(string $userId): array
-    {
-        $qb = $this->connection->createQueryBuilder();
-        $stmt = $qb
-            ->addSelect('id')
-            ->addSelect('type')
-            ->addSelect('title')
-            ->addSelect('visibility')
-            ->addSelect('status')
-            ->from('portfolios')
-            ->where("user_id = {$qb->createNamedParameter($userId)}")
-            ->execute()
-        ;
-
-        $rows = $stmt->fetchAll();
-
-        $portfolios = [];
-        foreach ($rows as $row){
-            $portfolios[] = new \CryptoSim\Portfolio\Application\Portfolio(
-                $row['id'],
-                $row['type'],
-                $row['title'],
-                $row['visibility'],
-                $row['status']
-            );
-        }
-
-        return $portfolios;
-    }
-
     /**
      * @param PortfolioCreatedFromGroupInvite $portfolio
      * @throws \Doctrine\DBAL\ConnectionException

@@ -5,6 +5,7 @@ namespace CryptoSim\User\Presentation;
 use CryptoSim\Framework\Rbac\AuthenticatedUser;
 use CryptoSim\Framework\Rbac\User;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
+use CryptoSim\Portfolio\Application\PortfoliosQuery;
 use CryptoSim\Portfolio\Domain\GroupRepository;
 use CryptoSim\Portfolio\Domain\PortfolioRepository;
 use CryptoSim\User\Application\CreatePortfolioFromGroupInvite;
@@ -28,6 +29,7 @@ final class ProfileDashboardController
     private $groupRepository;
     private $user;
     private $createPortfolioFromGroupInviteHandler;
+    private $portfoliosQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
@@ -37,7 +39,8 @@ final class ProfileDashboardController
         PortfolioRepository $portfolioRepository,
         GroupRepository $groupRepository,
         User $user,
-        CreatePortfolioFromGroupInviteHandler $createPortfolioFromGroupInviteHandler
+        CreatePortfolioFromGroupInviteHandler $createPortfolioFromGroupInviteHandler,
+        PortfoliosQuery $portfoliosQuery
     ) {
         $this->templateRenderer = $templateRenderer;
         $this->session = $session;
@@ -47,6 +50,7 @@ final class ProfileDashboardController
         $this->groupRepository = $groupRepository;
         $this->user = $user;
         $this->createPortfolioFromGroupInviteHandler = $createPortfolioFromGroupInviteHandler;
+        $this->portfoliosQuery = $portfoliosQuery;
     }
 
     public function show() : Response
@@ -58,14 +62,18 @@ final class ProfileDashboardController
 
         $template = 'ProfileDashboard.html.twig';
 
+        if(!$this->user instanceof AuthenticatedUser) {
+            throw new \LogicException('Only authenticated users can view their dashboards');
+        }
+
         $content = $this->templateRenderer->render(
             $template,
             [
                 'nickname' => $this->session->get('nickname'), // TODO - Use RBAC User
                 'friendRequests' => $this->friendRequestsQuery->execute(),
                 'friendsList' => $this->getFriendsList(),
-                'portfolios' => $this->portfolioRepository->getPortfoliosFromUserId($this->session->get('userId')), // TODO - Use RBAC User
-                'groupInvites' => $this->groupRepository->getGroupInvitesForUser($this->session->get('userId'))
+                'portfolios' => $this->portfoliosQuery->execute($this->user->getId()),
+                'groupInvites' => $this->groupRepository->getGroupInvitesForUser($this->session->get('userId')) // TODO - Use RBAC User
             ]
         );
 
