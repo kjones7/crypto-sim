@@ -3,6 +3,7 @@
 # Suite for acceptance tests.
 # Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
+# Tests code by interacting with application through web browser
 # TODO - Get the passwords and secret data out of this file
 actor: AcceptanceTester
 modules:

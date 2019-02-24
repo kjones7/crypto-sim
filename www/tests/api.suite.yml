@@ -1,0 +1,11 @@
+# Tests code by sending requests to the server and checking responses
+actor: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+        - PhpBrowser:
+            url: 'http://localhost'
+        - REST:
+            depends: PhpBrowser
+            part: Json
+            url: 'http://localhost'
