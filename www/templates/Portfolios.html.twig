@@ -2,8 +2,18 @@
     <h3 class="portfolios-header">Portfolios</h3>
     <a href="/portfolios/create" class="add-portfolio"><i class="fas fa-plus"></i></a>
 <div class="portfolios">
-    {% for portfolio in portfolios %}
-        <a href="/play/{{ portfolio.id }}" class="portfolio">{{ portfolio.title }}</a>
-    {% endfor %}
+    <div class="row">
+        {% for portfolio in portfolios %}
+            <div class="col-3 portfolio-wrapper">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ portfolio.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${{ portfolio.worthInUSD }}</h6>
+                        <a href="/play/{{ portfolio.id }}" class="btn btn-outline-secondary">Open</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

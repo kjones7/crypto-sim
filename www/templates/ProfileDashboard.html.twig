@@ -3,28 +3,31 @@
 
 {% block content %}
     {% include 'LoggedInHeader.html.twig' %}
-    <h2 class="welcome-user">Welcome, {{ nickname }}</h2>
-    <br> {# TODO - Replace this br with CSS #}
-    <div class="row">
-        <div class="col">
-            {% include 'FriendRequests.html.twig' %}
+    <div class="container">
+        <h2 class="welcome-user">Welcome, {{ nickname }}</h2>
+        <br> {# TODO - Replace this br with CSS #}
+        <div class="row">
+            <div class="col">
+                {% include 'FriendRequests.html.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% include 'FriendsList.html.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="border: 2px solid lightgray; border-radius: 25px;">
+                {% include 'Portfolios.html.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% include 'GroupInvites.html.twig' %}
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            {% include 'FriendsList.html.twig' %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            {% include 'Portfolios.html.twig' %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            {% include 'GroupInvites.html.twig' %}
-        </div>
-    </div>
+
     {% include 'resources/Header.html.twig' %}
     {% include 'resources/FontAwesome.html.twig'%}
     {% include 'resources/FriendRequests.html.twig' %}

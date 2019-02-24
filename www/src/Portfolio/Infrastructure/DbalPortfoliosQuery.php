@@ -5,15 +5,20 @@ namespace CryptoSim\Portfolio\Infrastructure;
 use CryptoSim\Portfolio\Application\Portfolio;
 use CryptoSim\Portfolio\Application\PortfoliosQuery;
 use Doctrine\DBAL\Connection;
+use CryptoSim\Framework\DbMapping\Portfolios\PortfoliosMapper;
 use Ramsey\Uuid\UuidInterface;
 
 final class DbalPortfoliosQuery implements PortfoliosQuery
 {
     private $connection;
+    private $portfoliosMapper;
 
-    public function __construct(Connection $connection)
-    {
+    public function __construct(
+        Connection $connection,
+        PortfoliosMapper $portfoliosMapper
+    ){
         $this->connection = $connection;
+        $this->portfoliosMapper = $portfoliosMapper;
     }
 
     /**
@@ -38,13 +43,19 @@ final class DbalPortfoliosQuery implements PortfoliosQuery
 
         $portfolios = [];
         foreach ($rows as $row){
-            $portfolios[] = new Portfolio(
-                $row['id'],
-                $row['type'],
-                $row['title'],
-                $row['visibility'],
-                $row['status']
-            );
+            try {
+                $portfolios[] = new Portfolio(
+                    $row['id'],
+                    $row['type'],
+                    $row['title'],
+                    $row['visibility'],
+                    $row['status'],
+                    $this->portfoliosMapper->getPortfolioWorth($row['id'])
+                );
+            } catch (\Exception $e) {
+                // TODO - Handle exception
+                throw $e;
+            }
         }
 
         return $portfolios;

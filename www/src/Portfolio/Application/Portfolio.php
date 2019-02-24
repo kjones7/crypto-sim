@@ -10,19 +10,22 @@ final class Portfolio
     private $title;
     private $visibility;
     private $status;
+    private $worthInUSD;
 
     public function __construct(
         string $id,
         string $type,
         string $title,
         string $visibility,
-        string $status
+        string $status,
+        string $worthInUSD
     ){
         $this->id = $id;
         $this->type = $type;
         $this->title = $title;
         $this->visibility = $visibility;
         $this->status = $status;
+        $this->worthInUSD = $worthInUSD;
     }
 
     /**
@@ -63,5 +66,13 @@ final class Portfolio
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorthInUSD(): string
+    {
+        return $this->worthInUSD;
     }
 }

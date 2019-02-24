@@ -110,6 +110,7 @@ final class DbalPortfolioRepository implements PortfolioRepository
         return $cryptocurrencies;
     }
     // TODO - Instead of just mention 'FromId' maybe say 'FromPortfolioId'
+    // TODO - Replace any use of this function with PortfoliosMapper's method
     private function getPortfolioCryptoWorthInUSDFromId(string $portfolioId): ?string
     {
         // TODO - To prevent floating point errors, test out doing the math operations out of SQL
