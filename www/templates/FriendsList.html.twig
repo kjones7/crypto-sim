@@ -1,6 +1,11 @@
 {% block content %}
-<h3>Friends List</h3>
+<h3 class="header-text">Friends List</h3>
     <div class="friends-list">
+        {% if friendsList|length == 0 %}
+            <div class="text-center">
+                <span>There's nothing here.</span>
+            </div>
+        {% else %}
         <ol>
             {% for friend in friendsList %}
                 <li class="friend">
@@ -8,5 +13,6 @@
                 </li>
             {% endfor %}
         </ol>
+        {% endif %}
     </div>
 {% endblock %}

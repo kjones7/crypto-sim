@@ -1,20 +1,33 @@
 {% block content %}
-    <h3>Friend Requests</h3>
+    <h3 class="header-text">Friend Requests</h3>
     <div class="friend-requests">
-        {% for friendRequest in friendRequests %}
-                <div class="friend-request" id="{{ friendRequest.nickname }}-friend-request">
-                    <form class="inline" action="/dashboard/friendrequest/accept" method="post">
-                        <button name="from-user-id" class="btn btn-outline-success accept-friend-request-btn response-buttons" type="submit" value={{ friendRequest.fromUserId }}>
-                            <i class="accept-friend-request-icon fas fa-check"></i>
-                        </button>
-                    </form>
-                    <form class="inline" action="/dashboard/friendrequest/decline" method="post">
-                        <button name="from-user-id" class="btn btn-outline-danger decline-friend-request-btn response-buttons" type="submit" value={{ friendRequest.fromUserId }}>
-                            <i class="decline-friend-request-icon fas fa-times"></i>
-                        </button>
-                    </form>
-                    <a class="friend-request-nickname" href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
+        {% if friendRequests|length == 0 %}
+            <div class="text-center">
+                <span>There's nothing here.</span>
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for friendRequest in friendRequests %}
+                <div class="col-sm-3 card-wrapper">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <a class="friend-request-nickname" href="/user/{{ friendRequest.nickname }}">{{ friendRequest.nickname }}</a>
+                            </h5>
+                            <form class="inline" action="/dashboard/friendrequest/accept" method="post">
+                                <button name="from-user-id" class="btn btn-outline-success" type="submit" value={{ friendRequest.fromUserId }}>
+                                    Accept
+                                </button>
+                            </form>
+                            <form class="inline" action="/dashboard/friendrequest/decline" method="post">
+                                <button name="from-user-id" class="btn btn-outline-danger" type="submit" value={{ friendRequest.fromUserId }}>
+                                    Decline
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

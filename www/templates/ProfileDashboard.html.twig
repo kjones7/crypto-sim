@@ -7,22 +7,22 @@
         <h2 class="welcome-user">Welcome, {{ nickname }}</h2>
         <br> {# TODO - Replace this br with CSS #}
         <div class="row">
-            <div class="col">
+            <div class="col section-header">
                 {% include 'FriendRequests.html.twig' %}
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col section-header">
                 {% include 'FriendsList.html.twig' %}
             </div>
         </div>
         <div class="row">
-            <div class="col" style="border: 2px solid lightgray; border-radius: 25px;">
+            <div class="col section-header">
                 {% include 'Portfolios.html.twig' %}
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col section-header">
                 {% include 'GroupInvites.html.twig' %}
             </div>
         </div>
@@ -32,6 +32,7 @@
     {% include 'resources/FontAwesome.html.twig'%}
     {% include 'resources/FriendRequests.html.twig' %}
     {% include 'resources/Portfolios.html.twig' %}
+    {% include 'resources/Dashboard.html.twig' %}
 
     <script src="/dist/dashboard.js" type="text/javascript"></script>
 {% endblock %}

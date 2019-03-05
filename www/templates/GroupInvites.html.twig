@@ -1,6 +1,11 @@
 {% block content %}
-<h3>Group Invites</h3>
+<h3 class="header-text">Group Invites</h3>
     <div id="group-invites">
+        {% if groupInvites|length == 0 %}
+            <div class="text-center">
+                <span>There's nothing here.</span>
+            </div>
+        {% else %}
         <ol>
             {% for groupInvite in groupInvites %}
                 <li class="group-invite">
@@ -10,5 +15,6 @@
                 </li>
             {% endfor %}
         </ol>
+        {% endif %}
     </div>
 {% endblock %}

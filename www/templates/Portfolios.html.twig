@@ -1,10 +1,15 @@
 {% block content %}
-    <h3 class="portfolios-header">Portfolios</h3>
+    <h3 class="portfolios-header header-text">Portfolios</h3>
     <a href="/portfolios/create" class="add-portfolio"><i class="fas fa-plus"></i></a>
 <div class="portfolios">
+    {% if portfolios|length == 0 %}
+        <div class="text-center">
+            <span>There's nothing here.</span>
+        </div>
+    {% endif %}
     <div class="row">
         {% for portfolio in portfolios %}
-            <div class="col-3 portfolio-wrapper">
+            <div class="col-3 card-wrapper">
                 <div class="card">
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ portfolio.title }}</h5>

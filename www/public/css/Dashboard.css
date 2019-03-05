@@ -1,0 +1,13 @@
+.section-header {
+    border: 2px solid lightgray;
+    border-radius: 25px;
+    margin-bottom: 10px;
+}
+
+.header-text {
+    margin: 5px;
+}
+
+.card-wrapper {
+    margin: 15px;
+}
