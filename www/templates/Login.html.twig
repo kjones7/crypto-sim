@@ -6,14 +6,16 @@
 
     <div class="login-container text-center">
         <h3 class="login-text">Log In</h3>
-        <form method="post" action="">
-            <label for="nickname">Nickname</label>
-            <input type="text" name="nickname" id="nickname"><br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password"><br>
-            <input type="hidden" name="token" value="{{ get_token('login') }}"><br>
-            {#<input class="login-button" type="submit" value="Log in">#}
-            <button class="login-button btn btn-primary" type="submit">Log In</button>
+        <form method="post"T action="">
+            <div class="col-sm-2 offset-sm-5">
+                <label for="nickname">Nickname</label>
+                <input class="form-control" type="text" name="nickname" id="nickname"><br>
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password" id="password"><br>
+                <input type="hidden" name="token" value="{{ get_token('login') }}"><br>
+                {#<input class="login-button" type="submit" value="Log in">#}
+                <button class="login-button btn btn-primary" type="submit">Log In</button>
+            </div>
         </form>
     </div>
 
