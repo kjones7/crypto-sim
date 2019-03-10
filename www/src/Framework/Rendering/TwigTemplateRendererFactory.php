@@ -31,8 +31,18 @@ final class TwigTemplateRendererFactory
             $this->templateDirectory->toString(),
         ]);
         $twigEnvironment = new Twig_Environment($loader);
-       
-        // You can move function creation to a new file if there's too many in the future
+
+        $this->addFunctionsToTwig($twigEnvironment);
+
+        return new TwigTemplateRenderer($twigEnvironment);
+    }
+
+    /**
+     * Adds functions to the twig environment
+     * @param Twig_Environment $twigEnvironment - Twig environment to add functions to
+     */
+    private function addFunctionsToTwig(Twig_Environment $twigEnvironment) : void
+    {
         $twigEnvironment->addFunction(
             new Twig_Function('get_token', function (string $key): string {
                 $token = $this->storedTokenReader->read($key);
@@ -45,7 +55,5 @@ final class TwigTemplateRendererFactory
                 return $this->session->getFlashBag();
             })
         );
-
-        return new TwigTemplateRenderer($twigEnvironment);
     }
 }
