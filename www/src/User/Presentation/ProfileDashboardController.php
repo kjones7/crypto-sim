@@ -60,7 +60,7 @@ final class ProfileDashboardController
             return new RedirectResponse('/login');
         }
 
-        $template = 'ProfileDashboard.html.twig';
+        $template = 'dashboard/Dashboard.html.twig';
 
         if(!$this->user instanceof AuthenticatedUser) {
             throw new \LogicException('Only authenticated users can view their dashboards');
