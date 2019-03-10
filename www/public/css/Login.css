@@ -5,3 +5,7 @@
 .register-button {
     margin-top: 1rem;
 }
+
+.login-form-content .row:not(:first-of-type) {
+    margin-top: 1rem;
+}
