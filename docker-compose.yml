@@ -5,7 +5,7 @@ services:
     build: 
       context: ./bin/webserver
     container_name: 'tnb-webserver'
-    restart: 'always'
+    #restart: 'always'
     ports:
       - "80:80"
       - "443:443"
@@ -20,7 +20,7 @@ services:
   mysql:
     build: ./bin/mysql
     container_name: 'tnb-mysql'
-    restart: 'always'
+    #restart: 'always'
     ports:
       - "3306:3306"
     volumes: 
