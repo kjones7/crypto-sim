@@ -2,9 +2,13 @@
 
 use Codeception\Specify;
 use Codeception\Test\Unit;
-use CryptoSim\Framework\Csrf\Token;
+use CryptoSim\Framework\Csrf\StoredTokenReader;
+use CryptoSim\Framework\Csrf\SymfonySessionTokenStorage;
+use CryptoSim\Framework\Csrf\TokenStorage;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-class TokenTest extends Unit
+class StoredTokenReaderTest extends Unit
 {
     use Specify;
     /**
@@ -14,70 +18,43 @@ class TokenTest extends Unit
     
     protected function _before()
     {
+        $this->mockSession = new Session(new MockArraySessionStorage());
+        $this->tokenStorage = new SymfonySessionTokenStorage($this->mockSession);
+        $this->storedTokenReader = new StoredTokenReader($this->tokenStorage);
     }
 
     protected function _after()
     {
     }
 
+
     /**
      * @specify
-     * @var Token
+     * @var Session
      */
-    private $token;
+    private $mockSession;
     /**
      * @specify
-     * @var string
+     * @var TokenStorage
      */
-    private $tokenID;
-
-    public function testTokenCreationWithDummyID()
-    {
-        $this->tokenID = 'This is a token identifier';
-        $this->token = new Token($this->tokenID);
-
-        $this->specify("Token was created correctly", function() {
-            $this->assertEquals($this->tokenID, $this->token->toString());
-        });
-    }
+    private $tokenStorage;
+    /**
+     * @specify
+     * @var StoredTokenReader
+     */
+    private $storedTokenReader;
 
     /**
      * @throws Exception
      */
-    public function testTokenCreationByGeneratingID()
+    public function testTokenRead()
     {
-        $this->token = Token::generate();
-
-        $this->specify("Token was created correctly by generating ID", function() {
-            $this->assertInternalType("string", $this->token->toString());
+        $this->specify('Reading a token that doesn\'t exist adds and returns it', function() {
+            $this->tester->assertNotNull($this->storedTokenReader->read('testing'));
         });
 
-        $this->specify("Token has correct length", function() {
-            $this->assertEquals(512, strlen($this->token->toString()));
-        });
-
-        $this->specify("Two tokens generate differently", function() {
-            $anotherToken = Token::generate();
-
-            $this->assertNotEquals($this->toString(), $anotherToken->toString());
-        });
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testTokenEqualityComparison()
-    {
-        $this->token = Token::generate();
-
-        $this->specify("Two identical tokens are equal", function() {
-            $tokenClone = $this->token;
-            $this->assertTrue($this->token->equals($tokenClone));
-        });
-
-        $this->specify("Two different tokens are not equal", function() {
-            $newToken = Token::generate();
-            $this->assertFalse($this->token->equals($newToken));
+        $this->specify('Reading a token that exists returns it', function() {
+            $this->tester->assertNotNull($this->storedTokenReader->read('testing'));
         });
     }
 }
