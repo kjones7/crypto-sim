@@ -63,7 +63,7 @@ final class PortfolioController
             return new RedirectResponse('/login');
         }
 
-        $response = new RedirectResponse('/portfolios/create');
+        $response = new RedirectResponse('/dashboard');
 
         $form = $this->createPortfolioFormFactory->createFromRequest($request);
 
