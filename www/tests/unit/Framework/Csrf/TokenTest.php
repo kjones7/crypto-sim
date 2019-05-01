@@ -1,12 +1,9 @@
 <?php
-
-use Codeception\Specify;
-use Codeception\Test\Unit;
 use CryptoSim\Framework\Csrf\Token;
 
-class TokenTest extends Unit
+class TokenTest extends \Codeception\Test\Unit
 {
-    use Specify;
+    use \Codeception\Specify;
     /**
      * @var \UnitTester
      */
