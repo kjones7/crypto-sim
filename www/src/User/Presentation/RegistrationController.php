@@ -36,14 +36,13 @@ final class RegistrationController
 
     public function register(Request $request): Response
     {
-        $response = new RedirectResponse('/register');
         $form = $this->registerUserFormFactory->createFromRequest($request);
 
         if ($form->hasValidationErrors()) {
             foreach ($form->getValidationErrors() as $errorMessage) {
                 $this->session->getFlashBag()->add('errors', $errorMessage);
             }
-            return $response;
+            return new RedirectResponse('/register');
         }
 
         $this->registerUserHandler->handle($form->toCommand());
@@ -52,6 +51,7 @@ final class RegistrationController
             'success',
             'Your account was created. You can now log in.'
         );
-        return $response;
+
+        return new RedirectResponse('/login');
     }
 }
