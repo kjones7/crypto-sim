@@ -1,5 +1,11 @@
-.login-text {
+.login-text, label {
     margin-bottom: 1rem;
+    color: white;
+    text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
 }
 
 .register-button {
@@ -8,4 +14,18 @@
 
 .login-form-content .row:not(:first-of-type) {
     margin-top: 1rem;
+}
+
+/*TODO - Consolidate this duplicate code (found in Login.css, Registration.css, and FrontPage.css */
+body {
+    background-image: url('../images/bank-bitcoin-change-844124.jpg');
+    background-color: rgba(0, 0, 0, 0.6);
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+html {
+    margin: 0;
+    height: 100%;
 }
