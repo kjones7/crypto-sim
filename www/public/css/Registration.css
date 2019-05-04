@@ -12,6 +12,10 @@
     margin-top: 1rem;
 }
 
+.registration-container .row:not(:first-of-type) {
+    margin-top: 1rem;
+}
+
 body {
     background-image: url('../images/bank-bitcoin-change-844124.jpg');
     background-color: rgba(0, 0, 0, 0.6);

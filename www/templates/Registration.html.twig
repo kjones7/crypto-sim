@@ -4,27 +4,33 @@
     {% include 'GenericHeader.html.twig' %}
     {% include 'FlashMessages.html.twig' %}
 
-    <div class="registration-container">
+    <div class="container-fluid registration-container text-center">
         <h3 class="create-account-text text-center">Create a New Account</h3>
         <form class="register-form" method="post" action="">
-            <div class="row">
-                <div class="col-sm-2 offset-sm-5 text-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-3 col-xl-2">
                     <label for="nickname">Nickname</label>
-                    <input type="text" class="form-control" name="nickname" id="nickname"><br>
-                    <label for="country">Country</label>
-                    <input type="text" class="form-control" name="country" id="country"><br>
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password"><br>
-                    <input type="hidden" name="token"
-                           value="{{ get_token('registration') }}">
-                    {#<input class="register-button" type="submit" value="Register">#}
-                    <div class="text-center">
-                        <button class="register-button btn btn-lg btn-secondary" type="submit">Register</button>
-                    </div>
-
+                    <input class="form-control" type="text" name="nickname" id="nickname">
                 </div>
             </div>
-
+            <div class="row justify-content-md-center">
+                <div class="col-md-3 col-xl-2">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" name="country" id="country">
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-3 col-xl-2">
+                    <label for="password">Password</label>
+                    <input class="form-control" type="password" name="password" id="password">
+                </div>
+            </div>
+            <input type="hidden" name="token"
+                   value="{{ get_token('registration') }}">
+            {#<input class="register-button" type="submit" value="Register">#}
+            <div class="row justify-content-center">
+                <button class="register-button btn btn-lg btn-secondary" type="submit">Register</button>
+            </div>
         </form>
     </div>
 
