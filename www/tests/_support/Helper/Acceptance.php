@@ -5,24 +5,53 @@ namespace Helper;
 // all public methods declared in helper class will be available in $I
 
 use AcceptanceTester;
+use Codeception\Actor;
 use Ramsey\Uuid\Uuid;
 
 
 class Acceptance extends \Codeception\Module
 {
+    private $testNickname1 = 'testUser1';
+    private $testNickname2 = 'testUser2';
+    private $testNickname3 = 'testUser3';
+    private $testNickname4 = 'testUser4';
+    private $testNickname5 = 'testUser5';
+
+    private $testPassword = 'password';
+
+    public function loginWithTestUser1(Actor $I) {
+        $this->logIn($I, $this->testNickname1, $this->testPassword);
+    }
+
     public function logIn(
-        AcceptanceTester $I,
+        Actor $I,
         string $nickname,
         string $password
     ){
         $I->amOnUrl('http://localhost/login');
         $I->fillField('nickname', $nickname);
         $I->fillField('password', $password);
-        $I->click('Log in');
+        $I->click('.login-button');
+    }
+
+    public function populateDbWithTestUsers(
+        Actor $I
+    ) {
+        $testNicknames = [
+            $this->testNickname1,
+            $this->testNickname2,
+            $this->testNickname3,
+            $this->testNickname4,
+            $this->testNickname5,
+        ];
+
+        foreach($testNicknames as $testNickname) {
+            $this->addUserToDb($I, $testNickname);
+        }
     }
 
     public function addUserToDb(
-        AcceptanceTester $I,
+        Actor $I,
         string $nickname
     ){
         $id = Uuid::uuid4();
@@ -30,6 +59,7 @@ class Acceptance extends \Codeception\Module
             array(
                 'id' => $id, // random UUID
                 'nickname' => $nickname,
+                'country' => 'USA',
                 'password_hash' => '$2y$10$651uxkJ2CDNgQk0C9uM9hegJC.XHaksEf9i6Sp.PR7s7bBuyDtjHa', // 'password'
                 'creation_date' => '2018-07-21 18:47:32' // random date
             )
