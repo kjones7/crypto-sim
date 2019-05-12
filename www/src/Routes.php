@@ -33,7 +33,7 @@ return [
     [
         'GET',
         '/dashboard',
-        'CryptoSim\User\Presentation\ProfileDashboardController#show'
+        'CryptoSim\Dashboard\Presentation\DashboardController#show'
     ],
     [
         'POST',
@@ -92,11 +92,11 @@ return [
     ],[
         'POST',
         '/api/v1/dashboard/acceptGroupInvite',
-        'CryptoSim\User\Presentation\ProfileDashboardController#acceptGroupInvite'
+        'CryptoSim\Dashboard\Presentation\DashboardController#acceptGroupInvite'
     ],[
         'POST',
         '/api/v1/dashboard/declineGroupInvite',
-        'CryptoSim\User\Presentation\ProfileDashboardController#declineGroupInvite'
+        'CryptoSim\Dashboard\Presentation\DashboardController#declineGroupInvite'
     ],[
         'POST',
         '/api/v1/play/{portfolioId}/getGroupLeaderboard',

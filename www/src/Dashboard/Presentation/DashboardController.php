@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CryptoSim\User\Presentation;
+namespace CryptoSim\Dashboard\Presentation;
 
 use CryptoSim\Framework\Rbac\AuthenticatedUser;
 use CryptoSim\Framework\Rbac\User;
@@ -18,8 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\FriendsListRepository;
 use CryptoSim\Framework\Rbac\Permission\CanSeeDashboard;
 
-// TODO - Rename this to DashboardController
-final class ProfileDashboardController
+final class DashboardController
 {
     private $templateRenderer;
     private $session;
