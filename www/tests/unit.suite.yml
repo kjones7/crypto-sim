@@ -8,10 +8,10 @@ modules:
         - Asserts
         - \Helper\Unit
         - Db:
-            dsn: 'mysql:host=mysql;dbname=crypto_sim'
+            dsn: 'mysql:host=mysql;dbname=crypto_sim_test'
             user: 'root'
             password: 'tiger'
-            #dump: '/var/www/html/sql/create_all_tables.sql'
+            dump: '/var/www/html/sql/dumps/crypto_sim_test-dump.sql'
             #populate: true # run populator before all tests
-            #cleanup: true # run populator before each test
-            #populator: 'mysql -u $user -p$password -h mysql -D crypto_sim < $dump'
+            cleanup: true # run populator before each test
+            populator: 'mysql -u $user -p$password -h tnb-mysql -D crypto_sim_test < $dump'
