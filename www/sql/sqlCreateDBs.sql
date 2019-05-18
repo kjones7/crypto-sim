@@ -91,3 +91,8 @@ CREATE TABLE group_invites (
     CONSTRAINT FK_group_invites_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id)
 );
 
+# Create test database
+DROP DATABASE IF EXISTS crypto_sim_test;
+CREATE DATABASE crypto_sim_test;
+USE crypto_sim_test;
+

@@ -12,7 +12,7 @@ modules:
             dsn: 'mysql:host=172.19.0.2;dbname=crypto_sim'
             user: 'root'
             password: 'tiger'
-            dump: 'sql/create_tables.sql'
+            dump: 'sql/sqlCreateDBs.sql'
             populate: true
             cleanup: true
             populator: 'mysql -u $user -p$password -h $host $dbname < $dump'
