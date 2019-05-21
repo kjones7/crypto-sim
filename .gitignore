@@ -14,5 +14,5 @@
 data.env
 www/TracyVariable.php
 www/tests/_support/_generated
-environment.env
+.env
 www/secrets.env
