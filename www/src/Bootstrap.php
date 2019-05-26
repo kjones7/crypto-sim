@@ -7,11 +7,6 @@ use Tracy\Debugger;
 Debugger::enable(Debugger::DEVELOPMENT);
 $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
-// Get environment variables from .env file
-$Loader = new josegonzalez\Dotenv\Loader(ROOT_DIR . '/secrets.env');
-$Loader->parse();
-$Loader->toEnv();
-
 $dispatcher = \FastRoute\simpleDispatcher(
     function (\FastRoute\RouteCollector $r) {
         $routes = include(ROOT_DIR . '/src/Routes.php');
