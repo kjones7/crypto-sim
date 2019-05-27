@@ -1,3 +1,7 @@
+# WARNING: Updating to php 7.3 breaks the zeromq install. At the time of writing this, the issue is fixed in this
+# php-zmq commit: https://github.com/zeromq/php-zmq/commit/af02bde61c2a5af1ae64cac09ffe2b25237aa58e. Unfortunately,
+# this commit is only found in master right now, so you may need to follow the directions for installing zeromq from
+# github instead of using pecl to fix this (or hopefully a new version is released by the time you need to do this).
 FROM php:7.2.18-apache
 # SHELL ["/bin/bash", "-c"]
 RUN apt-get -y update --fix-missing
