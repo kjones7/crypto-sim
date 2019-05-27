@@ -37,10 +37,11 @@ services:
       # This should change the password. The reason for this is because you can't
       # change the password of a database that already exists by just updating this file,
       # you must remove all the data, then rerun it.
+      # TODO - Are these environment variables needed? What are they used for?
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: tnb
-      MYSQL_USER: tnb
-      MYSQL_PASSWORD: tnb
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'tnb-phpmyadmin'
