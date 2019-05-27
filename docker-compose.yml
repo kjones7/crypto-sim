@@ -37,7 +37,7 @@ services:
       # This should change the password. The reason for this is because you can't
       # change the password of a database that already exists by just updating this file,
       # you must remove all the data, then rerun it.
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD} # Set in .env file
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: tnb
       MYSQL_USER: tnb
       MYSQL_PASSWORD: tnb
