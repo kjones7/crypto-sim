@@ -6,7 +6,7 @@ services:
   webserver:
     build: 
       context: ./bin/webserver
-    container_name: 'tnb-webserver'
+    container_name: ${WEBSERVER_NAME}
     env_file: .env
     #restart: 'always'
     ports:
