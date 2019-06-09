@@ -17,8 +17,6 @@ WEBSERVER_NAME=webserver
 
 # TODO - Separate env variables needed for application from env variables needed for docker
 # TODO - Create user account that limits permissions
-# TODO - Define a temp root password for MYSQL_ROOT_PASSWORD in docker-compose.yml, then replace it with a new
-#   secure password defined here in the sql build script
 DB_ROOT_PASSWORD=
 
 #cryptosim env
@@ -27,8 +25,4 @@ DB_NAME=crypto_sim
 DB_USER=root
 # NOTE: DB_PASS must match DB_ROOT_PASSWORD
 DB_PASS=
-
-# See https://hub.docker.com/_/mysql about the MYSQL_* environment variables
-# NOTE: MYSQL_ROOT_PASSWORD must match DB_ROOT_PASSWORD
-MYSQL_ROOT_PASSWORD=
 EOF
