@@ -16,6 +16,7 @@ module.exports = merge(require('./config.base.js'), {
                 use: {
                     loader: 'babel-loader',
                     options: {
+                        // See https://babeljs.io/docs/en/options for possible options
                         presets: ['@babel/preset-env']
                     }
                 }

@@ -12,6 +12,7 @@ module.exports = {
     output: {
         // Put all the bundled stuff in your dist folder
         path: DIST,
+        // [name] means use entry name, allows multiple entries to be output to different files
         filename: '[name].js',
         // The output path as seen from the domain we're visiting in the browser
         publicPath: ASSETS
