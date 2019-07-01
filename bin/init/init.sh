@@ -17,12 +17,14 @@ WEBSERVER_NAME=webserver
 
 # TODO - Separate env variables needed for application from env variables needed for docker
 # TODO - Create user account that limits permissions
-DB_ROOT_PASSWORD=
+# default for dev, change for prod
+DB_ROOT_PASSWORD=rootpass
 
 #cryptosim env
 DB_HOST=mysql
 DB_NAME=crypto_sim
 DB_USER=root
 # NOTE: DB_PASS must match DB_ROOT_PASSWORD
-DB_PASS=
+# default for dev, change for prod
+DB_PASS=rootpass
 EOF
