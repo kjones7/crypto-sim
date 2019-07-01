@@ -1,17 +1,40 @@
 {% extends 'Layout.html.twig' %}
 
 {% block content %}
-    <h3 class="welcome">Profile: {{ publicUser.nickname }}</h3>
-    <h4>Information</h4>
-    <div>
-        <p>Country: {{  publicUser.country }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h1 class="welcome text-center">{{ publicUser.nickname }}</h1>
+                <div class="text-center">
+                    {% if isUserOnFriendsList %}
+                        {% include 'UsersAreFriends.html.twig' %}
+                    {% elseif isFriendRequestAwaitingResponse %}
+                        {% include 'FriendRequestSent.html.twig' %}
+                    {% else %}
+                        {# Not friends #}
+                        {% include 'SendFriendRequest.html.twig' %}
+                    {% endif %}
+                </div>
+                <h6>Country: {{  publicUser.country }}</h6>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {# TODO - Display portfolios here #}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {# TODO - Display friend requests here #}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% if isUserOnFriendsList %}
-        {% include 'UsersAreFriends.html.twig' %}
-    {% elseif isFriendRequestAwaitingResponse %}
-        {% include 'FriendRequestSent.html.twig' %}
-    {% else %}
-        {# Not friends #}
-        {% include 'SendFriendRequest.html.twig' %}
-    {% endif %}
+
+    {# Include resources #}
+    <link rel="stylesheet" type="text/css" href="/css/PublicProfile.css">
 {% endblock %}
+
+
+
