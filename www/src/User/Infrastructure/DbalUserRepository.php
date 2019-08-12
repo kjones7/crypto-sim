@@ -8,9 +8,9 @@ use CryptoSim\User\Domain\User;
 use CryptoSim\User\Domain\UserRepository;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\UserWasLoggedIn;
 use LogicException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalUserRepository implements UserRepository
 {
@@ -19,7 +19,7 @@ final class DbalUserRepository implements UserRepository
 
     public function __construct(
         Connection $connection,
-        Session $session
+        SessionInterface $session
     ){
         $this->connection = $connection;
         $this->session = $session;

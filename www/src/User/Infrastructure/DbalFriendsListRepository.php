@@ -6,7 +6,7 @@ use CryptoSim\User\Application\Friend;
 use CryptoSim\User\Domain\FriendsListRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalFriendsListRepository implements FriendsListRepository
 {
@@ -15,7 +15,7 @@ final class DbalFriendsListRepository implements FriendsListRepository
 
     public function __construct(
         Connection $connection,
-        Session $session
+        SessionInterface $session
     ){
         $this->connection = $connection;
         $this->session = $session;

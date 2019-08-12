@@ -7,7 +7,7 @@ use CryptoSim\User\Application\RegisterUserHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class RegistrationController
 {
@@ -19,7 +19,7 @@ final class RegistrationController
     public function __construct(
         TemplateRenderer $templateRenderer,
         RegisterUserFormFactory $registerUserFormFactory,
-        Session $session,
+        SessionInterface $session,
         RegisterUserHandler $registerUserHandler
     ) {
         $this->templateRenderer = $templateRenderer;

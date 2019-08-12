@@ -14,9 +14,9 @@ use CryptoSim\User\Application\FriendRequestsQuery;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use CryptoSim\User\Domain\FriendsListRepository;
 use CryptoSim\Framework\Rbac\Permission\CanSeeDashboard;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DashboardController
 {
@@ -32,7 +32,7 @@ final class DashboardController
 
     public function __construct(
         TemplateRenderer $templateRenderer,
-        Session $session,
+        SessionInterface $session,
         FriendRequestsQuery $friendRequestsQuery,
         FriendsListRepository $friendsListRepository,
         PortfolioRepository $portfolioRepository,

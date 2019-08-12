@@ -91,6 +91,13 @@ CREATE TABLE group_invites (
     CONSTRAINT FK_group_invites_group_id_groups_id FOREIGN KEY (group_id) REFERENCES groups(id)
 );
 
+CREATE TABLE `sessions` (
+    `sess_id` VARCHAR(128) NOT NULL PRIMARY KEY,
+    `sess_data` BLOB NOT NULL,
+    `sess_time` INTEGER UNSIGNED NOT NULL,
+    `sess_lifetime` MEDIUMINT NOT NULL
+) COLLATE utf8_bin, ENGINE = InnoDB;
+
 # Create test database
 DROP DATABASE IF EXISTS crypto_sim_test;
 CREATE DATABASE crypto_sim_test;

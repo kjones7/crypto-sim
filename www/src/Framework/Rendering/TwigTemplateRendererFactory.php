@@ -3,7 +3,7 @@
 namespace CryptoSim\Framework\Rendering;
 
 use CryptoSim\Framework\Csrf\StoredTokenReader;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use Twig_Function;
@@ -18,7 +18,7 @@ final class TwigTemplateRendererFactory
     public function __construct(
         TemplateDirectory $templateDirectory,
         StoredTokenReader $storedTokenReader,
-        Session $session
+        SessionInterface $session
     ) {
         $this->templateDirectory = $templateDirectory;
         $this->storedTokenReader = $storedTokenReader;

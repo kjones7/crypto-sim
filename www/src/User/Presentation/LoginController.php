@@ -8,7 +8,8 @@ use CryptoSim\Framework\Csrf\Token;
 use CryptoSim\User\Application\LogIn;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 final class LoginController
 {
     private $templateRenderer;
@@ -19,7 +20,7 @@ final class LoginController
     public function __construct(
         TemplateRenderer $templateRenderer,
         StoredTokenValidator $storedTokenValidator,
-        Session $session,
+        SessionInterface $session,
         LogInHandler $logInHandler
     ) {
         $this->templateRenderer = $templateRenderer;

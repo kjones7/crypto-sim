@@ -15,11 +15,11 @@ final class SymfonySessionTokenStorage implements TokenStorage
 
     /**
      * SymfonySessionTokenStorage constructor.
-     * @param SessionInterface $session
+     * @param SessionInterface $s
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $s)
     {
-        $this->session = $session;
+        $this->session = $s;
     }
 
     /**

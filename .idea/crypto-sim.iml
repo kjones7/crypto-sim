@@ -2,6 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/www/tests/acceptance-phpbrowser" isTestSource="false" packagePrefix="PhpBrowserAcceptance" />
       <sourceFolder url="file://$MODULE_DIR$/www/src" isTestSource="false" packagePrefix="MyApp\" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/behat/gherkin" />
       <excludeFolder url="file://$MODULE_DIR$/www/vendor/cboden/ratchet" />

@@ -2,7 +2,8 @@
     "autoload": {
         "psr-4": {
             "MyApp\\": "src",
-            "CryptoSim\\": "src/"
+            "CryptoSim\\": "src/",
+            "PhpBrowserAcceptance": "tests/acceptance-phpbrowser"
         }
     },
     "require-dev": {

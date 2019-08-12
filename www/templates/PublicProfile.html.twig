@@ -19,8 +19,8 @@
             </div>
             <div class="col-sm-9">
                 <div class="row">
-                    <div class="col-sm-12">
-                        {# TODO - Display portfolios here #}
+                    <div class="col-sm-12 section-header">
+                        {% include 'Portfolios.html.twig' %}
                     </div>
                 </div>
                 <div class="row">
@@ -34,6 +34,8 @@
 
     {# Include resources #}
     <link rel="stylesheet" type="text/css" href="/css/PublicProfile.css">
+    {% include 'resources/Portfolios.html.twig' %}
+    {% include 'resources/Dashboard.html.twig' %}
 {% endblock %}
 
 

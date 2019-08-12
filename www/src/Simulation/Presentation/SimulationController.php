@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use CryptoSim\Framework\Rendering\TemplateRenderer;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SimulationController
 {
@@ -34,7 +34,7 @@ final class SimulationController
         GetCryptocurrenciesQuery $getCryptocurrenciesQuery,
         SaveTransactionHandler $saveTransactionHandler,
         GetLeaderboardQuery $getLeaderboardQuery,
-        Session $session,
+        SessionInterface $session,
         GroupHasNotReceivedAllResponsesQuery $groupHasNotReceivedAllResponsesQuery,
         GetGroupLeaderboardQuery $getGroupLeaderboardQuery
     ) {

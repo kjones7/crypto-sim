@@ -12,7 +12,7 @@ use CryptoSim\User\Application\GetFriendsListQuery;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class PortfolioController
 {
@@ -27,7 +27,7 @@ final class PortfolioController
     public function __construct(
         TemplateRenderer $templateRenderer,
         User $user,
-        Session $session,
+        SessionInterface $session,
         CreatePortfolioFormFactory $createPortfolioFormFactory,
         CreatePortfolioHandler $createPortfolioHandler,
         GetFriendsListQuery $getFriendsListQuery,

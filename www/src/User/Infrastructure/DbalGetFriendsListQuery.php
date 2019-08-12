@@ -7,8 +7,8 @@ use CryptoSim\User\Application\GetFriendsListQuery;
 use CryptoSim\User\Domain\FriendsListRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
-use Symfony\Component\HttpFoundation\Session\Session;
 use PDO;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalGetFriendsListQuery implements GetFriendsListQuery
 {
@@ -17,7 +17,7 @@ final class DbalGetFriendsListQuery implements GetFriendsListQuery
 
     public function __construct(
         Connection $connection,
-        Session $session
+        SessionInterface $session
     ){
         $this->connection = $connection;
         $this->session = $session;

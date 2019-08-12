@@ -19,6 +19,28 @@ class Acceptance extends \Codeception\Module
 
     private $testPassword = 'password';
 
+    public function _beforeSuite($settings = array())
+    {
+        // change environment to 'test' (allows use of test database by application)
+        $path = 'app.env';
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'APP_ENV=dev', 'APP_ENV=test', file_get_contents($path)
+            ));
+        }
+    }
+
+    public function _afterSuite($settings = array())
+    {
+        // Change environment back to 'dev'
+        $path = 'app.env';
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'APP_ENV=test', 'APP_ENV=dev', file_get_contents($path)
+            ));
+        }
+    }
+
     public function loginWithTestUser1(Actor $I) {
         $this->logIn($I, $this->testNickname1, $this->testPassword);
     }

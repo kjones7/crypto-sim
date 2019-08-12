@@ -1,10 +1,19 @@
 <?php declare(strict_types=1);
 define('ROOT_DIR', dirname(__DIR__));
 require ROOT_DIR . '/vendor/autoload.php';
-use Tracy\Debugger;
 
+use Auryn\Injector;
+use Tracy\Debugger;
+use josegonzalez\Dotenv;
+
+$loader = new Dotenv\Loader(ROOT_DIR . '/app.env');
+$loader->parse();
+$loader->toEnv();
+
+$debug = ($_ENV['APP_ENV'] === 'prod') ? Debugger::PRODUCTION : Debugger::DEVELOPMENT;
 // TODO - When deployed, get rid of the argument for this function call
-Debugger::enable(Debugger::DEVELOPMENT);
+Debugger::enable($debug);
+
 $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
 $dispatcher = \FastRoute\simpleDispatcher(
@@ -37,7 +46,9 @@ $dispatcher = \FastRoute\simpleDispatcher(
         case \FastRoute\Dispatcher::FOUND:
             [$controllerName, $method] = explode('#', $routeInfo[1]);
             $vars = $routeInfo[2];
+            /** @var Injector; */
             $injector = include('Dependencies.php');
+
             $controller = $injector->make($controllerName);
             $response = $controller->$method($request, $vars);
             break;

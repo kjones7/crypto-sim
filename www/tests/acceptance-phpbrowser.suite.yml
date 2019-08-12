@@ -9,10 +9,10 @@ actor: PhpBrowserTester
 modules:
     enabled:
         - Db:
-            dsn: 'mysql:host=172.19.0.3;dbname=crypto_sim'
+            dsn: 'mysql:host=mysql;dbname=crypto_sim_test'
             user: 'root'
-            password: 'tiger'
-            dump: 'sql/sqlCreateDBs.sql'
+            password: 'rootpass'
+            dump: 'crypto_sim-dump.sql'
             populate: true
             cleanup: true
             populator: 'mysql -u $user -p$password -h $host $dbname < $dump'
@@ -23,3 +23,7 @@ modules:
             part: Json
             url: 'http://localhost'
         - \Helper\Acceptance
+# TODO - To leave the session table alone, create a new database user to use for acceptance testing where it doesn't
+# have permission to delete the sessions table, so it fails when it tries, and also make it so that it only recreates
+# the sessions table if it doesn't exist (this might be a problem though, since you can't specify that in the dump file)
+# Temporarily, it might be easier to just re-add a session to the database after each test

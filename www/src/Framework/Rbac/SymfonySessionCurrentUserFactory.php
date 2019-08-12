@@ -4,13 +4,13 @@ namespace CryptoSim\Framework\Rbac;
 
 use Ramsey\Uuid\Uuid;
 use CryptoSim\Framework\Rbac\Role\PortfolioCreator;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class SymfonySessionCurrentUserFactory
 {
     private $session;
 
-    public function __construct(Session $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

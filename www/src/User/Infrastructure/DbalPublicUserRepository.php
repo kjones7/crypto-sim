@@ -5,7 +5,7 @@ namespace CryptoSim\User\Infrastructure;
 use CryptoSim\User\Application\PublicUser;
 use CryptoSim\User\Domain\PublicUserRepository;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalPublicUserRepository implements PublicUserRepository
 {
@@ -14,7 +14,7 @@ final class DbalPublicUserRepository implements PublicUserRepository
 
     public function __construct(
         Connection $connection,
-        Session $session
+        SessionInterface $session
     ){
         $this->connection = $connection;
         $this->session = $session;

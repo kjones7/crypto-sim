@@ -4,7 +4,7 @@ namespace CryptoSim\User\Infrastructure;
 
 use CryptoSim\User\Domain\FriendRequestsRepository;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalFriendRequestsRepository implements FriendRequestsRepository
 {
@@ -13,7 +13,7 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
 
     public function __construct(
         Connection $connection,
-        Session $session
+        SessionInterface $session
     ){
         $this->connection = $connection;
         $this->session = $session;
