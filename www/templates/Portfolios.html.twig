@@ -14,7 +14,9 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ portfolio.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${{ portfolio.worthInUSD }}</h6>
+                        {% if isDashboard %}
                         <a href="/play/{{ portfolio.id }}" class="btn btn-outline-secondary">Open</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

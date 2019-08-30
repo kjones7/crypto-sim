@@ -20,7 +20,9 @@ final class SymfonySessionCurrentUserFactory
         if (!$this->session->has('userId')) {
             return new Guest();
         }
-        
+
+        // TODO - Ensure that session TTL is set to expire
+        // TODO - Ensure that session data cannot be maliciously changed by users
         return new AuthenticatedUser(
             Uuid::fromString($this->session->get('userId')),
             [new PortfolioCreator()]

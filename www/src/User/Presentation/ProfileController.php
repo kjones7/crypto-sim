@@ -3,6 +3,7 @@ namespace CryptoSim\User\Presentation;
 
 use CryptoSim\Framework\Rendering\TemplateRenderer;
 use CryptoSim\User\Application\DoesNicknameExistQuery;
+use CryptoSim\User\Application\GetPublicPortfoliosQuery;
 use CryptoSim\User\Application\GetPublicUserFromNicknameQuery;
 use CryptoSim\User\Domain\PublicUserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,17 +14,20 @@ final class ProfileController {
     private $doesNicknameExistQuery;
     private $getPublicUserFromNicknameQuery;
     private $publicUserRepository;
+    private $getPublicPorfoliosQuery;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         DoesNicknameExistQuery $doesNicknameExistQuery,
         GetPublicUserFromNicknameQuery $getPublicUserFromNicknameQuery,
-        PublicUserRepository $publicUserRepository
+        PublicUserRepository $publicUserRepository,
+        GetPublicPortfoliosQuery $getPublicPorfoliosQuery
     ){
         $this->templateRenderer = $templateRenderer;
         $this->doesNicknameExistQuery = $doesNicknameExistQuery;
         $this->getPublicUserFromNicknameQuery = $getPublicUserFromNicknameQuery;
         $this->publicUserRepository = $publicUserRepository;
+        $this->getPublicPorfoliosQuery = $getPublicPorfoliosQuery;
     }
 
     //TODO - Refactor this method so $content doesn't get created in two different spots
@@ -44,7 +48,9 @@ final class ProfileController {
             $content = $this->templateRenderer->render($template, [
                 'publicUser' => $publicUser,
                 'isUserOnFriendsList' => $isUserOnFriendsList,
-                'isFriendRequestAwaitingResponse' => $isFriendRequestAwaitingResponse
+                'isFriendRequestAwaitingResponse' => $isFriendRequestAwaitingResponse,
+                'portfolios' => $this->getPublicPorfoliosQuery->execute($publicUser->getUserId()),
+                'isDashboard' => false,
             ]);
         }
 

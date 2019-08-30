@@ -96,5 +96,6 @@ $injector->alias(\CryptoSim\Portfolio\Domain\GroupRepository::class, \CryptoSim\
 $injector->alias(\CryptoSim\Simulation\Application\GroupHasNotReceivedAllResponsesQuery::class, \CryptoSim\Simulation\Infrastructure\DbalGroupHasNotReceivedAllResponsesQuery::class);
 
 $injector->alias(\CryptoSim\Portfolio\Application\PortfoliosQuery::class, \CryptoSim\Portfolio\Infrastructure\DbalPortfoliosQuery::class);
+$injector->alias(\CryptoSim\User\Application\GetPublicPortfoliosQuery::class, \CryptoSim\User\Infrastructure\DbalGetPublicPortfoliosQuery::class);
 
 return $injector;

@@ -72,7 +72,8 @@ final class DashboardController
                 'friendRequests' => $this->friendRequestsQuery->execute(),
                 'friendsList' => $this->getFriendsList(),
                 'portfolios' => $this->portfoliosQuery->execute($this->user->getId()),
-                'groupInvites' => $this->groupRepository->getGroupInvitesForUser($this->session->get('userId')) // TODO - Use RBAC User
+                'groupInvites' => $this->groupRepository->getGroupInvitesForUser($this->session->get('userId')), // TODO - Use RBAC User
+                'isDashboard' => true,
             ]
         );
 
