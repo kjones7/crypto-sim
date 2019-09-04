@@ -1,0 +1,18 @@
+# Codeception Test Suite Configuration
+#
+# Suite for integration tests.
+
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts
+        - \Helper\Unit
+        - \Helper\Integration
+        - Db:
+            dsn: 'mysql:host=mysql;dbname=crypto_sim_test'
+            user: 'root'
+            password: 'rootpass'
+            dump: 'crypto_sim-dump.sql'
+            populate: true
+            cleanup: true
+            populator: 'mysql -u $user -p$password -h $host $dbname < $dump'
