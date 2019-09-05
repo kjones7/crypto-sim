@@ -2,6 +2,10 @@
     background-color: #343a40;
 }
 
+.logo-container {
+    cursor: pointer;
+}
+
 .navbar {
     position: relative;
     display: flex;

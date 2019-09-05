@@ -8,6 +8,7 @@ module.exports = {
         simulation: ['babel-polyfill', path.resolve(SRC, 'js', 'Controllers', 'Simulation', 'SimulationController.js')],
         createPortfolio: ['babel-polyfill', path.resolve(SRC, 'js', 'Controllers', 'CreatePortfolio', 'CreatePortfolioController.js')],
         dashboard: ['babel-polyfill', path.resolve(SRC, 'js', 'Controllers', 'Dashboard', 'DashboardController.js')],
+        header: ['babel-polyfill', path.resolve(SRC, 'js', 'header.js')],
     },
     output: {
         // Put all the bundled stuff in your dist folder
