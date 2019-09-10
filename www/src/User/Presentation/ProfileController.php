@@ -8,6 +8,7 @@ use CryptoSim\User\Application\GetPublicUserFromNicknameQuery;
 use CryptoSim\User\Domain\PublicUserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class ProfileController {
     private $templateRenderer;
@@ -15,19 +16,22 @@ final class ProfileController {
     private $getPublicUserFromNicknameQuery;
     private $publicUserRepository;
     private $getPublicPorfoliosQuery;
+    private $session;
 
     public function __construct(
         TemplateRenderer $templateRenderer,
         DoesNicknameExistQuery $doesNicknameExistQuery,
         GetPublicUserFromNicknameQuery $getPublicUserFromNicknameQuery,
         PublicUserRepository $publicUserRepository,
-        GetPublicPortfoliosQuery $getPublicPorfoliosQuery
+        GetPublicPortfoliosQuery $getPublicPorfoliosQuery,
+        SessionInterface $session
     ){
         $this->templateRenderer = $templateRenderer;
         $this->doesNicknameExistQuery = $doesNicknameExistQuery;
         $this->getPublicUserFromNicknameQuery = $getPublicUserFromNicknameQuery;
         $this->publicUserRepository = $publicUserRepository;
         $this->getPublicPorfoliosQuery = $getPublicPorfoliosQuery;
+        $this->session = $session;
     }
 
     //TODO - Refactor this method so $content doesn't get created in two different spots
@@ -51,6 +55,8 @@ final class ProfileController {
                 'isFriendRequestAwaitingResponse' => $isFriendRequestAwaitingResponse,
                 'portfolios' => $this->getPublicPorfoliosQuery->execute($publicUser->getUserId()),
                 'isDashboard' => false,
+                'isSessionActive' => ($this->session->get('userId') !== null),
+                'isUserSelf' => $publicUser->getUserId() === $this->session->get('userId'),
             ]);
         }
 

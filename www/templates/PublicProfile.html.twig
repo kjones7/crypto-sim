@@ -6,10 +6,13 @@
             <div class="col-sm-3">
                 <h1 class="welcome text-center">{{ publicUser.nickname }}</h1>
                 <div class="text-center">
+                    {# Friend request button #}
                     {% if isUserOnFriendsList %}
                         {% include 'UsersAreFriends.html.twig' %}
                     {% elseif isFriendRequestAwaitingResponse %}
                         {% include 'FriendRequestSent.html.twig' %}
+                    {% elseif isUserSelf or not isSessionActive %}
+                        {# Either user is looking at their own profile, or they're not logged in. Include nothing. #}
                     {% else %}
                         {# Not friends #}
                         {% include 'SendFriendRequest.html.twig' %}
