@@ -59,7 +59,7 @@ class Integration extends \Codeception\Module
      * @throws \Exception
      */
     public function setupSessionForUser(User $user) : SessionInterface {
-        $userId = $user->getId();
+        $userId = $user->getId()->toString();
 
         $sessionStorage = new MockArraySessionStorage();
         $session = new Session($sessionStorage);
