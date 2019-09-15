@@ -18,10 +18,11 @@ final class SendFriendRequestController
 
     public function send(Request $request) {
         $nickname = $request->get('send-friend-request');
+        $userId = $request->get('userId');
 
         $this->sendFriendRequestHandler->handle(new SendFriendRequest(
             $nickname,
-            $request->get('userId')
+            $userId
         ));
 
         return new RedirectResponse("/user/{$nickname}");
