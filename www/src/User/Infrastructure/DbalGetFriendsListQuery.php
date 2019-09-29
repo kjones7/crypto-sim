@@ -34,10 +34,15 @@ final class DbalGetFriendsListQuery implements GetFriendsListQuery
         $qb
             ->select('DISTINCT u.nickname, u.id')
             ->from('friends', 'f')
-            ->where("f.to_user_id = {$qb->createNamedParameter($userId)}")
-            ->orWhere("f.from_user_id = {$qb->createNamedParameter($userId)}")
             ->innerJoin('f', 'users', 'u', 'f.to_user_id = u.id OR f.from_user_id = u.id')
-            ->where("u.id != {$qb->createNamedParameter($userId)}")
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('f.to_user_id', $qb->createNamedParameter($userId)),
+                    $qb->expr()->eq('f.from_user_id', $qb->createNamedParameter($userId))
+                )
+            )
+            ->andWhere($qb->expr()->eq('accepted', 1))
+            ->andWhere("u.id != {$qb->createNamedParameter($userId)}")
         ;
 
         $stmt = $qb->execute();

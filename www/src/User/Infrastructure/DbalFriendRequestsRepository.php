@@ -26,7 +26,10 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
             ->update('friends', 'f')
             ->set('f.accepted', 1)
             ->set('f.date_replied', 'CURRENT_TIME')
-            ->where('f.to_user_id = :currentUserId AND f.from_user_id = :fromUserId')
+            ->where('f.to_user_id = :currentUserId')
+            ->andWhere('f.from_user_id = :fromUserId')
+            ->andWhere('date_replied IS NULL') // Can only accept requests that don't have any replies
+            ->andWhere('accepted IS NULL') // Can only accept requests that have not been accepted/declined
             ->setParameter(':currentUserId', $this->session->get('userId'))
             ->setParameter(':fromUserId', $fromUserId)
         ;
