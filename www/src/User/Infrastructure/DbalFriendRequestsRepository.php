@@ -39,6 +39,7 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
 
     public function decline(string $fromUserId): void
     {
+        // TODO - Ensure that friend request doesn't have a response (accepted and date_replied is null)
         $qb = $this->connection->createQueryBuilder();
         $qb
             ->update('friends', 'f')
@@ -54,6 +55,8 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
 
     public function send(string $toUserId): void
     {
+        // TODO - Ensure that there are no pending friend requests before sending
+        // TODO - Check if user has an existing pending friend request from this user already (if so, then accept it)
         $qb = $this->connection->createQueryBuilder();
         $qb
             ->insert('friends')
