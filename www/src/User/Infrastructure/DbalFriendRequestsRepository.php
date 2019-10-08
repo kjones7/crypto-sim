@@ -4,6 +4,7 @@ namespace CryptoSim\User\Infrastructure;
 
 use CryptoSim\User\Domain\FriendRequestsRepository;
 use Doctrine\DBAL\Connection;
+use LogicException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class DbalFriendRequestsRepository implements FriendRequestsRepository
@@ -55,9 +56,15 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
 
     public function send(string $toUserId): void
     {
-        // TODO - Ensure that there are no pending friend requests before sending
-        // TODO - Check if user has an existing pending friend request from this user already (if so, then accept it)
         $qb = $this->connection->createQueryBuilder();
+        $currentUserId = $this->session->get('userId');
+
+        $isFriendRequestPendingFromToUser = $this->fetchIfPendingFriendRequestExists($toUserId, $currentUserId);
+        if ($isFriendRequestPendingFromToUser) {
+            $this->accept($toUserId);
+            return;
+        }
+
         $qb
             ->insert('friends')
             ->values(
@@ -69,8 +76,36 @@ final class DbalFriendRequestsRepository implements FriendRequestsRepository
                 )
             )
             ->setParameter('toUserId', $toUserId)
-            ->setParameter('fromUserId', $this->session->get('userId'));
+            ->setParameter('fromUserId', $currentUserId);
 
         $qb->execute();
+    }
+
+    private function fetchIfPendingFriendRequestExists(string $fromUserId, string $toUserId) : bool
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        // Check if there's already a pending friend request from the $toUserId to the current user
+        $qb
+            ->select('count(ID)')
+            ->from('friends')
+            ->where('to_user_id = :toUserId')
+            ->andWhere('from_user_id = :fromUserId')
+            ->andWhere('accepted IS NULL');
+
+        $qb->setParameter(':fromUserId', $fromUserId);
+        $qb->setParameter(':toUserId', $toUserId);
+        $qb->execute();
+
+        $stmt = $qb->execute();
+        $count = $stmt->fetchColumn();
+
+        if ($count === false) {
+            // Count should always at least be 0, false indicates error
+            // TODO - Catch this exception in function usages
+            throw new LogicException;
+        }
+
+        return $count > 0;
     }
 }
