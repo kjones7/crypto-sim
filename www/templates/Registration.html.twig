@@ -1,39 +1,57 @@
-{% extends 'Layout.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-    {% include 'GenericHeader.html.twig' %}
-    {% include 'FlashMessages.html.twig' %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <div class="container-fluid registration-container text-center">
-        <h3 class="create-account-text text-center">Create a New Account</h3>
-        <form class="register-form" method="post" action="">
-            <div class="row justify-content-md-center">
-                <div class="col-md-3 col-xl-2">
-                    <label for="nickname">Nickname</label>
-                    <input class="form-control" type="text" name="nickname" id="nickname">
+    <title>Register</title>
+
+    <!-- Custom fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="css/global.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+{% include 'FlashMessages.html.twig' %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-9">
+            <!-- Nested Row within Card Body -->
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create an Account</h1>
+                        </div>
+                        <form class="user" method="post" action="">
+                            <div class="form-group">
+                                <input type="text" name="nickname" class="form-control form-control-user" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="country" class="form-control form-control-user" placeholder="Country">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control form-control-user" placeholder="Password">
+                            </div>
+                            <button class="btn btn-primary btn-user btn-block" type="submit">Register</button>
+                            <input type="hidden" name="token"
+                                   value="{{ get_token('registration') }}">
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="/login">Already have an account? Login!</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col-md-3 col-xl-2">
-                    <label for="country">Country</label>
-                    <input type="text" class="form-control" name="country" id="country">
-                </div>
-            </div>
-            <div class="row justify-content-md-center">
-                <div class="col-md-3 col-xl-2">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" name="password" id="password">
-                </div>
-            </div>
-            <input type="hidden" name="token"
-                   value="{{ get_token('registration') }}">
-            {#<input class="register-button" type="submit" value="Register">#}
-            <div class="row justify-content-center">
-                <button class="register-button btn btn-lg btn-secondary" type="submit">Register</button>
-            </div>
-        </form>
+        </div>
     </div>
-
-    {% include 'resources/Header.html.twig' %}
-    {% include 'resources/Registration.html.twig' %}
-{% endblock %}
+</div>
+</body>
+</html>
