@@ -1,25 +1,44 @@
-{% extends 'Layout.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-    {% include 'GenericHeader.html.twig' %}
-    {% include 'FlashMessages.html.twig' %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <div class="container homepage-content">
-        <br>
-        <div class="intro-text-container">
-            <h1 class="intro-text text-center">Buy and sell your favorite crypto <span class="underline">without the risk</span></h1>
-        </div>
-        <div class="homepage-buttons text-center">
-            <div class="homepage-signup-container">
-                <a href="/register" class="btn btn-secondary btn-lg homepage-signup homepage-button">Sign Up</a>
-            </div>
-            <div class="homepage-login-container">
-                <a href="/login" class="btn btn-secondary btn-lg homepage-login homepage-button">Login</a>
+    <title>Register</title>
+
+    <!-- Custom fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="css/global.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+{% include 'FlashMessages.html.twig' %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10 col-md-9">
+            <!-- Nested Row within Card Body -->
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="text-gray-900 mb-4">CryptoSim</h1>
+                            <h4 class="text-gray-900 mb-4">Simulate buying and selling your favorite cryptocurrencies</h4>
+                        </div>
+                        <form class="user">
+                            <a href="/register" class="btn btn-primary btn-user btn-block">Create an Account</a>
+                            <a href="/login" class="btn btn-primary btn-user btn-block">Login</a>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    {# Include resources #}
-    <link rel="stylesheet" type="text/css" href="/css/FrontPage.css">
-    <link rel="stylesheet" type="text/css" href="/css/Header.css">
-{% endblock %}
+</div>
+</body>
+</html>
